@@ -16,7 +16,7 @@ library(tidyverse)
 library(xlsx)
 library(readxl)
 library(data.table)
-
+library(countrycode)
 
 setwd('./github/covid-19/scripts')
 
@@ -160,6 +160,52 @@ pubmed_data2$vaccine <- str_detect(pubmed_data2$Abstract, "vaccine")
 # Convert all to numeric
 cols <- sapply(pubmed_data2, is.logical)
 pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
+
+
+
+iso <- countrycode(unique(pubmed_data3$country), "country.name", "iso2c")
+country <- countrycode(unique(pubmed_data3$country), "country.name", "country.name")
+listado_paises <- as.data.frame(cbind(iso, country))
+View(listado_paises)
+
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Brasil", "Brazil")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Mixico", "Mexico")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Milan", "Italy")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "us", "United States")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "us", "United States")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "MauritiUnited States", "Mauritius")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "RUnited Statessia", "Russia")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "RUnited Statessian Federation", "Russia")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Russian Federation", "Russia")
+
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Kingdom of Saudi Arabia", "Saudi Arabia")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "UK", "United Kingdom")
+
+pubmed_data3$country <- str_replace(pubmed_data3$country, "AUnited Statestralia", "Australia")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "AUnited Statestria", "Austria")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Montreal", "Canada")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Korea", "South Korea")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Hong Kong", "Hong Kong SAR China")
+pubmed_data3$country <- str_replace(pubmed_data3$country, "Republic of Congo", "Congo - Brazzaville")
+
+pubmed_data3$country <- str_replace(pubmed_data3$country, "South South Korea", "South Korea")
+
+
+
+
+
+
+
+pubmed_data3 <- pubmed_data3 %>%
+  left_join(listado_paises, by = c("country"="country"))
+View(pubmed_data3)
+
+
+vvvvv = pubmed_data3 %>%
+  group_by(country,iso.x) %>%
+  summarize(n_distinct(PMID))
+
+View(vvvvv)
 
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")

@@ -18,11 +18,11 @@ library(readxl)
 library(data.table)
 
 
-
+setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-19"
+FechaFiltro = "2020-03-23"
 
 search_topic <- 'COVID-19'
 search_query <- EUtilsSummary(search_topic, retmax=2000, mindate=2020,maxdate=2021, db='pubmed')
@@ -116,10 +116,15 @@ pubmed_data <- pubmed_data %>%
 ####Agrego terminos importantes####
 pubmed_data$chloroquine <- str_detect(pubmed_data$Abstract, "chloroquine")
 pubmed_data$remdesivir <- str_detect(pubmed_data$Abstract, "remdesivir")
+pubmed_data$ritonavir <- str_detect(pubmed_data$Abstract, "ritonavir")
+pubmed_data$lopinavir <- str_detect(pubmed_data$Abstract, "lopinavir")
+pubmed_data$favipiravir <- str_detect(pubmed_data$Abstract, "favipiravir")
+pubmed_data$vaccine <- str_detect(pubmed_data$Abstract, "vaccine")
 
+# Convert all to numeric
+cols <- sapply(pubmed_data2, is.logical)
+pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
 
-
-glimpse(pubmed_data)
 
 #####################EN ESTE PUNTO TENGO ARMADA LA BASE NUEVA################
 #####################TENGO QUE LEVANTAR LA BASE ACUMULADA y HACER UN APPEND################
@@ -131,8 +136,6 @@ pubmed_data_old <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "
 pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 
 
-glimpse(pubmed_data)
-glimpse(pubmed_data_old)
 
 ###Guardo un backup de la base
 write.table(pubmed_data_old, file = "../Bases/pubmed_data_old.csv", sep = "\t", qmethod = "double")
@@ -147,7 +150,16 @@ pubmed_data2 %>%
   summarize(cantidad=n_distinct(PMID))  %>%
   ggplot(aes(Date, cantidad)) + geom_bar(stat='identity')
 
+pubmed_data2$chloroquine <- str_detect(pubmed_data2$Abstract, "chloroquine")
+pubmed_data2$remdesivir <- str_detect(pubmed_data2$Abstract, "remdesivir")
+pubmed_data2$ritonavir <- str_detect(pubmed_data2$Abstract, "ritonavir")
+pubmed_data2$lopinavir <- str_detect(pubmed_data2$Abstract, "lopinavir")
+pubmed_data2$favipiravir <- str_detect(pubmed_data2$Abstract, "favipiravir")
+pubmed_data2$vaccine <- str_detect(pubmed_data2$Abstract, "vaccine")
 
+# Convert all to numeric
+cols <- sapply(pubmed_data2, is.logical)
+pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
 
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")
@@ -156,6 +168,10 @@ dias = pubmed_data2 %>%
   group_by(Date) %>%
   summarize(n_distinct(PMID))
 
+
+#pubmed_data2 %>%
+#  filter(vaccine == 1) %>%
+#  summarise(n_distinct(PMID))
 
 
 

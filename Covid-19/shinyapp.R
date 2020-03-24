@@ -6,9 +6,12 @@ library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
 library(DT)  
-#install.packages("countrycode")
 library(countrycode)
 library(stringr)
+library(igraph)
+library(visNetwork)
+library(tidyr)
+
 
 rsconnect::setAccountInfo(name='juanpablosokil', 
                           token='7499F5689D7DC0540DB1D96DCC05DB0F', 
@@ -21,47 +24,62 @@ pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/
                           colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
 
 
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Brasil", "Brazil")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Mixico", "Mexico")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Milan", "Italy")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "us", "United States")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "us", "United States")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "MauritiUnited States", "Mauritius")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "RUnited Statessia", "Russia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "RUnited Statessian Federation", "Russia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Russian Federation", "Russia")
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Kingdom of Saudi Arabia", "Saudi Arabia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "UK", "United Kingdom")
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "AUnited Statestralia", "Australia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "AUnited Statestria", "Austria")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Montreal", "Canada")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Korea", "South Korea")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Hong Kong", "Hong Kong SAR China")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Republic of Congo", "Congo - Brazzaville")
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "South South Korea", "South Korea")
+######################Listado PAISES###############
+listado_paises <- pubmed_data %>%
+  filter(!is.na(iso))  %>%
+  select(country) %>%
+distinct(country)
 
 
-ddd = pubmed_data3 %>%
-    group_by (country, iso) %>%
-    summarize (n_distinct(PMID))
-View(ddd)
+#######################ARMA NODOS #######################
+nodos <- pubmed_data %>%
+  select(iso, PMID) %>%
+  unique()  %>%
+  filter(!is.na(iso)) %>%
+  group_by(iso) %>%
+  summarize(totales=n_distinct(PMID))
+
+#######################ARMA VERTICES #######################
+
+byHand <- pubmed_data %>%
+  select(PMID, iso) %>%
+  unique() %>%
+  filter(!is.na(iso))  %>%
+  group_by(PMID) %>% mutate(paises = paste(iso, collapse = ","))
+
+#### identifico el primero de los autores###
+byHand$primer_pais = as.character(lapply(strsplit(as.character(byHand$paises), split=","), "[", 1))
+arreglado <- byHand %>% mutate(paises = strsplit(as.character(paises), ",")) %>% unnest(paises)
+aristas_previo <- arreglado[c(3:4)]
+colnames(aristas_previo) <- c("source","target")
+aristas <- aristas_previo %>% group_by(source, target) %>% summarize(count=n())
 
 
+nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:75)     # size 
+edges <- data.frame(from = aristas$source, to = aristas$target)
+
+###Levanta Coordenadas###
+countries <- read_delim("~/GitHub/Covid-19/bases/countries.txt", "\t", escape_double = FALSE, col_types = cols(name = col_skip()), trim_ws = TRUE)
+
+countries_coord <- nodes %>%
+  left_join(countries, by=c('id'='country'))
+
+g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
+g<- simplify(g, remove.multiple = TRUE)
+
+
+
+###################SERVER#####################
 server <- function(input, output, session) {
     
     pais <- reactive({
-        a <- pubmed_data %>% filter(country %in% input$country)
+        a <- pubmed_data  %>% filter(country %in% input$country)
         a <- data.frame(a)
         return(a)
     })    
     
     
-    
-    
+######################PRIMER SOLAPA###########################
     output$plot1 <- renderPlot({pubmed_data %>%
         group_by(Date)  %>%
         summarize(dia=n_distinct(PMID))  %>% 
@@ -75,8 +93,6 @@ server <- function(input, output, session) {
             theme_bw()
     })
     
-    
-
     output$plot3 <- renderPlot({pubmed_data %>%
             group_by(Date)  %>%
             summarize(dia=n_distinct(PMID))  %>% 
@@ -88,12 +104,27 @@ server <- function(input, output, session) {
             geom_smooth(method = "loess", size=2, alpha=0.3)   +  
             theme_bw()
     })
+    
     output$table1 <- renderDT(pubmed_data %>%
             group_by(Date)  %>%
             summarize(Dia=n_distinct(PMID))  %>% 
             mutate(Acumulado = cumsum(Dia)),  
             options = list(pageLength = 10))
             
+    
+######################SEGUNDA SOLAPA###########################    
+  
+    
+    output$plot5 <- renderPlot({
+      pubmed_data %>%
+        filter(!is.na(iso))  %>%
+        group_by(country, iso) %>%
+        summarize(cantidad=n_distinct(PMID)) %>%
+        arrange(desc(cantidad)) %>%
+        head(15) %>%
+        ggplot(aes(reorder(country, +cantidad), cantidad)) + geom_bar(stat='identity') + coord_flip() +  
+        theme_bw()
+    })
     
 
     output$plot2 <- renderPlot({
@@ -111,22 +142,26 @@ server <- function(input, output, session) {
             theme_bw()
     })
     
+    output$table2 <- renderDT(pubmed_data %>%
+                                filter(!is.na(iso))  %>%
+                                group_by(country, iso) %>%
+                                summarize(cantidad=n_distinct(PMID)) %>%
+                                arrange(desc(cantidad)),  
+                              options = list(pageLength = 10))
     
-    map <- ggplot(nodes) + country_shapes +
-        geom_curve(aes(x = x, y = y, xend = xend, yend = yend),
-                   data = edges_for_plot, curvature = 0.33,
-                   alpha = 0.5) +
-        geom_point(aes(x = lon, y = lat),           # draw nodes
-                   shape = 21, fill = 'white',
-                   color = 'black', stroke = 0.5, size=4) +
-        scale_size_continuous(guide = FALSE, range = c(1, 6)) +    # scale for node size
-        geom_text(aes(x = lon, y = lat, label = CountryCode),             # draw text labels
-                  hjust = 0, nudge_x = 1, nudge_y = 4,
-                  size = 6, color = "red", fontface = "bold")
+     
     
-    
-}
+######################TERCERA SOLAPA###########################      
 
+    edges <- data.frame(from = c("AR","BR"), to = c("CN","US"))
+    
+    output$network <- renderVisNetwork({
+      visIgraph(g, type="full", layout = 'layout.norm', layoutMatrix = as.matrix(cbind(countries_coord$longitude, countries_coord$latitude*-1)))
+    
+      
+    })
+        
+}
 
 
 # Define UI for application that draws a histogram
@@ -136,14 +171,18 @@ ui <- fluidPage(
                   # Show a plot of the generated distribution
                   mainPanel(
                       tabsetPanel(type = "tabs",
-                               #tabPanel("Total", plotOutput(outputId = "plot1"),dataTableOutput(outputId = "table1")),
-                               tabPanel("Totales",fluidRow(column(6, plotOutput("plot1")),column(6, plotOutput("plot3"))),fluidRow(column(12, dataTableOutput(outputId = "table1")))),
-                               tabPanel("Paises",fluidRow(column(12, (pickerInput(inputId = "country", label = "Seleccione los topicos",  
-                                                                                   choices = unique(pubmed_data$country), options = list('actions-box' = TRUE, size = 8,'selected-text-format' = "count > 3",'deselect-all-text' = "Ninguno", 'select-all-text' = "Todos",'none-selected-text' = "Sin Seleccion",'count-selected-text' = "{0} seleccionados."), multiple = TRUE))),
-                                ), fluidRow(column(12, plotOutput(outputId = "plot2",height = "400px")),
-                                )
-                        )
-    )))
+                               tabPanel("Totales",
+                                        fluidRow(column(6, plotOutput("plot1")),
+                                                 column(6, plotOutput("plot3"))),
+                                        fluidRow(column(12, dataTableOutput(outputId = "table1")))),
+                               tabPanel("Paises",
+                                        fluidRow(column(6, pickerInput(inputId = "country", label = "Seleccione los topicos", choices = listado_paises, options = list('actions-box' = TRUE, size = 8,'selected-text-format' = "count > 3",'deselect-all-text' = "Ninguno", 'select-all-text' = "Todos",'none-selected-text' = "Sin Seleccion",'count-selected-text' = "{0} seleccionados."), multiple = TRUE))), 
+                                        fluidRow(column(6, plotOutput("plot5")),
+                                                 column(6, plotOutput("plot2"))),
+                                        fluidRow(column(12, dataTableOutput(outputId = "table2")))),
+                               tabPanel("Grafo", visNetworkOutput(outputId = "network")))
+                        ))
+    
 
 
 

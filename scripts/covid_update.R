@@ -17,15 +17,19 @@ library(xlsx)
 library(readxl)
 library(data.table)
 library(countrycode)
+library(igraph)
+#install.packages("visNetwork")
+library(visNetwork)
+library(stringr)
 
 setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-23"
+FechaFiltro = "2020-03-24"
 
 search_topic <- 'COVID-19'
-search_query <- EUtilsSummary(search_topic, retmax=2000, mindate=2020,maxdate=2021, db='pubmed')
+search_query <- EUtilsSummary(search_topic, retmax=3000, mindate=2020,maxdate=2021, db='pubmed')
 summary(search_query)
 
 # see the ids of our returned query
@@ -37,7 +41,7 @@ records<- EUtilsGet(search_query)
 # Save an object to a file
 saveRDS(records, file = "../records/pubmed.rds")
 # Restore the object
-#records <- readRDS(file = "../records/pubmed.rds")
+records <- readRDS(file = "../records/pubmed.rds")
 
 #### arma data.frame ####
 pubmed_data <- data.frame('PMID'=PMID(records),
@@ -113,8 +117,10 @@ pubmed_data <- pubmed_data %>%
   filter(Date >= FechaFiltro) 
 
 
+
 ####Agrego terminos importantes####
 pubmed_data$chloroquine <- str_detect(pubmed_data$Abstract, "chloroquine")
+pubmed_data2$hydrochloroquine <- str_detect(pubmed_data2$Abstract, "hydrochloroquine")
 pubmed_data$remdesivir <- str_detect(pubmed_data$Abstract, "remdesivir")
 pubmed_data$ritonavir <- str_detect(pubmed_data$Abstract, "ritonavir")
 pubmed_data$lopinavir <- str_detect(pubmed_data$Abstract, "lopinavir")
@@ -122,8 +128,21 @@ pubmed_data$favipiravir <- str_detect(pubmed_data$Abstract, "favipiravir")
 pubmed_data$vaccine <- str_detect(pubmed_data$Abstract, "vaccine")
 
 # Convert all to numeric
-cols <- sapply(pubmed_data2, is.logical)
-pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
+cols <- sapply(pubmed_data, is.logical)
+pubmed_data[,cols] <- lapply(pubmed_data[,cols], as.numeric)
+
+pubmed_data$country <- str_replace(pubmed_data$country, "UK", "United Kingdom")
+pubmed_data$country <- str_replace(pubmed_data$country, "Hong Kong", "Hong Kong SAR China")
+
+
+
+iso <- countrycode(unique(pubmed_data$country), "country.name", "iso2c")
+country <- countrycode(unique(pubmed_data$country), "country.name", "country.name")
+listado_paises <- as.data.frame(cbind(iso, country))
+
+pubmed_data <- pubmed_data %>%
+  left_join(listado_paises, by = c("country"="country"))
+
 
 
 #####################EN ESTE PUNTO TENGO ARMADA LA BASE NUEVA################
@@ -150,74 +169,15 @@ pubmed_data2 %>%
   summarize(cantidad=n_distinct(PMID))  %>%
   ggplot(aes(Date, cantidad)) + geom_bar(stat='identity')
 
-pubmed_data2$chloroquine <- str_detect(pubmed_data2$Abstract, "chloroquine")
-pubmed_data2$remdesivir <- str_detect(pubmed_data2$Abstract, "remdesivir")
-pubmed_data2$ritonavir <- str_detect(pubmed_data2$Abstract, "ritonavir")
-pubmed_data2$lopinavir <- str_detect(pubmed_data2$Abstract, "lopinavir")
-pubmed_data2$favipiravir <- str_detect(pubmed_data2$Abstract, "favipiravir")
-pubmed_data2$vaccine <- str_detect(pubmed_data2$Abstract, "vaccine")
-
-# Convert all to numeric
-cols <- sapply(pubmed_data2, is.logical)
-pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
 
 
-
-iso <- countrycode(unique(pubmed_data3$country), "country.name", "iso2c")
-country <- countrycode(unique(pubmed_data3$country), "country.name", "country.name")
-listado_paises <- as.data.frame(cbind(iso, country))
-View(listado_paises)
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Brasil", "Brazil")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Mixico", "Mexico")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Milan", "Italy")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "us", "United States")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "us", "United States")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "MauritiUnited States", "Mauritius")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "RUnited Statessia", "Russia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "RUnited Statessian Federation", "Russia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Russian Federation", "Russia")
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Kingdom of Saudi Arabia", "Saudi Arabia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "UK", "United Kingdom")
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "AUnited Statestralia", "Australia")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "AUnited Statestria", "Austria")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Montreal", "Canada")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Korea", "South Korea")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Hong Kong", "Hong Kong SAR China")
-pubmed_data3$country <- str_replace(pubmed_data3$country, "Republic of Congo", "Congo - Brazzaville")
-
-pubmed_data3$country <- str_replace(pubmed_data3$country, "South South Korea", "South Korea")
+###Levanto los datos viejos##### SI QUIERO MODIFICAR ALGO SOBRE LA BASE TOTAL, SIN UPDATE############
+pubmed_data2 <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
+                              colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 
 
-
-
-
-
-
-pubmed_data3 <- pubmed_data3 %>%
-  left_join(listado_paises, by = c("country"="country"))
-View(pubmed_data3)
-
-
-vvvvv = pubmed_data3 %>%
-  group_by(country,iso.x) %>%
-  summarize(n_distinct(PMID))
-
-View(vvvvv)
 
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")
-
-dias = pubmed_data2 %>%
-  group_by(Date) %>%
-  summarize(n_distinct(PMID))
-
-
-#pubmed_data2 %>%
-#  filter(vaccine == 1) %>%
-#  summarise(n_distinct(PMID))
-
 
 

@@ -26,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-24"
+FechaFiltro = "2020-03-25"
 
 search_topic <- 'COVID-19'
 search_query <- EUtilsSummary(search_topic, retmax=3000, mindate=2020,maxdate=2021, db='pubmed')
@@ -41,7 +41,7 @@ records<- EUtilsGet(search_query)
 # Save an object to a file
 saveRDS(records, file = "../records/pubmed.rds")
 # Restore the object
-records <- readRDS(file = "../records/pubmed.rds")
+#records <- readRDS(file = "../records/pubmed.rds")
 
 #### arma data.frame ####
 pubmed_data <- data.frame('PMID'=PMID(records),
@@ -120,12 +120,12 @@ pubmed_data <- pubmed_data %>%
 
 ####Agrego terminos importantes####
 pubmed_data$chloroquine <- str_detect(pubmed_data$Abstract, "chloroquine")
-pubmed_data2$hydrochloroquine <- str_detect(pubmed_data2$Abstract, "hydrochloroquine")
 pubmed_data$remdesivir <- str_detect(pubmed_data$Abstract, "remdesivir")
 pubmed_data$ritonavir <- str_detect(pubmed_data$Abstract, "ritonavir")
 pubmed_data$lopinavir <- str_detect(pubmed_data$Abstract, "lopinavir")
 pubmed_data$favipiravir <- str_detect(pubmed_data$Abstract, "favipiravir")
 pubmed_data$vaccine <- str_detect(pubmed_data$Abstract, "vaccine")
+
 
 # Convert all to numeric
 cols <- sapply(pubmed_data, is.logical)
@@ -143,6 +143,7 @@ listado_paises <- as.data.frame(cbind(iso, country))
 pubmed_data <- pubmed_data %>%
   left_join(listado_paises, by = c("country"="country"))
 
+pubmed_data$hydrochloroquine <- str_detect(pubmed_data$Abstract, "hydrochloroquine")
 
 
 #####################EN ESTE PUNTO TENGO ARMADA LA BASE NUEVA################
@@ -153,6 +154,7 @@ pubmed_data <- pubmed_data %>%
 pubmed_data_old <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
                               colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
+
 
 
 
@@ -169,11 +171,12 @@ pubmed_data2 %>%
   summarize(cantidad=n_distinct(PMID))  %>%
   ggplot(aes(Date, cantidad)) + geom_bar(stat='identity')
 
+pubmed_data2$country <- str_replace(pubmed_data2$country, "Côte d'Ivoire", "Ivory Coast")
 
 
-###Levanto los datos viejos##### SI QUIERO MODIFICAR ALGO SOBRE LA BASE TOTAL, SIN UPDATE############
-pubmed_data2 <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
-                              colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
+####Levanto los datos viejos##### SI QUIERO MODIFICAR ALGO SOBRE LA BASE TOTAL, SIN UPDATE############
+#pubmed_data2 <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
+#                              colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 
 
 

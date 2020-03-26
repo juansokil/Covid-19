@@ -26,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-25"
+FechaFiltro = "2020-03-26"
 
 search_topic <- 'COVID-19'
 search_query <- EUtilsSummary(search_topic, retmax=3000, mindate=2020,maxdate=2021, db='pubmed')
@@ -143,7 +143,13 @@ listado_paises <- as.data.frame(cbind(iso, country))
 pubmed_data <- pubmed_data %>%
   left_join(listado_paises, by = c("country"="country"))
 
-pubmed_data$hydrochloroquine <- str_detect(pubmed_data$Abstract, "hydrochloroquine")
+pubmed_data$hydroxychloroquine <- str_detect(pubmed_data$Abstract, "hydroxychloroquine")
+
+
+# Convert all to numeric
+cols <- sapply(pubmed_data, is.logical)
+pubmed_data[,cols] <- lapply(pubmed_data[,cols], as.numeric)
+
 
 
 #####################EN ESTE PUNTO TENGO ARMADA LA BASE NUEVA################
@@ -172,11 +178,27 @@ pubmed_data2 %>%
   ggplot(aes(Date, cantidad)) + geom_bar(stat='identity')
 
 pubmed_data2$country <- str_replace(pubmed_data2$country, "Côte d'Ivoire", "Ivory Coast")
+pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$Abstract, "hydroxychloroquine")
 
 
 ####Levanto los datos viejos##### SI QUIERO MODIFICAR ALGO SOBRE LA BASE TOTAL, SIN UPDATE############
 #pubmed_data2 <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
 #                              colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
+
+
+
+####Agrego terminos importantes####
+pubmed_data2$chloroquine <- str_detect(pubmed_data2$Abstract, "chloroquine")
+pubmed_data2$remdesivir <- str_detect(pubmed_data2$Abstract, "remdesivir")
+pubmed_data2$ritonavir <- str_detect(pubmed_data2$Abstract, "ritonavir")
+pubmed_data2$lopinavir <- str_detect(pubmed_data2$Abstract, "lopinavir")
+pubmed_data2$favipiravir <- str_detect(pubmed_data2$Abstract, "favipiravir")
+pubmed_data2$vaccine <- str_detect(pubmed_data2$Abstract, "vaccine")
+pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$Abstract, "hydroxychloroquine")
+
+# Convert all to numeric
+cols <- sapply(pubmed_data2, is.logical)
+pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
 
 
 

@@ -61,7 +61,7 @@ aristas_previo <- arreglado[c(3:4)]
 colnames(aristas_previo) <- c("source","target")
 aristas <- aristas_previo %>% group_by(source, target) %>% summarize(count=n())
 
-nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:75)     # size 
+nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:nrow(listado_paises))     # size 
 edges <- data.frame(from = aristas$source, to = aristas$target)
 
 ###Levanta Coordenadas###

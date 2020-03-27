@@ -236,6 +236,8 @@ glimpse(pubmed_data2)
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")
 
 
+
+
 #bla = pubmed_data2 %>%
 #  filter (hydroxychloroquine == 1) %>%
 #  group_by(Date) %>%

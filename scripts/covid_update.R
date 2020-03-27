@@ -26,10 +26,12 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-26"
+FechaFiltro = "2020-03-27"
 
 search_topic <- 'COVID-19'
-search_query <- EUtilsSummary(search_topic, retmax=3000, mindate=2020,maxdate=2021, db='pubmed')
+#search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
+search_query <- EUtilsSummary(search_topic, retmax=4000, mindate=2020,maxdate=2021, db='pubmed')
+
 summary(search_query)
 
 # see the ids of our returned query
@@ -61,12 +63,21 @@ pubmed_data$Abstract <- gsub("/", " ", pubmed_data$Abstract, fixed = TRUE)
 ####Agrego la fecha####
 pubmed_data$Date <- as.Date(with(pubmed_data, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 
+
 ####Evolucion diaria####
 pubmed_data %>%
   select(PMID, Title, Abstract, Date) %>%
   group_by(Date)  %>%
   summarize(cantidad=n_distinct(PMID))  %>%
   ggplot(aes(Date, cantidad)) + geom_bar(stat='identity')
+
+
+dias = pubmed_data %>%
+  select(PMID, Title, Abstract, Date) %>%
+  group_by(Date)  %>%
+  summarize(cantidad=n_distinct(PMID))
+View(dias)
+
 
 
 #######Trabajo con Afiliaciones########
@@ -161,7 +172,7 @@ pubmed_data_old <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "
                               colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 
-
+#pubmed_data2 <- pubmed_data_old
 
 
 ###Guardo un backup de la base
@@ -178,7 +189,8 @@ pubmed_data2 %>%
   ggplot(aes(Date, cantidad)) + geom_bar(stat='identity')
 
 pubmed_data2$country <- str_replace(pubmed_data2$country, "Côte d'Ivoire", "Ivory Coast")
-pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$Abstract, "hydroxychloroquine")
+
+
 
 
 ####Levanto los datos viejos##### SI QUIERO MODIFICAR ALGO SOBRE LA BASE TOTAL, SIN UPDATE############
@@ -186,15 +198,21 @@ pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$Abstract, "hydroxychl
 #                              colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 
 
-
 ####Agrego terminos importantes####
-pubmed_data2$chloroquine <- str_detect(pubmed_data2$Abstract, "chloroquine")
-pubmed_data2$remdesivir <- str_detect(pubmed_data2$Abstract, "remdesivir")
-pubmed_data2$ritonavir <- str_detect(pubmed_data2$Abstract, "ritonavir")
-pubmed_data2$lopinavir <- str_detect(pubmed_data2$Abstract, "lopinavir")
-pubmed_data2$favipiravir <- str_detect(pubmed_data2$Abstract, "favipiravir")
-pubmed_data2$vaccine <- str_detect(pubmed_data2$Abstract, "vaccine")
-pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$Abstract, "hydroxychloroquine")
+
+pubmed_data2$TitleAbstract <- paste(pubmed_data2$Title,pubmed_data2$Abstract,sep=" /t ")
+
+
+pubmed_data2$chloroquine <- str_detect(pubmed_data2$TitleAbstract, "chloroquine")
+pubmed_data2$remdesivir <- str_detect(pubmed_data2$TitleAbstract, "remdesivir")
+pubmed_data2$ritonavir <- str_detect(pubmed_data2$TitleAbstract, "ritonavir")
+pubmed_data2$lopinavir <- str_detect(pubmed_data2$TitleAbstract, "lopinavir")
+pubmed_data2$favipiravir <- str_detect(pubmed_data2$TitleAbstract, "favipiravir")
+pubmed_data2$vaccine <- str_detect(pubmed_data2$TitleAbstract, "vaccine")
+pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$TitleAbstract, "hydroxychloroquine")
+
+
+
 
 # Convert all to numeric
 cols <- sapply(pubmed_data2, is.logical)
@@ -202,7 +220,21 @@ pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
 
 
 
+pubmed_data2 <- pubmed_data2 %>%
+  select(PMID, Title, Abstract, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+
+glimpse(pubmed_data2)
+
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")
 
 
+#bla = pubmed_data2 %>%
+#  filter (hydroxychloroquine == 1) %>%
+#  group_by(Date) %>%
+#  summarize(dia=n_distinct(PMID))  %>% 
+#  mutate(total = cumsum(dia))
+
+
+
+View(pubmed_data2)

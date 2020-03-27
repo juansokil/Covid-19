@@ -26,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-27"
+FechaFiltro = "2020-03-26"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -35,7 +35,7 @@ search_query <- EUtilsSummary(search_topic, retmax=4000, mindate=2020,maxdate=20
 summary(search_query)
 
 # see the ids of our returned query
-QueryId(search_query)
+#QueryId(search_query)
 
 # get actual data from PubMed
 records<- EUtilsGet(search_query)
@@ -131,6 +131,7 @@ pubmed_data <- pubmed_data %>%
 
 ####Agrego terminos importantes####
 pubmed_data$chloroquine <- str_detect(pubmed_data$Abstract, "chloroquine")
+pubmed_data$hydroxychloroquine <- str_detect(pubmed_data$Abstract, "hydroxychloroquine")
 pubmed_data$remdesivir <- str_detect(pubmed_data$Abstract, "remdesivir")
 pubmed_data$ritonavir <- str_detect(pubmed_data$Abstract, "ritonavir")
 pubmed_data$lopinavir <- str_detect(pubmed_data$Abstract, "lopinavir")
@@ -154,13 +155,11 @@ listado_paises <- as.data.frame(cbind(iso, country))
 pubmed_data <- pubmed_data %>%
   left_join(listado_paises, by = c("country"="country"))
 
-pubmed_data$hydroxychloroquine <- str_detect(pubmed_data$Abstract, "hydroxychloroquine")
 
 
-# Convert all to numeric
-cols <- sapply(pubmed_data, is.logical)
-pubmed_data[,cols] <- lapply(pubmed_data[,cols], as.numeric)
-
+####Ordeno los datos####
+pubmed_data <- pubmed_data %>%
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
 
 
 #####################EN ESTE PUNTO TENGO ARMADA LA BASE NUEVA################
@@ -172,7 +171,11 @@ pubmed_data_old <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "
                               colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 
-#pubmed_data2 <- pubmed_data_old
+#pubmed_data_old$hydroxychloroquine <- 0
+
+####Ordeno los datos####
+pubmed_data_old <- pubmed_data_old %>%
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
 
 
 ###Guardo un backup de la base
@@ -181,12 +184,15 @@ write.table(pubmed_data_old, file = "../Bases/pubmed_data_old.csv", sep = "\t", 
 ####Junto la guardada con la nueva
 pubmed_data2 <- rbind(pubmed_data_old, pubmed_data)
 
+
+
 ####Evolucion diaria### CHEQUEO#
 pubmed_data2 %>%
   select(PMID, Title, Abstract, Date) %>%
   group_by(Date)  %>%
   summarize(cantidad=n_distinct(PMID))  %>%
   ggplot(aes(Date, cantidad)) + geom_bar(stat='identity')
+
 
 pubmed_data2$country <- str_replace(pubmed_data2$country, "Côte d'Ivoire", "Ivory Coast")
 
@@ -204,12 +210,13 @@ pubmed_data2$TitleAbstract <- paste(pubmed_data2$Title,pubmed_data2$Abstract,sep
 
 
 pubmed_data2$chloroquine <- str_detect(pubmed_data2$TitleAbstract, "chloroquine")
+pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$TitleAbstract, "hydroxychloroquine")
 pubmed_data2$remdesivir <- str_detect(pubmed_data2$TitleAbstract, "remdesivir")
 pubmed_data2$ritonavir <- str_detect(pubmed_data2$TitleAbstract, "ritonavir")
 pubmed_data2$lopinavir <- str_detect(pubmed_data2$TitleAbstract, "lopinavir")
 pubmed_data2$favipiravir <- str_detect(pubmed_data2$TitleAbstract, "favipiravir")
 pubmed_data2$vaccine <- str_detect(pubmed_data2$TitleAbstract, "vaccine")
-pubmed_data2$hydroxychloroquine <- str_detect(pubmed_data2$TitleAbstract, "hydroxychloroquine")
+
 
 
 
@@ -221,7 +228,7 @@ pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
 
 
 pubmed_data2 <- pubmed_data2 %>%
-  select(PMID, Title, Abstract, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
 
 glimpse(pubmed_data2)
 
@@ -235,6 +242,5 @@ write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod
 #  summarize(dia=n_distinct(PMID))  %>% 
 #  mutate(total = cumsum(dia))
 
+##tocilizumab
 
-
-View(pubmed_data2)

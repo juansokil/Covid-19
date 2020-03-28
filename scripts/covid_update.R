@@ -26,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-26"
+FechaFiltro = "2020-03-28"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -225,12 +225,10 @@ pubmed_data2$vaccine <- str_detect(pubmed_data2$TitleAbstract, "vaccine")
 cols <- sapply(pubmed_data2, is.logical)
 pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
 
-
-
 pubmed_data2 <- pubmed_data2 %>%
   select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
 
-glimpse(pubmed_data2)
+
 
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")

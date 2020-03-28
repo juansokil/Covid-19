@@ -74,6 +74,19 @@ g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
 g<- simplify(g, remove.multiple = TRUE)
 
 
+###Louvain Comunity Detection
+#cluster <- cluster_louvain(g)
+#cluster_df <- data.frame(as.list(membership(cluster)))
+#cluster_df <- as.data.frame(t(cluster_df))
+#cluster_df$label <- rownames(cluster_df)
+
+#Create group column
+#nodes <- left_join(nodes, cluster_df, by = "label")
+#colnames(nodes)[3] <- "group"
+
+
+#https://datascience.blog.wzb.eu/2018/05/31/three-ways-of-visualizing-a-graph-on-a-map/
+
 ###################SERVER#####################
 server <- function(input, output, session) {
     
@@ -189,7 +202,8 @@ server <- function(input, output, session) {
                                 arrange(country, Date) %>%
                                 group_by(country, Date) %>%
                                 summarize(dia=n_distinct(PMID)) %>% 
-                                mutate(total = cumsum(dia))  ,extensions = 'Buttons',
+                                mutate(total = cumsum(dia)) %>%
+                                arrange(Date),extensions = 'Buttons',
                               options = list(pageLength = 10,
                                              dom = 'Bfrtip',
                                              buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),

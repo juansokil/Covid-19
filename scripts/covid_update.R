@@ -26,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-03-28"
+FechaFiltro = "2020-04-02"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -152,6 +152,8 @@ iso <- countrycode(unique(pubmed_data$country), "country.name", "iso2c")
 country <- countrycode(unique(pubmed_data$country), "country.name", "country.name")
 listado_paises <- as.data.frame(cbind(iso, country))
 
+
+
 pubmed_data <- pubmed_data %>%
   left_join(listado_paises, by = c("country"="country"))
 
@@ -160,6 +162,8 @@ pubmed_data <- pubmed_data %>%
 ####Ordeno los datos####
 pubmed_data <- pubmed_data %>%
   select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+
+
 
 
 #####################EN ESTE PUNTO TENGO ARMADA LA BASE NUEVA################
@@ -171,6 +175,8 @@ pubmed_data_old <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "
                               colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 
+
+#View(pubmed_data_old)
 #pubmed_data_old$hydroxychloroquine <- 0
 
 ####Ordeno los datos####
@@ -229,18 +235,52 @@ pubmed_data2 <- pubmed_data2 %>%
   select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
 
 
-
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")
 
 
+bla = pubmed_data2 %>%
+  filter (vaccine == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+bla = pubmed_data2 %>%
+  filter (hydroxychloroquine == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+bla = pubmed_data2 %>%
+  filter (chloroquine == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+bla = pubmed_data2 %>%
+  filter (lopinavir == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+bla = pubmed_data2 %>%
+  filter (remdesivir == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
 
 
-#bla = pubmed_data2 %>%
-#  filter (hydroxychloroquine == 1) %>%
-#  group_by(Date) %>%
-#  summarize(dia=n_distinct(PMID))  %>% 
-#  mutate(total = cumsum(dia))
+bla = pubmed_data2 %>%
+  filter (ritonavir == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
 
-##tocilizumab
+View(dias)
 

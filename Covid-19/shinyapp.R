@@ -3,7 +3,7 @@ library(data.table)
 library(dplyr)
 library(ggplot2)
 library(shiny)
-library(shinydashboard)
+#library(shinydashboard)
 library(shinyWidgets)
 library(DT)  
 library(countrycode)
@@ -14,7 +14,7 @@ library(tidyr)
 library(readr)
 #install.packages("leaflet")
 library(leaflet)
-
+library(maps)
 
 rsconnect::setAccountInfo(name='juanpablosokil', 
                           token='7499F5689D7DC0540DB1D96DCC05DB0F', 
@@ -35,7 +35,8 @@ listado_paises <- pubmed_data %>%
   arrange(desc(cantidad))  %>%
   select(country)
 
-
+variable_selector <- pubmed_data %>% select(chloroquine, hydroxychloroquine) %>% names()
+  
 
 #######################ARMA NODOS #######################
 nodos <- pubmed_data %>%
@@ -61,8 +62,17 @@ colnames(aristas_previo) <- c("source","target")
 aristas <- aristas_previo %>% group_by(source, target) %>% summarize(count=n())
 
 
-nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:nrow(listado_paises))     # size 
-edges <- data.frame(from = aristas$source, to = aristas$target)
+
+
+
+nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = nodos$totales, count=nodos$totales)     # size 
+#nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:nrow(listado_paises), count=nodos$totales)     # size 
+#edges <- data.frame(from = aristas$source, to = aristas$target)
+edges <- data.frame(source = aristas$source, target = aristas$target, weight = aristas$count)
+edges <- edges %>%
+  filter(as.character(source) != as.character(target))
+
+
 
 ###Levanta Coordenadas###
 countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/countries.txt", "\t", escape_double = FALSE, col_types = cols(name = col_skip()), trim_ws = TRUE)
@@ -70,8 +80,37 @@ countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/ma
 countries_coord <- nodes %>%
   left_join(countries, by=c('id'='country'))
 
+
 g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
 g<- simplify(g, remove.multiple = TRUE)
+
+
+
+edges_for_plot <- edges %>%
+  inner_join(countries_coord %>% select(id, longitude, latitude), by = c('source' = 'id')) %>%
+  rename(x = longitude, y = latitude) %>%
+  inner_join(countries_coord %>% select(id, longitude, latitude), by = c('target' = 'id')) %>%
+  rename(xend = longitude, yend = latitude)
+
+
+maptheme <- theme(panel.grid = element_blank()) +
+  theme(axis.text = element_blank()) +
+  theme(axis.ticks = element_blank()) +
+  theme(axis.title = element_blank()) +
+  theme(legend.position = "bottom") +
+  theme(panel.grid = element_blank()) +
+  theme(panel.background = element_rect(fill = "#596673")) +
+  theme(plot.margin = unit(c(0, 0, 0.5, 0), 'cm'))
+
+
+country_shapes <- geom_polygon(aes(x = long, y = lat, group = group),
+                               data = map_data('world'),
+                               fill = "#CECECE", color = "#515151",
+                               size = 0.15)
+
+
+
+
 
 
 ###Louvain Comunity Detection
@@ -216,23 +255,52 @@ server <- function(input, output, session) {
 
     
     output$network <- renderVisNetwork({
+      E(g)$width <- E(g)$weight/5
+      
       visIgraph(g, type="full", layout = 'layout.norm', layoutMatrix = as.matrix(cbind(countries_coord$longitude, countries_coord$latitude*-1)))  %>%  
         visLegend() %>% 
+        #visEdges( width = weight) %>% 
         visOptions(highlightNearest = T,nodesIdSelection = T)
     
       
     })
-        #https://www.rpubs.com/Steven_Surya/visNetwork
-
-
-#https://riptutorial.com/r/example/16144/dynamic-leaflet-maps-in-shiny-applications
-
+        
+    
+  
+    output$map <- renderPlot({ ggplot(countries_coord) + country_shapes +
+      geom_curve(aes(x = x, y = y, xend = xend, yend = yend),
+                 data = edges_for_plot,
+                 alpha = 0.5) +
+      #geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+      #           data = edges_for_plot,
+      #           alpha = 0.5) +
+      geom_point(aes(x = longitude, y = latitude, size=count),           # draw nodes
+                 shape = 21, fill = 'white',  
+                 color = 'black', stroke = 0.5) +
+      scale_size_continuous(guide = FALSE, range = c(2, 20)) +    # scale for node size
+      geom_text(aes(x = longitude, y = latitude, label = id),             # draw text labels
+                hjust = 0, nudge_x = 1, nudge_y = 4,
+                size = 3, color = "red", fontface = "bold")
+    
+    })
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 ######################CUARTA SOLAPA###########################      
 
 
-output$map <- renderLeaflet({ 
-  leaflet() %>% addProviderTiles(providers$Esri.NatGeoWorldMap) 
-})
+#output$map <- renderLeaflet({ 
+#  leaflet() %>% addProviderTiles(providers$Esri.NatGeoWorldMap) 
+#})
 
   
     
@@ -274,7 +342,18 @@ output$map <- renderLeaflet({
       }
     )
     
+
     
+      output$logo <-
+        renderText({
+          c(
+            '<img src="',
+            "./oeiocts.jpg",
+            '">'
+          )
+        })
+      
+      
 }
 
 # Define UI for application that draws a histogram
@@ -283,6 +362,7 @@ ui <- fluidPage(
                   mainPanel(
                       tabsetPanel(type = "tabs",
                                tabPanel("Publicaciones Total",
+                                        #fluidRow(column(6, htmlOutput("logo")),
                                         fluidRow(column(6, plotOutput("plot1")),
                                                  column(6, plotOutput("plot3"))),
                                         #fluidRow(column(12, downloadButton("download1", label = "Descargar datos")),
@@ -294,13 +374,13 @@ ui <- fluidPage(
                                         fluidRow(column(6, pickerInput(inputId = "country", label = "Seleccione los paises a comparar", choices = listado_paises, selected = c("China","United States"), options = list('actions-box' = TRUE, size = 8,'selected-text-format' = "count > 3",'deselect-all-text' = "Ninguno", 'select-all-text' = "Todos",'none-selected-text' = "Sin Seleccion",'count-selected-text' = "{0} seleccionados."), multiple = TRUE))), 
                                         fluidRow(column(12, plotOutput("plot2")),
                                         fluidRow(column(12, dataTableOutput(outputId = "table3"))))),
-                               tabPanel("Grafo de Colaboracion", visNetworkOutput(outputId = "network")),
-                              tabPanel("Mapa", leafletOutput(outputId = "map")))))
+                               tabPanel("Grafo de Colaboracion", visNetworkOutput(outputId = "network"))
+                               #tabPanel("Grafo de Colaboracion2", plotOutput(outputId = "map")),
+                               #tabPanel("Conceptos", varSelectInput("variable", "Seleccione :", variable_selector)),
+                              #tabPanel("Mapa", leafletOutput(outputId = "map"))
+                              )))
                         
     
-
-
-#https://m-clark.github.io/data-processing-and-visualization/ml.html
 
 
 

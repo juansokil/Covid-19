@@ -3,19 +3,16 @@ library(data.table)
 library(dplyr)
 library(ggplot2)
 library(shiny)
-library(shinydashboard)
 library(shinyWidgets)
 library(DT)  
 library(countrycode)
 library(stringr)
 library(igraph)
-library(visNetwork)
 library(tidyr)
 library(readr)
-#install.packages("leaflet")
-library(leaflet)
+library(visNetwork)
 library(plotly)
-
+library(maps)
 
 
 rsconnect::setAccountInfo(name='juanpablosokil', 
@@ -61,8 +58,12 @@ aristas_previo <- arreglado[c(3:4)]
 colnames(aristas_previo) <- c("source","target")
 aristas <- aristas_previo %>% group_by(source, target) %>% summarize(count=n())
 
-nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:nrow(listado_paises))     # size 
-edges <- data.frame(from = aristas$source, to = aristas$target)
+nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = nodos$totales, count=nodos$totales)     # size 
+#nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:nrow(listado_paises), count=nodos$totales)     # size 
+#edges <- data.frame(from = aristas$source, to = aristas$target)
+edges <- data.frame(source = aristas$source, target = aristas$target, weight = aristas$count)
+edges <- edges %>%
+  filter(as.character(source) != as.character(target))
 
 ###Levanta Coordenadas###
 countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/countries.txt", "\t", escape_double = FALSE, col_types = cols(name = col_skip()), trim_ws = TRUE)
@@ -203,8 +204,11 @@ server <- function(input, output, session) {
   
   
   output$network <- renderVisNetwork({
+    E(g)$width <- E(g)$weight/5
+    
     visIgraph(g, type="full", layout = 'layout.norm', layoutMatrix = as.matrix(cbind(countries_coord$longitude, countries_coord$latitude*-1)))  %>%  
-      visLegend(main = "Colaboracion entre paises", position = "left",zoom = FALSE) %>% 
+      visLegend() %>% 
+      #visEdges( width = weight) %>% 
       visOptions(highlightNearest = T,nodesIdSelection = T)
     
   })

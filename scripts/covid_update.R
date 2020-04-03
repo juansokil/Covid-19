@@ -26,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-02"
+FechaFiltro = "2020-04-03"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'

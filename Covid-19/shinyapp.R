@@ -15,6 +15,8 @@ library(readr)
 #install.packages("leaflet")
 library(leaflet)
 library(maps)
+library(RColorBrewer)
+
 
 rsconnect::setAccountInfo(name='juanpablosokil', 
                           token='7499F5689D7DC0540DB1D96DCC05DB0F', 
@@ -23,26 +25,38 @@ rsconnect::setAccountInfo(name='juanpablosokil',
 
 #setwd('./github/covid-19/scripts')
 ###Levanto los datos viejos###
-pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
-                          colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
+
+
+#pubmed_data <- read.table("../bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1, colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
+
+pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
 
 
 ######################Listado PAISES###############
 listado_paises <- pubmed_data %>%
   filter(!is.na(iso))  %>%
+  filter(iso!='')  %>%
   group_by(country, iso) %>%
   summarize(cantidad=n_distinct(PMID)) %>%
   arrange(desc(cantidad))  %>%
   select(country)
 
 variable_selector <- pubmed_data %>% select(chloroquine, hydroxychloroquine) %>% names()
-  
+
+color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+vector_colores <- as.character(sample(color, nrow(listado_paises)))
+
+jColors <- vector_colores
+names(jColors) <- listado_paises$country
+
+
 
 #######################ARMA NODOS #######################
 nodos <- pubmed_data %>%
   select(iso, PMID) %>%
   unique()  %>%
   filter(!is.na(iso)) %>%
+  filter(iso!='')  %>%
   group_by(iso) %>%
   summarize(totales=n_distinct(PMID))
 
@@ -52,6 +66,7 @@ byHand <- pubmed_data %>%
   select(PMID, iso) %>%
   unique() %>%
   filter(!is.na(iso))  %>%
+    filter(iso!='')  %>%
   group_by(PMID) %>% mutate(paises = paste(iso, collapse = ","))
 
 #### identifico el primero de los autores###
@@ -80,11 +95,8 @@ countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/ma
 countries_coord <- nodes %>%
   left_join(countries, by=c('id'='country'))
 
-
 g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
 g<- simplify(g, remove.multiple = TRUE)
-
-
 
 edges_for_plot <- edges %>%
   inner_join(countries_coord %>% select(id, longitude, latitude), by = c('source' = 'id')) %>%
@@ -108,20 +120,6 @@ country_shapes <- geom_polygon(aes(x = long, y = lat, group = group),
                                fill = "#CECECE", color = "#515151",
                                size = 0.15)
 
-
-
-
-
-
-###Louvain Comunity Detection
-#cluster <- cluster_louvain(g)
-#cluster_df <- data.frame(as.list(membership(cluster)))
-#cluster_df <- as.data.frame(t(cluster_df))
-#cluster_df$label <- rownames(cluster_df)
-
-#Create group column
-#nodes <- left_join(nodes, cluster_df, by = "label")
-#colnames(nodes)[3] <- "group"
 
 
 #https://datascience.blog.wzb.eu/2018/05/31/three-ways-of-visualizing-a-graph-on-a-map/
@@ -186,6 +184,7 @@ server <- function(input, output, session) {
     output$plot5 <- renderPlot({
       pubmed_data %>%
         filter(!is.na(iso))  %>%
+        filter(iso!='')  %>%
         group_by(country, iso) %>%
         summarize(cantidad=n_distinct(PMID)) %>%
         arrange(desc(cantidad)) %>%
@@ -193,6 +192,7 @@ server <- function(input, output, session) {
         ggplot(aes(reorder(country, +cantidad), cantidad)) + geom_bar(stat='identity') + coord_flip() +  
         theme(axis.title.x=element_blank(),
               axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
+        #scale_color_manual(name = paises ,values = jColors) +
         ggtitle("Publicaciones cientificas acumuladas en PubMed por pais") +
         geom_text(aes(label = cantidad, color='red', size=10))
     })
@@ -200,6 +200,7 @@ server <- function(input, output, session) {
 
     output$table2 <- renderDT(pubmed_data %>%
                                 filter(!is.na(iso))  %>%
+                                filter(iso!='')  %>%
                                 group_by(country, iso) %>%
                                 summarize(cantidad=n_distinct(PMID)) %>%
                                 arrange(desc(cantidad)),extensions = 'Buttons',
@@ -230,12 +231,15 @@ server <- function(input, output, session) {
         geom_line(size=2, alpha=0.6) +
         geom_point(size=3, alpha=0.8) +
         #geom_smooth(method = "loess", size=2, alpha=0.3)  +  
+        scale_color_manual(values = jColors) +
         theme(axis.title.x=element_blank(),
               axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
         ggtitle("Comparacion de Publicaciones cientificas acumuladas en PubMed entre paises")
     })
     
     
+    
+  
     
     output$table3 <- renderDT(pais() %>%
                                 arrange(country, Date) %>%
@@ -255,11 +259,12 @@ server <- function(input, output, session) {
 
     
     output$network <- renderVisNetwork({
-      E(g)$width <- E(g)$weight/5
+      E(g)$width <- E(g)$weight/8
       
       visIgraph(g, type="full", layout = 'layout.norm', layoutMatrix = as.matrix(cbind(countries_coord$longitude, countries_coord$latitude*-1)))  %>%  
         visLegend() %>% 
         #visEdges( width = weight) %>% 
+        visNodes(scaling = list(min = 10, max = 100)) %>% 
         visOptions(highlightNearest = T,nodesIdSelection = T)
     
       
@@ -358,14 +363,21 @@ server <- function(input, output, session) {
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  titlePanel("Publicaciones Cientificas relacionadas con Covid-19"),
-                  mainPanel(
+  
+#  titlePanel( fluidRow(column(width = 6, h2("Publicaciones Cientificas relacionadas con Covid-19")), 
+#                  column(width = 6, tags$img(src="https://raw.githubusercontent.com/juansokil/Covid-19/master/Covid-19/oeiocts.jpeg", 
+#                                             height='100',width='100', align="left", href="https://observatoriocts.oei.org.ar/")))),
+    titlePanel( fluidRow(column(width = 6, h2("Publicaciones Cientificas relacionadas con Covid-19")), 
+                    column(width = 6, tags$a(
+                                             href="https://observatoriocts.oei.org.ar",  
+                                             tags$img(src="https://raw.githubusercontent.com/juansokil/Covid-19/master/Covid-19/oeiocts.jpeg", 
+                                                      height='100',width='100', align="left")
+                    )))),
+                    mainPanel(
                       tabsetPanel(type = "tabs",
                                tabPanel("Publicaciones Total",
-                                        #fluidRow(column(6, htmlOutput("logo")),
                                         fluidRow(column(6, plotOutput("plot1")),
                                                  column(6, plotOutput("plot3"))),
-                                        #fluidRow(column(12, downloadButton("download1", label = "Descargar datos")),
                                         fluidRow(column(12, dataTableOutput(outputId = "table1")))),
                                tabPanel("Publicaciones por Paises",
                                         fluidRow(column(12, plotOutput("plot5")),
@@ -375,7 +387,7 @@ ui <- fluidPage(
                                         fluidRow(column(12, plotOutput("plot2")),
                                         fluidRow(column(12, dataTableOutput(outputId = "table3"))))),
                                tabPanel("Grafo de Colaboracion", visNetworkOutput(outputId = "network"))
-                               #tabPanel("Grafo de Colaboracion2", plotOutput(outputId = "map")),
+                             #  tabPanel("Grafo de Colaboracion2", plotOutput(outputId = "map")),
                                #tabPanel("Conceptos", varSelectInput("variable", "Seleccione :", variable_selector)),
                               #tabPanel("Mapa", leafletOutput(outputId = "map"))
                               )))
@@ -385,4 +397,5 @@ ui <- fluidPage(
 
 
 shinyApp(ui, server)
+
 

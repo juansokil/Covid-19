@@ -26,11 +26,11 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-03"
+FechaFiltro = "2020-04-05"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
-search_query <- EUtilsSummary(search_topic, retmax=4000, mindate=2020,maxdate=2021, db='pubmed')
+search_query <- EUtilsSummary(search_topic, retmax=5000, mindate=2020,maxdate=2021, db='pubmed')
 
 summary(search_query)
 
@@ -176,9 +176,6 @@ pubmed_data_old <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "
 pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 
 
-#View(pubmed_data_old)
-#pubmed_data_old$hydroxychloroquine <- 0
-
 ####Ordeno los datos####
 pubmed_data_old <- pubmed_data_old %>%
   select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
@@ -238,6 +235,11 @@ pubmed_data2 <- pubmed_data2 %>%
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")
 
+###########Guardo la basereduce
+pubmed_data_reduce <- pubmed_data2 %>%
+  select(PMID, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+write.table(pubmed_data_reduce, file = "../Bases/pubmed_data_reduce.csv", sep = "\t", qmethod = "double")
+
 
 bla = pubmed_data2 %>%
   filter (vaccine == 1) %>%
@@ -282,5 +284,43 @@ bla = pubmed_data2 %>%
   mutate(total = cumsum(dia))
 View(bla)
 
+
+
+
+
+
+
+###https://www.r-bloggers.com/covid-19-shiny-plotly-dashboard/
+
+
+
+
+
+
+
+
+
+
+
+#############CLEAN A MANOPLA DE COSAS VIEJAS#################
+
+#write.xlsx2(pubmed_data2, '../clean/base_completa_clean.xlsx', sheetName="Sheet1",
+#            col.names=TRUE, row.names=FALSE, append=FALSE)
+
+pubmed_data2_copy <- read.xlsx2("../clean/base_completa_clean.xlsx", sheetName = "Sheet1")
+pubmed_data2_copy$Date <- as.Date(with(pubmed_data2_copy, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
+
+
+
+dias = pubmed_data2_copy %>%
+  select(PMID, Title, Abstract, Date) %>%
+  group_by(Date)  %>%
+  summarize(cantidad=n_distinct(PMID))
 View(dias)
+
+
+
+###Guardo la base completa###
+write.table(pubmed_data2_copy, file = "../Bases/pubmed_data_nv.csv", sep = "\t", qmethod = "double")
+
 

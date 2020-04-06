@@ -29,8 +29,8 @@ rsconnect::setAccountInfo(name='juanpablosokil',
 
 #pubmed_data <- read.table("../bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1, colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
 
-pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
-
+#pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
+pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data_reduce.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(country="character",  Date="Date"))
 
 ######################Listado PAISES###############
 listado_paises <- pubmed_data %>%
@@ -228,8 +228,8 @@ server <- function(input, output, session) {
         ggplot(aes(x=Date, y=total, color=country)) + 
         ylab("Comparar paises") +
         xlab("Date") +
-        geom_line(size=2, alpha=0.6) +
-        geom_point(size=3, alpha=0.8) +
+        geom_line(size=3, alpha=1) +
+        geom_point(size=4, alpha=1) +
         #geom_smooth(method = "loess", size=2, alpha=0.3)  +  
         scale_color_manual(values = jColors) +
         theme(axis.title.x=element_blank(),

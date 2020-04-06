@@ -26,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-05"
+FechaFiltro = "2020-04-06"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -285,7 +285,7 @@ bla = pubmed_data2 %>%
 View(bla)
 
 
-
+View(dias)
 
 
 
@@ -316,7 +316,7 @@ dias = pubmed_data2_copy %>%
   select(PMID, Title, Abstract, Date) %>%
   group_by(Date)  %>%
   summarize(cantidad=n_distinct(PMID))
-View(dias)
+
 
 
 

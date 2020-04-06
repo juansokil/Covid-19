@@ -13,7 +13,7 @@ library(readr)
 library(visNetwork)
 library(plotly)
 library(maps)
-
+library(RColorBrewer)
 
 rsconnect::setAccountInfo(name='juanpablosokil', 
                           token='7499F5689D7DC0540DB1D96DCC05DB0F', 
@@ -22,24 +22,34 @@ rsconnect::setAccountInfo(name='juanpablosokil',
 
 #setwd('./github/covid-19/scripts')
 ###Levanto los datos viejos###
-pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
-                          colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
-
+#pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
+pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data_reduce.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(country="character",  Date="Date"))
 
 ######################Listado PAISES###############
 
 listado_paises <- pubmed_data %>%
   filter(!is.na(iso))  %>%
+  filter(iso!='')  %>%
   group_by(country, iso) %>%
   summarize(cantidad=n_distinct(PMID)) %>%
   arrange(desc(cantidad))  %>%
   select(country)
+
+variable_selector <- pubmed_data %>% select(chloroquine, hydroxychloroquine) %>% names()
+
+color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+vector_colores <- as.character(sample(color, nrow(listado_paises)))
+
+jColors <- vector_colores
+names(jColors) <- listado_paises$country
+
 
 #######################ARMA NODOS #######################
 nodos <- pubmed_data %>%
   select(iso, PMID) %>%
   unique()  %>%
   filter(!is.na(iso)) %>%
+  filter(iso!='')  %>%
   group_by(iso) %>%
   summarize(totales=n_distinct(PMID))
 
@@ -49,6 +59,7 @@ byHand <- pubmed_data %>%
   select(PMID, iso) %>%
   unique() %>%
   filter(!is.na(iso))  %>%
+  filter(iso!='')  %>%
   group_by(PMID) %>% mutate(paises = paste(iso, collapse = ","))
 
 #### identifico el primero de los autores###
@@ -132,6 +143,7 @@ server <- function(input, output, session) {
   output$plot2b <- renderPlotly({
     cantidad_paises <- pubmed_data %>%
       filter(!is.na(iso))  %>%
+      filter(iso!='')  %>%
       group_by(country, iso) %>%
       summarize(cantidad=n_distinct(PMID)) %>%
       arrange(desc(cantidad)) 
@@ -174,9 +186,10 @@ server <- function(input, output, session) {
       ggplot(aes(x=Date, y=total, color=country)) + 
       ylab("Comparar paises") +
       xlab("Date") +
-      geom_line(size=2, alpha=0.6) +
-      geom_point(size=3, alpha=0.8) +
+      geom_line(size=3, alpha=1) +
+      geom_point(size=4, alpha=1) +
       #geom_smooth(method = "loess", size=2, alpha=0.3)  +  
+      scale_color_manual(values = jColors) +
       theme(axis.title.x=element_blank(),
             axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
       ggtitle("Comparacion de Publicaciones cientificas  \n en PubMed entre paises")
@@ -204,11 +217,12 @@ server <- function(input, output, session) {
   
   
   output$network <- renderVisNetwork({
-    E(g)$width <- E(g)$weight/5
+    E(g)$width <- E(g)$weight/8
     
     visIgraph(g, type="full", layout = 'layout.norm', layoutMatrix = as.matrix(cbind(countries_coord$longitude, countries_coord$latitude*-1)))  %>%  
       visLegend() %>% 
       #visEdges( width = weight) %>% 
+      visNodes(scaling = list(min = 10, max = 100)) %>% 
       visOptions(highlightNearest = T,nodesIdSelection = T)
     
   })

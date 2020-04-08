@@ -13,6 +13,7 @@ library(qdap)
 library(readr)
 library(udpipe)
 library(tidyverse)
+library(stringr)
 library(xlsx)
 library(readxl)
 library(data.table)
@@ -26,7 +27,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-06"
+FechaFiltro = "2020-04-08"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -94,18 +95,125 @@ afiliaciones = publicaciones %>%
   select(PMID, afil) %>% 
   separate_rows(afil, sep = " ; " , convert = TRUE)
 
-afiliaciones$country <- sub('.*,\\s*', '', afiliaciones$afil)
-afiliaciones$country <- gsub(".", "", afiliaciones$country, fixed = TRUE)
-
-
 ###Filtro#####
 pubmed_data <- pubmed_data %>%
   filter(Date >= FechaFiltro) 
 
-####Solo mantengo los nuevos####
-afiliaciones = afiliaciones %>% right_join(pubmed_data) %>% unique() 
 
-####GUARDO EL ARCHIVO PARA CLEAN####
+
+
+
+
+################################################################
+################################################################
+################################################################
+#######CLEAN UP#################################################
+################################################################
+################################################################
+################################################################
+
+####Remove Numbers##############
+afiliaciones$afil <- str_replace_all(afiliaciones$afil, "[:digit:]", "")
+####Delete mails####
+afiliaciones$afil <- gsub("[^\\s]*@[^\\s]*","", afiliaciones$afil, perl = TRUE) 
+afiliaciones$afil <- str_remove(afiliaciones$afil, "Electronic address:")
+
+
+#######get country####### 
+afiliaciones$country <- sub('.*,\\s*', '', afiliaciones$afil)
+
+####delete punctuation####
+afiliaciones$country <- gsub(".", " ", afiliaciones$country, fixed = TRUE)
+afiliaciones$country <- gsub(";", " ", afiliaciones$country, fixed = TRUE)
+
+###Trim####################
+afiliaciones$country <- str_trim(afiliaciones$country)
+
+####Delete duplicates affiliations####
+afiliaciones <- afiliaciones %>% unique()
+
+####Join with PubMed Data###
+afiliaciones <- afiliaciones %>% right_join(pubmed_data) %>% unique() 
+
+
+################################################################
+################################################################
+################################################################
+################################################################
+################################################################
+#############################Country - Clean####################
+################################################################
+################################################################
+
+afiliaciones$country <- gsub(".*United States.*", "United States", afiliaciones$country)
+afiliaciones$country <- str_replace(afiliaciones$country, "USA", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "New York", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Washington", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "California", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Massachusetts", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Pennsylvania", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Oklahoma", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Ohio", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Texas", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Maryland", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Illinois", "United States")
+afiliaciones$country <- str_replace(afiliaciones$country, "Michigan", "United States")
+
+
+afiliaciones$country <- gsub(".*China.*", "China", afiliaciones$country)
+afiliaciones$country <- gsub(".*Beijing.*", "China", afiliaciones$country)
+afiliaciones$country <- gsub(".*Wuhan.*", "China", afiliaciones$country)
+
+afiliaciones$country <- str_replace(afiliaciones$country, "UK", "United Kingdom")
+afiliaciones$country <- str_replace(afiliaciones$country, "England", "United Kingdom")
+afiliaciones$country <- str_replace(afiliaciones$country, "Scotland", "United Kingdom")
+afiliaciones$country <- str_replace(afiliaciones$country, "London", "United Kingdom")
+
+afiliaciones$country <- str_replace(afiliaciones$country, "Istanbul", "Turkey")
+
+afiliaciones$country <- str_replace(afiliaciones$country, "Republic of Singapore", "Singapore")
+
+afiliaciones$country <- gsub(".*Korea.*", "South Korea", afiliaciones$country)
+
+
+afiliaciones$country <- str_replace(afiliaciones$country, "Deutschland", "Germany")
+afiliaciones$country <- str_replace(afiliaciones$country, "España", "Spain")
+afiliaciones$country <- str_replace(afiliaciones$country, "Milan", "Italy")
+
+afiliaciones$country <- str_replace(afiliaciones$country, "Kingdom of Saudi Arabia", "Saudi Arabia")
+
+afiliaciones$country <- gsub(".*Netherlands*", "Netherlands", afiliaciones$country)
+
+afiliaciones$country <- str_replace(afiliaciones$country, "Viet Nam", "Vietnam")
+
+afiliaciones$country <- gsub(".*Hong Kong*", "Hong Kong SAR China", afiliaciones$country)
+
+afiliaciones$country <- str_replace(afiliaciones$country, "Wellington", "New Zealand")
+afiliaciones$country <- str_replace(afiliaciones$country, "Christchurch", "New Zealand")
+afiliaciones$country <- str_replace(afiliaciones$country, "Auckland", "New Zealand")
+
+
+afiliaciones$country <- gsub(".*Spain.*", "Spain", afiliaciones$country)
+
+afiliaciones$country <- gsub(".*Brazil.*", "Brazil", afiliaciones$country)
+afiliaciones$country <- gsub(".*Brasil.*", "Brazil", afiliaciones$country)
+
+afiliaciones$country <- gsub(".*Italia.*", "Italy", afiliaciones$country)
+afiliaciones$country <- gsub(".*Italy.*", "Italy", afiliaciones$country)
+
+afiliaciones$country <- gsub(".*Singapore.*", "Singapore", afiliaciones$country)
+afiliaciones$country <- gsub(".*Bangkok.*", "Thailand", afiliaciones$country)
+afiliaciones$country <- gsub(".*India.*", "India", afiliaciones$country)
+afiliaciones$country <- gsub(".*Iran.*", "Iran", afiliaciones$country)
+
+
+##################TRIM######################
+afiliaciones$country <- str_trim(afiliaciones$country)
+
+
+
+
+#########################GUARDO EL ARCHIVO PARA CLEAN####
 #####ESTO ES UN CLEAN MANUAL PARA LOS CASOS QUE NO LOGRAN ENCONTRAR####
 write.xlsx2(afiliaciones, '../clean/afiliaciones_clean.xlsx', sheetName="Sheet1",
             col.names=TRUE, row.names=FALSE, append=FALSE)
@@ -241,6 +349,96 @@ pubmed_data_reduce <- pubmed_data2 %>%
 write.table(pubmed_data_reduce, file = "../Bases/pubmed_data_reduce.csv", sep = "\t", qmethod = "double")
 
 
+
+########################ARMA GRAFO##################
+
+
+listado_dias <- pubmed_data2 %>%
+  select(Date)  %>%
+  unique() %>%
+  arrange(Date) %>%
+  as.list()
+
+
+countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/countries.txt", "\t", escape_double = FALSE, col_types = cols(name = col_skip()), trim_ws = TRUE)
+edges_for_plot <- c()
+
+#dia=18280
+##########ARMA GRAFO#############
+for (dia in listado_dias$Date){
+  print(dia)
+  
+  ###Filtro#####
+  pubmed_data3 <- pubmed_data2 %>%
+    filter(Date <= dia)  %>%
+    arrange(Date)  %>%
+    select(PMID, Date, country, iso)  %>%
+    unique()
+  
+  
+  
+  #######################ARMA NODOS #######################
+  nodos <- pubmed_data3 %>%
+    select(iso, PMID) %>%
+    unique()  %>%
+    filter(!is.na(iso)) %>%
+    filter(iso!='')  %>%
+    group_by(iso) %>%
+    summarize(totales=n_distinct(PMID))
+  
+  #######################ARMA VERTICES #######################
+  byHand <- pubmed_data3 %>%
+    select(PMID, iso) %>%
+    unique() %>%
+    filter(!is.na(iso))  %>%
+    filter(iso!='')  %>%
+    group_by(PMID) %>% mutate(paises = paste(iso, collapse = ","))  %>%
+    select(PMID,paises) %>%
+    unique()
+  
+  
+  #### identifico el primero de los autores###
+  byHand$primer_pais = as.character(lapply(strsplit(as.character(byHand$paises), split=","), "[", 1))
+  arreglado <- byHand %>% mutate(paises = strsplit(as.character(paises), ",")) %>% unnest(paises)
+  aristas_previo <- arreglado[c(2:3)]
+  colnames(aristas_previo) <- c("source","target")
+  aristas <- aristas_previo %>% group_by(source, target) %>% summarize(count=n())
+  
+  nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = nodos$totales, count=nodos$totales)     # size 
+  edges <- data.frame(source = aristas$source, target = aristas$target, weight = aristas$count)
+  edges <- edges %>%
+    filter(as.character(source) != as.character(target)) %>% 
+    mutate(dia=as.Date(dia, origin = "1970-01-01"))
+  
+  countries_coord <- nodes %>%
+    left_join(countries, by=c('id'='country'))
+  
+  g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
+  g<- simplify(g, remove.multiple = TRUE)
+  
+  relaciones_dia  <- edges %>%
+    inner_join(countries_coord %>% select(id, longitude, latitude), by = c('source' = 'id')) %>%
+    rename(x = longitude, y = latitude) %>%
+    inner_join(countries_coord %>% select(id, longitude, latitude), by = c('target' = 'id')) %>%
+    rename(xend = longitude, yend = latitude) 
+  
+  
+  #relaciones_dia$fecha <- dia
+  
+  edges_for_plot <- rbind(edges_for_plot,relaciones_dia)
+}
+
+
+write.table(edges_for_plot, file = "../Bases/edges_for_plot.csv", sep = "\t", qmethod = "double")
+
+
+
+
+############################################
+############################################
+############################################
+
+
 bla = pubmed_data2 %>%
   filter (vaccine == 1) %>%
   group_by(Date) %>%
@@ -283,44 +481,5 @@ bla = pubmed_data2 %>%
   summarize(dia=n_distinct(PMID))  %>% 
   mutate(total = cumsum(dia))
 View(bla)
-
-
-View(dias)
-
-
-
-
-###https://www.r-bloggers.com/covid-19-shiny-plotly-dashboard/
-
-
-
-
-
-
-
-
-
-
-
-#############CLEAN A MANOPLA DE COSAS VIEJAS#################
-
-#write.xlsx2(pubmed_data2, '../clean/base_completa_clean.xlsx', sheetName="Sheet1",
-#            col.names=TRUE, row.names=FALSE, append=FALSE)
-
-pubmed_data2_copy <- read.xlsx2("../clean/base_completa_clean.xlsx", sheetName = "Sheet1")
-pubmed_data2_copy$Date <- as.Date(with(pubmed_data2_copy, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
-
-
-
-dias = pubmed_data2_copy %>%
-  select(PMID, Title, Abstract, Date) %>%
-  group_by(Date)  %>%
-  summarize(cantidad=n_distinct(PMID))
-
-
-
-
-###Guardo la base completa###
-write.table(pubmed_data2_copy, file = "../Bases/pubmed_data_nv.csv", sep = "\t", qmethod = "double")
 
 

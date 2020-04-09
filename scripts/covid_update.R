@@ -27,7 +27,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-08"
+FechaFiltro = "2020-04-09"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -251,7 +251,7 @@ pubmed_data$vaccine <- str_detect(pubmed_data$Abstract, "vaccine")
 cols <- sapply(pubmed_data, is.logical)
 pubmed_data[,cols] <- lapply(pubmed_data[,cols], as.numeric)
 
-pubmed_data$country <- str_replace(pubmed_data$country, "UK", "United Kingdom")
+
 pubmed_data$country <- str_replace(pubmed_data$country, "Hong Kong", "Hong Kong SAR China")
 
 
@@ -482,4 +482,4 @@ bla = pubmed_data2 %>%
   mutate(total = cumsum(dia))
 View(bla)
 
-
+View(dias)

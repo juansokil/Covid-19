@@ -9,25 +9,25 @@ library(dplyr)
 library(stringr)
 library(tidyr)
 library(ggplot2)
-library(qdap)
+#library(qdap)
 library(readr)
-library(udpipe)
+#library(udpipe)
 library(tidyverse)
 library(stringr)
 library(xlsx)
-library(readxl)
+#library(readxl)
 library(data.table)
 library(countrycode)
 library(igraph)
 #install.packages("visNetwork")
 library(visNetwork)
-library(stringr)
+
 
 setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-09"
+FechaFiltro = "2020-04-11"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -251,6 +251,13 @@ pubmed_data$vaccine <- str_detect(pubmed_data$Abstract, "vaccine")
 cols <- sapply(pubmed_data, is.logical)
 pubmed_data[,cols] <- lapply(pubmed_data[,cols], as.numeric)
 
+########################################
+########################################
+####VER ESTO ANTES DE EJECUTARLO#####
+pubmed_data$treatment <-   apply(X = pubmed_data[,11:16], MARGIN = 1, FUN = max, na.rm = TRUE)
+########################################
+########################################
+
 
 pubmed_data$country <- str_replace(pubmed_data$country, "Hong Kong", "Hong Kong SAR China")
 
@@ -269,7 +276,7 @@ pubmed_data <- pubmed_data %>%
 
 ####Ordeno los datos####
 pubmed_data <- pubmed_data %>%
-  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, treatment, vaccine)
 
 
 
@@ -286,7 +293,7 @@ pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPub
 
 ####Ordeno los datos####
 pubmed_data_old <- pubmed_data_old %>%
-  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, treatment, vaccine)
 
 
 ###Guardo un backup de la base
@@ -329,23 +336,26 @@ pubmed_data2$favipiravir <- str_detect(pubmed_data2$TitleAbstract, "favipiravir"
 pubmed_data2$vaccine <- str_detect(pubmed_data2$TitleAbstract, "vaccine")
 
 
-
-
-
 # Convert all to numeric
 cols <- sapply(pubmed_data2, is.logical)
 pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
+pubmed_data2$treatment <-   apply(X = pubmed_data2[,11:16], MARGIN = 1, FUN = max, na.rm = TRUE)
 
+
+  
 pubmed_data2 <- pubmed_data2 %>%
-  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, treatment, vaccine)
 
 
 ###Guardo la base completa###
 write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod = "double")
 
+
+
+
 ###########Guardo la basereduce
 pubmed_data_reduce <- pubmed_data2 %>%
-  select(PMID, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, vaccine)
+  select(PMID, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir,treatment, vaccine)
 write.table(pubmed_data_reduce, file = "../Bases/pubmed_data_reduce.csv", sep = "\t", qmethod = "double")
 
 
@@ -482,4 +492,29 @@ bla = pubmed_data2 %>%
   mutate(total = cumsum(dia))
 View(bla)
 
+
+bla = pubmed_data2 %>%
+  filter (treatment == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+
 View(dias)
+
+
+
+#####################BASE IBERO##########################
+
+base_ibero <- pubmed_data2 %>%
+  filter(country %in% c('Argentina','Brazil','Colombia','Chile','Mexico','Spain','Portugal','Uruguay','Paraguay','Bolivia',
+                        'Peru','Ecuador','Venezuela','Panama','Costa Rica','Honduras','Puerto Rico'))
+
+
+#write.table(base_ibero, file = "../Bases/base_ibero.csv", sep = "\t", qmethod = "double")
+write.xlsx2(base_ibero, '../Bases/base_ibero.xlsx', sheetName="Sheet1",col.names=TRUE, row.names=FALSE, append=FALSE)
+base_ibero <- read.xlsx2("../Bases/base_ibero.xlsx", sheetName = "Sheet1")
+
+
+

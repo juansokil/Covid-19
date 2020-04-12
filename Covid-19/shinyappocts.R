@@ -11,9 +11,10 @@ library(igraph)
 library(tidyr)
 library(readr)
 library(visNetwork)
-library(plotly)
 library(maps)
 library(RColorBrewer)
+library(ggiraph)
+
 
 rsconnect::setAccountInfo(name='juanpablosokil', 
                           token='7499F5689D7DC0540DB1D96DCC05DB0F', 
@@ -35,7 +36,6 @@ listado_paises <- pubmed_data %>%
   arrange(desc(cantidad))  %>%
   select(country)
 
-variable_selector <- pubmed_data %>% select(chloroquine, hydroxychloroquine) %>% names()
 
 color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
 vector_colores <- as.character(sample(color, nrow(listado_paises)))
@@ -70,8 +70,6 @@ colnames(aristas_previo) <- c("source","target")
 aristas <- aristas_previo %>% group_by(source, target) %>% summarize(count=n())
 
 nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = nodos$totales, count=nodos$totales)     # size 
-#nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = 1:nrow(listado_paises), count=nodos$totales)     # size 
-#edges <- data.frame(from = aristas$source, to = aristas$target)
 edges <- data.frame(source = aristas$source, target = aristas$target, weight = aristas$count)
 edges <- edges %>%
   filter(as.character(source) != as.character(target))
@@ -103,82 +101,61 @@ server <- function(input, output, session) {
   ##########################################GRAFICO NRO1###########################
   
   
-  output$plot1b <- renderPlotly({
-    plot1b <- pubmed_data %>%
-      group_by(Date)  %>%
-      summarize(dia=n_distinct(PMID))  %>% 
-      mutate(total = cumsum(dia))  %>% 
-      ggplot(aes(x=Date, y=total)) + 
-      ylab("total de papers") +
-      xlab("Date") +
-      geom_line(size=2, alpha=0.6) +
-      geom_point(size=3, alpha=0.8) +
-      geom_smooth(method = "loess", size=2, alpha=0.3)   +  
-      theme(axis.title.x=element_blank(),
-            axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5)) +
-      ggtitle("Publicaciones cientificas acumuladas en PubMed")
-    
-    ggplotly(plot1b)
+  output$plot1b <- renderGirafe({ggplot1 <- pubmed_data %>%
+    group_by(Date)  %>%
+    summarize(dia=n_distinct(PMID))  %>% 
+    mutate(total = cumsum(dia))  %>% 
+    ggplot(aes(x=Date, y=total)) + 
+    ylab("total de papers") +
+    xlab("Date") +
+    geom_line(size=2, alpha=0.6) +
+    geom_smooth(method = "loess", size=2, alpha=0.3)   +  
+    geom_point_interactive(aes(x=Date, y=total, size=3, alpha=0.8, tooltip = paste0(Date,": ",total))) +
+    theme_minimal() + 
+    theme(axis.title.x=element_blank(),
+          axis.title.y=element_blank(), legend.position="none", plot.title = element_text(hjust = 0.5)) +
+    ggtitle("Publicaciones cientificas acumuladas en PubMed")  
+  
+  
+  girafe(ggobj = ggplot1, 
+         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
   })
   
-  #output$table1 <- renderDT(pubmed_data %>%
-  #                            group_by(Date)  %>%
-  #                            summarize(Dia=n_distinct(PMID)) %>% 
-  #                            mutate(Acumulado = cumsum(Dia)),
-  #                          extensions = 'Buttons',
-  #                          options = list(pageLength = 1,
-  #                                         dom = 'Bfrtip',
-  #                                         buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
-  #                                         exportOptions = list(modifiers = list(page = "all")
-  #                                         )
-  #                          ), server = FALSE)
-  
-  
-  
+
   
   
   ##########################################GRAFICO NRO2###########################
   
   
-  output$plot2b <- renderPlotly({
-    cantidad_paises <- pubmed_data %>%
+  output$plot2b <- renderGirafe({
+    ggplot3 <- pubmed_data %>%
       filter(!is.na(iso))  %>%
       filter(iso!='')  %>%
       group_by(country, iso) %>%
       summarize(cantidad=n_distinct(PMID)) %>%
-      arrange(desc(cantidad)) 
-    
-    cantidad_paises$country <- factor(cantidad_paises$country, levels = cantidad_paises$country[order(cantidad_paises$cantidad)])
-    cantidad_paises <- head(cantidad_paises, 15)
-    
-    plot2b <- ggplot(cantidad_paises, aes(country, cantidad)) + geom_bar(stat='identity') + coord_flip() +  
+      arrange(desc(cantidad)) %>%
+      head(15) %>%
+      ggplot(aes(reorder(country, +cantidad), cantidad, tooltip = paste0(country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
+      theme_minimal() + 
       theme(axis.title.x=element_blank(),
-            axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-      ggtitle("Publicaciones cientificas acumuladas  \n en PubMed por pais")
+            axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
+      #scale_color_manual(name = paises ,values = jColors) +
+      ggtitle("Publicaciones cientificas acumuladas en PubMed por pais") +
+      geom_text(aes(label = cantidad, color='red', size=10))
     
-    ggplotly(plot2b)
+    
+    girafe(ggobj = ggplot3, 
+           options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  
   })
   
-  
-  
-  # output$table2 <- renderDT(pubmed_data %>%
-  #    filter(!is.na(iso))  %>%
-  #    group_by(country, iso) %>%
-  #    summarize(cantidad=n_distinct(PMID)) %>%
-  #    arrange(desc(cantidad)) ,extensions = 'Buttons',
-  #                          options = list(pageLength = 1,
-  #                                         dom = 'Bfrtip',
-  #                                         buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
-  #                                         exportOptions = list(modifiers = list(page = "all")
-  #                                         )
-  #                          ), server = FALSE)
   
   
   ##########################################GRAFICO NRO3###########################
   
   
-  output$plot3b <- renderPlotly({
-    plot3b <- pais() %>%
+  output$plot3b <- renderGirafe({ggplot3 <-
+     pais() %>%
       arrange(country, Date) %>%
       group_by(country, Date) %>%
       summarize(dia=n_distinct(PMID)) %>% 
@@ -186,32 +163,24 @@ server <- function(input, output, session) {
       ggplot(aes(x=Date, y=total, color=country)) + 
       ylab("Comparar paises") +
       xlab("Date") +
-      geom_line(size=3, alpha=1) +
-      geom_point(size=4, alpha=1) +
+      #geom_line(size=2, alpha=1) +
+      #geom_point(size=3, alpha=1) +
+      geom_line_interactive(size = 3, alpha=1)  +
+      geom_point_interactive(aes(x=Date, y=total, size=4, alpha=0.8, tooltip = paste0(country, "\n",Date,": ",total))) +
       #geom_smooth(method = "loess", size=2, alpha=0.3)  +  
       scale_color_manual(values = jColors) +
+    theme_minimal()+
       theme(axis.title.x=element_blank(),
             axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-      ggtitle("Comparacion de Publicaciones cientificas  \n en PubMed entre paises")
+      ggtitle("Comparacion de Publicaciones cientificas  \n en PubMed entre paises") +
+    guides(size=FALSE, alpha=FALSE)
     
-    ggplotly(plot3b)
+  girafe(ggobj = ggplot3, 
+         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  
   })
   
-  output$table3 <- renderDT(pais() %>%
-                              arrange(country, Date) %>%
-                              group_by(country, Date) %>%
-                              summarize(dia=n_distinct(PMID)) %>% 
-                              mutate(total = cumsum(dia))  ,extensions = 'Buttons',
-                            options = list(pageLength = 10,
-                                           dom = 'Bfrtip',
-                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
-                                           exportOptions = list(modifiers = list(page = "all")
-                                           )
-                            ), server = FALSE)
-  
-  
-  
-  
+
   
   ##########################################GRAFICO NRO4###########################
   
@@ -226,7 +195,6 @@ server <- function(input, output, session) {
       visOptions(highlightNearest = T,nodesIdSelection = T)
     
   })
-  #https://www.rpubs.com/Steven_Surya/visNetwork
   
   
   
@@ -280,16 +248,16 @@ ui <- fluidPage(
   mainPanel(
     tabsetPanel(type = "tabs",
                 tabPanel("Publicaciones cientificas",
-                         fluidRow(column(12, plotlyOutput("plot1b"))),
+                         fluidRow(column(12, girafeOutput("plot1b"))),
                          fluidRow(column(12, downloadButton("download1", label = "Descargar datos")))),
                 #fluidRow(column(12, dataTableOutput(outputId = "table1")))),
                 tabPanel("Publicaciones cientificas por pais",
-                         fluidRow(column(12, plotlyOutput("plot2b"))),
+                         fluidRow(column(12, girafeOutput("plot2b"))),
                          fluidRow(column(12, downloadButton("download2", label = "Descargar datos")))),
                 #fluidRow(column(12, dataTableOutput(outputId = "table2")))),
                 tabPanel("Comparacion entre paises", 
                          fluidRow(column(6, pickerInput(inputId = "country", label = "Seleccione los paises a comparar", choices = listado_paises, selected = c("China","United States"), options = list('actions-box' = TRUE, size = 8,'selected-text-format' = "count > 3",'deselect-all-text' = "Ninguno", 'select-all-text' = "Todos",'none-selected-text' = "Sin Seleccion", 'count-selected-text' = "{0} seleccionados."), multiple = TRUE))), 
-                         fluidRow(column(12, plotlyOutput("plot3b"))),
+                         fluidRow(column(12, girafeOutput("plot3b"))),
                          fluidRow(column(12, downloadButton("download3", label = "Descargar datos")))),
                 #fluidRow(column(12, dataTableOutput(outputId = "table3")))),
                 tabPanel("Colaboracion entre paises", visNetworkOutput(outputId = "network"))

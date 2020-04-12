@@ -13,7 +13,6 @@ library(ggplot2)
 library(readr)
 #library(udpipe)
 library(tidyverse)
-library(stringr)
 library(xlsx)
 #library(readxl)
 library(data.table)
@@ -27,7 +26,7 @@ setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-11"
+FechaFiltro = "2020-04-12"
 
 search_topic <- 'COVID-19'
 #search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
@@ -444,6 +443,23 @@ write.table(edges_for_plot, file = "../Bases/edges_for_plot.csv", sep = "\t", qm
 
 
 
+
+#####################BASE IBERO##########################
+
+base_ibero <- pubmed_data2 %>%
+  filter(country %in% c('Argentina','Brazil','Colombia','Chile','Mexico','Spain','Portugal','Uruguay','Paraguay','Bolivia',
+                        'Peru','Ecuador','Venezuela','Panama','Costa Rica','Honduras','Puerto Rico'))
+
+
+#write.table(base_ibero, file = "../Bases/base_ibero.csv", sep = "\t", qmethod = "double")
+write.xlsx2(base_ibero, '../Bases/base_ibero.xlsx', sheetName="Sheet1",col.names=TRUE, row.names=FALSE, append=FALSE)
+base_ibero <- read.xlsx2("../Bases/base_ibero.xlsx", sheetName = "Sheet1")
+
+
+
+
+
+
 ############################################
 ############################################
 ############################################
@@ -502,19 +518,3 @@ View(bla)
 
 
 View(dias)
-
-
-
-#####################BASE IBERO##########################
-
-base_ibero <- pubmed_data2 %>%
-  filter(country %in% c('Argentina','Brazil','Colombia','Chile','Mexico','Spain','Portugal','Uruguay','Paraguay','Bolivia',
-                        'Peru','Ecuador','Venezuela','Panama','Costa Rica','Honduras','Puerto Rico'))
-
-
-#write.table(base_ibero, file = "../Bases/base_ibero.csv", sep = "\t", qmethod = "double")
-write.xlsx2(base_ibero, '../Bases/base_ibero.xlsx', sheetName="Sheet1",col.names=TRUE, row.names=FALSE, append=FALSE)
-base_ibero <- read.xlsx2("../Bases/base_ibero.xlsx", sheetName = "Sheet1")
-
-
-

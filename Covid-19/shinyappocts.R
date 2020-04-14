@@ -14,7 +14,8 @@ library(visNetwork)
 library(maps)
 library(RColorBrewer)
 library(ggiraph)
-
+library(leaflet)
+library(leaflet.minicharts)
 
 rsconnect::setAccountInfo(name='juanpablosokil', 
                           token='7499F5689D7DC0540DB1D96DCC05DB0F', 
@@ -25,7 +26,10 @@ rsconnect::setAccountInfo(name='juanpablosokil',
 ###Levanto los datos viejos###
 #pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", Abstract="character", country="character", afil="character", Date="Date"))
 pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data_reduce.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(country="character",  Date="Date"))
+edges_for_plot <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/edges_for_plot.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(dia="Date"))
 
+edges_for_plot_ud <- edges_for_plot %>%
+  filter(dia == max(dia))
 ######################Listado PAISES###############
 
 listado_paises <- pubmed_data %>%
@@ -80,8 +84,8 @@ countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/ma
 countries_coord <- nodes %>%
   left_join(countries, by=c('id'='country'))
 
-g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
-g<- simplify(g, remove.multiple = TRUE)
+#g <- graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
+#g<- simplify(g, remove.multiple = TRUE)
 
 
 
@@ -156,6 +160,8 @@ server <- function(input, output, session) {
   
   output$plot3b <- renderGirafe({ggplot3 <-
      pais() %>%
+    filter(!is.na(iso))  %>%
+    filter(iso!='')  %>%
       arrange(country, Date) %>%
       group_by(country, Date) %>%
       summarize(dia=n_distinct(PMID)) %>% 
@@ -196,6 +202,11 @@ server <- function(input, output, session) {
     
   })
   
+  output$map2 <- renderLeaflet({ 
+    leaflet() %>% addTiles()  %>%
+      addCircles(data = countries_coord,lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 30000, color='red',  label=~paste0(id,'\n',count)) %>%
+      addFlows(lng0 = edges_for_plot_ud$x, lat0 = edges_for_plot_ud$y, lng1 = edges_for_plot_ud$xend, lat1 = edges_for_plot_ud$yend, time= edges_for_plot_ud$dia, dir = 0, color='purple', flow=edges_for_plot_ud$weight,  minThickness = 0.05, maxThickness = 10, opacity=0.9) 
+  })
   
   
   output$download1 <- downloadHandler(
@@ -260,8 +271,8 @@ ui <- fluidPage(
                          fluidRow(column(12, girafeOutput("plot3b"))),
                          fluidRow(column(12, downloadButton("download3", label = "Descargar datos")))),
                 #fluidRow(column(12, dataTableOutput(outputId = "table3")))),
-                tabPanel("Colaboracion entre paises", visNetworkOutput(outputId = "network"))
-                
+                #tabPanel("Colaboracion entre paises", visNetworkOutput(outputId = "network"))
+                tabPanel("Colaboracion entre paises", leafletOutput(outputId = "map2"))
     )))
 
 

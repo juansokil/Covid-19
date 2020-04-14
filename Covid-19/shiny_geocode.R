@@ -13,11 +13,13 @@ rsconnect::setAccountInfo(name='observatorio-cts',
 ##########Levanta datos#####
 
 
-bla <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/georef.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(V2="numeric",  V3="numeric"))
+bla <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/georef.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(V2="numeric",  V3="numeric",  cantidad="numeric"))
 
 #bla <- read.xlsx2("../Bases/georef.xlsx", sheetName = "Sheet1")
 #bla$V2 <- as.numeric(as.character(bla$V2))
 #bla$V3 <- as.numeric(as.character(bla$V3))
+#bla$cantidad <- as.numeric(as.character(bla$cantidad))
+
 
 
 ###################SERVER#####################
@@ -26,8 +28,8 @@ server <- function(input, output, session) {
   
   output$map <- renderLeaflet({ 
     leaflet() %>% addTiles()  %>%
-    #  addCircles(data = bla,lng = ~V3, lat = ~V2,  weight = ~cantidad*3,  color='purple',  label=~paste0(V1,'\n',cantidad), opacity = 0.6)
-        addMarkers(data = bla,lng = ~V3, lat = ~V2,  label=~paste0(V1,'\n',cantidad)) 
+      addCircles(data = bla,lng = ~V3, lat = ~V2,  weight = ~as.numeric(cantidad)*3,  color='purple',  label=~paste0(V1,'\n',cantidad), opacity = 0.6)
+    #    addMarkers(data = bla,lng = ~V3, lat = ~V2,  label=~paste0(V1,'\n',cantidad)) 
   })
   
   

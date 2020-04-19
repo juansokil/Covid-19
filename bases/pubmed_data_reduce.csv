@@ -7119,7 +7119,7 @@
 "72811"	32300537	2020	4	18	2020-04-18	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"The economic impact of the Coronavirus 2019 (Covid-2019): Implications for the mining industry."	""	NA	NA
 "72911"	32300516	2020	4	18	2020-04-18	"United States"	"US"	0	0	0	0	0	0	0	0	"Novel Coronavirus Disease (COVID-19) and Biologic Therapy in Psoriasis: Infection Risk and Patient Counseling in Uncertain Times."	""	NA	NA
 "73011"	32300496	2020	4	18	2020-04-18	"China"	"CN"	0	0	0	0	0	0	0	1	"Coronavirus Disease: A Review of a New Threat to Public Health."	""	NA	NA
-"73111"	32300496	2020	4	18	2020-04-18	"Dominican Republic"	"DO"	0	0	0	0	0	0	0	1	"Coronavirus Disease: A Review of a New Threat to Public Health."	"Hospital Pediátrico Robert Reid Cabral"	18.4523145	-69.9258575
+"73111"	32300496	2020	4	18	2020-04-18	"Dominican Republic"	"DO"	0	0	0	0	0	0	0	1	"Coronavirus Disease: A Review of a New Threat to Public Health."	"Hospital Pediatrico Robert Reid Cabral"	18.4523145	-69.9258575
 "73211"	32300370	2020	4	18	2020-04-18	"Germany"	"DE"	0	0	0	0	0	0	0	1	"Can an effective SARS-CoV-2 vaccine be developed for the older population?"	""	NA	NA
 "73311"	32300370	2020	4	18	2020-04-18	"Canada"	"CA"	0	0	0	0	0	0	0	1	"Can an effective SARS-CoV-2 vaccine be developed for the older population?"	""	NA	NA
 "73411"	32300370	2020	4	18	2020-04-18	"United States"	"US"	0	0	0	0	0	0	0	1	"Can an effective SARS-CoV-2 vaccine be developed for the older population?"	""	NA	NA
@@ -7211,3 +7211,252 @@
 "98510"	32299195	2020	4	18	2020-04-18	""	NA	0	0	0	0	0	0	0	0	"Keeping an eye on COVID-19: Ophthalmic care and triage for general practitioners."	""	NA	NA
 "98610"	32299184	2020	4	18	2020-04-18	"Singapore"	"SG"	0	0	0	0	0	0	0	0	"COVID-19 - where do we go from here?"	""	NA	NA
 "98910"	32299183	2020	4	18	2020-04-18	"Singapore"	"SG"	0	0	0	0	0	0	0	0	"Striving as a nation to become an academic leader in the COVID-19 crisis."	""	NA	NA
+"15362"	32305046	2020	4	19	2020-04-19	"Peru"	"PE"	0	0	0	0	0	0	0	0	"Severe COVID-19 during Pregnancy and Possible Vertical Transmission."	"Clinica Anglo Americana"	-12.109555	-77.039261
+"41002"	32305046	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Severe COVID-19 during Pregnancy and Possible Vertical Transmission."	""	NA	NA
+"51002"	32305046	2020	4	19	2020-04-19	"Peru"	"PE"	0	0	0	0	0	0	0	0	"Severe COVID-19 during Pregnancy and Possible Vertical Transmission."	"Universidad Peruana Cayetano Heredia"	-12.0467134	-77.0300385
+"61002"	32305046	2020	4	19	2020-04-19	"Peru"	"PE"	0	0	0	0	0	0	0	0	"Severe COVID-19 during Pregnancy and Possible Vertical Transmission."	""	NA	NA
+"81002"	32305035	2020	4	19	2020-04-19	"India"	"IN"	0	0	0	0	0	0	0	0	"Sentiment analysis of nationwide lockdown due to COVID 19 outbreak: Evidence from India."	""	NA	NA
+"111002"	32305034	2020	4	19	2020-04-19	"India"	"IN"	0	0	0	0	0	0	0	0	"Homeless mentally ill people and COVID-19 pandemic: The two-way sword for LMICs."	""	NA	NA
+"121002"	32305034	2020	4	19	2020-04-19	"Bangladesh"	"BD"	0	0	0	0	0	0	0	0	"Homeless mentally ill people and COVID-19 pandemic: The two-way sword for LMICs."	""	NA	NA
+"131002"	32305034	2020	4	19	2020-04-19	"Indonesia"	"ID"	0	0	0	0	0	0	0	0	"Homeless mentally ill people and COVID-19 pandemic: The two-way sword for LMICs."	""	NA	NA
+"141002"	32305034	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Homeless mentally ill people and COVID-19 pandemic: The two-way sword for LMICs."	""	NA	NA
+"15363"	32305033	2020	4	19	2020-04-19	"India"	"IN"	0	0	0	0	0	0	0	0	"COVID-19 pandemic and addiction: Current problems and future concerns."	""	NA	NA
+"16102"	32305033	2020	4	19	2020-04-19	"Bangladesh"	"BD"	0	0	0	0	0	0	0	0	"COVID-19 pandemic and addiction: Current problems and future concerns."	""	NA	NA
+"17102"	32305033	2020	4	19	2020-04-19	"Nepal"	"NP"	0	0	0	0	0	0	0	0	"COVID-19 pandemic and addiction: Current problems and future concerns."	""	NA	NA
+"19102"	32305033	2020	4	19	2020-04-19	"Indonesia"	"ID"	0	0	0	0	0	0	0	0	"COVID-19 pandemic and addiction: Current problems and future concerns."	""	NA	NA
+"20102"	32305033	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"COVID-19 pandemic and addiction: Current problems and future concerns."	""	NA	NA
+"21102"	32305026	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Challenges of Convalescent Plasma Therapy on COVID-19."	""	NA	NA
+"23102"	32305025	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Epidemiological and initial clinical characteristics of patients with family aggregation of COVID-19."	""	NA	NA
+"26102"	32305024	2020	4	19	2020-04-19	"India"	"IN"	0	0	0	0	0	0	0	1	"Artificial Intelligence (AI) applications for COVID-19 pandemic."	""	NA	NA
+"29102"	32305011	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Conducting phase 1 cancer clinical trials during the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)-related disease pandemic."	""	NA	NA
+"32102"	32305009	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Investigating hypothiocyanite against SARS-CoV-2."	""	NA	NA
+"33102"	32304994	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"The diagnostic and predictive role of NLR, d-NLR and PLR in COVID-19 patients."	""	NA	NA
+"37102"	32304973	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"Evaluation of the lockdowns for the SARS-CoV-2 epidemic in Italy and Spain after one month follow up."	""	NA	NA
+"38102"	32304970	2020	4	19	2020-04-19	"Ireland"	"IE"	0	0	0	0	0	0	0	1	"Challenges and solutions for addressing critical shortage of supply chain for personal and protective equipment (PPE) arising from Coronavirus disease (COVID19) pandemic - Case study from the Republic of Ireland."	""	NA	NA
+"40102"	32304942	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Impact of meteorological factors on the COVID-19 transmission: A multi-city study in China."	""	NA	NA
+"48102"	32304942	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Impact of meteorological factors on the COVID-19 transmission: A multi-city study in China."	""	NA	NA
+"51102"	32304928	2020	4	19	2020-04-19	"Brazil"	"BR"	0	0	0	0	0	0	0	0	"When basic supplies are missing, what to do? Specific demands of the local street population in times of coronavirus - a concern of social psychiatry."	""	NA	NA
+"52102"	32304928	2020	4	19	2020-04-19	"Brazil"	"BR"	0	0	0	0	0	0	0	0	"When basic supplies are missing, what to do? Specific demands of the local street population in times of coronavirus - a concern of social psychiatry."	"Universidade Federal do Cariri"	-7.2566399	-39.3070064
+"57102"	32304912	2020	4	19	2020-04-19	"Brazil"	"BR"	0	0	0	0	0	0	0	0	"Optical techniques for fast screening - towards prevention of the coronavirus COVID-19 outbreak."	""	NA	NA
+"58102"	32304912	2020	4	19	2020-04-19	"Ireland"	"IE"	0	0	0	0	0	0	0	0	"Optical techniques for fast screening - towards prevention of the coronavirus COVID-19 outbreak."	""	NA	NA
+"59102"	32304883	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"The differential psychological distress of populations affected by the COVID-19 pandemic."	""	NA	NA
+"62102"	32304834	2020	4	19	2020-04-19	"Canada"	"CA"	0	0	0	0	0	0	0	0	"Special Article: Risk Communication During COVID-19."	""	NA	NA
+"63102"	32304834	2020	4	19	2020-04-19	"Uited States"	NA	0	0	0	0	0	0	0	0	"Special Article: Risk Communication During COVID-19."	""	NA	NA
+"64102"	32304822	2020	4	19	2020-04-19	"Malaysia"	"MY"	0	0	0	0	0	0	0	0	"COVID-19: Four Paediatric Cases in Malaysia."	""	NA	NA
+"72102"	32304800	2020	4	19	2020-04-19	"Poland"	"PL"	0	0	0	0	0	0	0	0	"Which intravascular access should we use in patients with suspected/confirmed COVID-19?"	""	NA	NA
+"76102"	32304798	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Adapting the Educational Environment for Cardiovascular Fellows-in-Training During the COVID-19 Pandemic."	""	NA	NA
+"79102"	32304797	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Virtual Learning during the COVID-19 Pandemic: A Disruptive Technology in Graduate Medical Education."	""	NA	NA
+"81102"	32304772	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Risk factors of fatal outcome in hospitalized subjects with coronavirus disease 2019 from a nationwide analysis in China."	""	NA	NA
+"102102"	32304747	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Angiotensin Receptor Blockers and 2019-nCoV."	""	NA	NA
+"103102"	32304746	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"A report of three COVID-19 cases with prolonged viral RNA detection in anal swabs."	""	NA	NA
+"107102"	32304745	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Risk factors for disease severity, unimprovement, and mortality of COVID-19 patients in Wuhan, China."	""	NA	NA
+"119102"	32304743	2020	4	19	2020-04-19	"Libya"	"LY"	0	0	0	0	0	0	0	0	"Modelling the epidemic spread of COVID-19 virus infection in Northern African countries."	""	NA	NA
+"121102"	32304737	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Maintaining the quality standards of care for inflammatory bowel disease patients during the COVID-19 pandemic."	""	NA	NA
+"125102"	32304726	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Innovative technologies for hand hygiene monitoring are urgently needed in the fight against COVID-19."	""	NA	NA
+"127102"	32304725	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Environmental virus surveillance in the isolation ward of COVID-19."	""	NA	NA
+"133102"	32304691	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Pregnant versus non-pregnant SARS-CoV-2 and COVID-19 Hospital Admissions: The first 4 weeks in New York."	""	NA	NA
+"134102"	32304660	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"The Role of Oral and Maxillofacial Surgeons in COVID-19 Response."	""	NA	NA
+"137102"	32304649	2020	4	19	2020-04-19	"Sweden"	"SE"	0	0	0	0	0	0	0	0	"Multidisciplinary research priorities for the COVID-19 pandemic: a call for action for mental health science."	""	NA	NA
+"138102"	32304649	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Multidisciplinary research priorities for the COVID-19 pandemic: a call for action for mental health science."	""	NA	NA
+"143102"	32304649	2020	4	19	2020-04-19	"Australia"	"AU"	0	0	0	0	0	0	0	0	"Multidisciplinary research priorities for the COVID-19 pandemic: a call for action for mental health science."	""	NA	NA
+"144102"	32304649	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Multidisciplinary research priorities for the COVID-19 pandemic: a call for action for mental health science."	""	NA	NA
+"16012"	32304647	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"SARS-CoV-2 shedding and infectivity."	""	NA	NA
+"16112"	32304647	2020	4	19	2020-04-19	"Denmark"	"DK"	0	0	0	0	0	0	0	0	"SARS-CoV-2 shedding and infectivity."	""	NA	NA
+"16212"	32304646	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"SARS-CoV-2 shedding and infectivity - Authors' reply."	""	NA	NA
+"16512"	32304645	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Boosting the arsenal against COVID-19 through computational drug repurposing."	""	NA	NA
+"16712"	32304643	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Coronavirus Outbreak: Is Radiology Ready? Mass Casualty Incident Planning."	""	NA	NA
+"16912"	32304642	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"COVID-19 in patients with HIV: clinical case series."	""	NA	NA
+"17012"	32304642	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"COVID-19 in patients with HIV: clinical case series."	"Universitat de Barcelona"	41.3868913	2.16352384576632
+"17112"	32304640	2020	4	19	2020-04-19	"Belgium"	"BE"	1	0	0	0	0	0	1	0	"Hydroxychloroquine in the management of critically ill patients with COVID-19: the need for an evidence base."	""	NA	NA
+"17312"	32304639	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Impact of COVID-19 on people with cystic fibrosis."	""	NA	NA
+"17412"	32304639	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"Impact of COVID-19 on people with cystic fibrosis."	""	NA	NA
+"17512"	32304639	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"Impact of COVID-19 on people with cystic fibrosis."	"Hospital Vall d'Hebron"	41.4267719	2.14020432898055
+"17612"	32304639	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"Impact of COVID-19 on people with cystic fibrosis."	""	NA	NA
+"17912"	32304639	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Impact of COVID-19 on people with cystic fibrosis."	""	NA	NA
+"18012"	32304638	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Enteric involvement in hospitalised patients with COVID-19 outside Wuhan."	""	NA	NA
+"18612"	32304638	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Enteric involvement in hospitalised patients with COVID-19 outside Wuhan."	""	NA	NA
+"19012"	32304634	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"The UK Coronavirus Cancer Monitoring Project: protecting patients with cancer in the era of COVID-19."	""	NA	NA
+"19112"	32304632	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"Utility of hyposmia and hypogeusia for the diagnosis of COVID-19."	""	NA	NA
+"19512"	32304631	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"COVID-19 and the coming epidemic in US immigration detention centres."	""	NA	NA
+"19612"	32304631	2020	4	19	2020-04-19	"Mexico"	"MX"	0	0	0	0	0	0	0	0	"COVID-19 and the coming epidemic in US immigration detention centres."	"Hospital Infantil Federico Gomez"	19.4108089	-99.1541185
+"20112"	32304629	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Smell and taste dysfunction in patients with COVID-19."	""	NA	NA
+"20212"	32304629	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Smell and taste dysfunction in patients with COVID-19."	""	NA	NA
+"20412"	32304629	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"Smell and taste dysfunction in patients with COVID-19."	""	NA	NA
+"20512"	32304629	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"Smell and taste dysfunction in patients with COVID-19."	""	NA	NA
+"20812"	32304629	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Smell and taste dysfunction in patients with COVID-19."	""	NA	NA
+"20912"	32304612	2020	4	19	2020-04-19	"Poland"	"PL"	0	0	0	0	0	0	0	0	"Why we should not stop giving aspirin to pregnant women during the COVID-19 pandemic."	""	NA	NA
+"21212"	32304612	2020	4	19	2020-04-19	"Hong Kong SAR China"	"HK"	0	0	0	0	0	0	0	0	"Why we should not stop giving aspirin to pregnant women during the COVID-19 pandemic."	""	NA	NA
+"21512"	32304587	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Telemedicine and support groups in order to improve the adherence to treatment and health related quality of life in patients affected by inflammatory skin conditions during COVID-19 emergency."	""	NA	NA
+"21612"	32304581	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Changes in Blood Coagulation in Patients with Severe Coronavirus Disease 2019 (COVID-19): a Meta-Analysis."	""	NA	NA
+"21812"	32304577	2020	4	19	2020-04-19	"Greece"	"GR"	0	0	0	0	0	0	0	0	"Thromboembolic risk and anticoagulant therapy in COVID-19 patients: Emerging evidence and call for action."	""	NA	NA
+"21912"	32304576	2020	4	19	2020-04-19	"India"	"IN"	0	0	0	0	0	0	0	0	"A novel clinical set up for examining healthy dermatology outpatients in time of Covid-19."	""	NA	NA
+"22212"	32304574	2020	4	19	2020-04-19	"India"	"IN"	0	0	0	0	0	0	0	0	"Screen mirroring, screen casting and screen sharing during COVID-19: What a dermatologist should know."	""	NA	NA
+"22312"	32304574	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Screen mirroring, screen casting and screen sharing during COVID-19: What a dermatologist should know."	""	NA	NA
+"22412"	32304561	2020	4	19	2020-04-19	"Canada"	"CA"	0	0	0	0	0	0	0	0	"Pediatric Endoscopy in the Era of Coronavirus Disease 2019: A North American Society for Pediatric Gastroenterology, Hepatology, and Nutrition Position Paper."	""	NA	NA
+"22512"	32304561	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Pediatric Endoscopy in the Era of Coronavirus Disease 2019: A North American Society for Pediatric Gastroenterology, Hepatology, and Nutrition Position Paper."	""	NA	NA
+"22712"	32304531	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"A Need for Data-driven Public Health Responses to COVID-19."	""	NA	NA
+"22812"	32304512	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Obstetricians on the Coronavirus Disease 2019 (COVID-19) Front Lines and the Confusing World of Personal Protective Equipment."	""	NA	NA
+"22912"	32304509	2020	4	19	2020-04-19	"Taiwan"	"TW"	0	0	0	0	0	0	0	1	"COVID-19 in children: Current status."	""	NA	NA
+"23212"	32304508	2020	4	19	2020-04-19	"Taiwan"	"TW"	0	0	0	0	0	0	0	0	"Where to buy face masks? Survey of applications using Taiwan's open data in the time of COVID-19."	""	NA	NA
+"23812"	32304507	2020	4	19	2020-04-19	"Taiwan"	"TW"	0	0	0	0	0	0	0	0	"Protecting against COVID-19 aerosol infection during intubation."	""	NA	NA
+"24112"	32304491	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"COVID-19: guidance for infection prevention and control in nuclear medicine."	""	NA	NA
+"24212"	32304488	2020	4	19	2020-04-19	"Belgium"	"BE"	0	0	0	0	0	0	0	0	"Pharmacologic treatment of transplant recipients infected with SARS-CoV-2: considerations regarding therapeutic drug monitoring and drug-drug interactions."	""	NA	NA
+"24412"	32304488	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Pharmacologic treatment of transplant recipients infected with SARS-CoV-2: considerations regarding therapeutic drug monitoring and drug-drug interactions."	""	NA	NA
+"24512"	32304488	2020	4	19	2020-04-19	"Netherlands"	"NL"	0	0	0	0	0	0	0	0	"Pharmacologic treatment of transplant recipients infected with SARS-CoV-2: considerations regarding therapeutic drug monitoring and drug-drug interactions."	""	NA	NA
+"24712"	32304488	2020	4	19	2020-04-19	"Norway"	"NO"	0	0	0	0	0	0	0	0	"Pharmacologic treatment of transplant recipients infected with SARS-CoV-2: considerations regarding therapeutic drug monitoring and drug-drug interactions."	""	NA	NA
+"24912"	32304488	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Pharmacologic treatment of transplant recipients infected with SARS-CoV-2: considerations regarding therapeutic drug monitoring and drug-drug interactions."	""	NA	NA
+"25112"	32304488	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"Pharmacologic treatment of transplant recipients infected with SARS-CoV-2: considerations regarding therapeutic drug monitoring and drug-drug interactions."	""	NA	NA
+"25312"	32304466	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"FECAL-ORAL TRANSMISSION OF SARS-COV-2 IN CHILDREN: IS IT TIME TO CHANGE OUR APPROACH?"	""	NA	NA
+"25512"	32304466	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"FECAL-ORAL TRANSMISSION OF SARS-COV-2 IN CHILDREN: IS IT TIME TO CHANGE OUR APPROACH?"	""	NA	NA
+"25612"	32304464	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Calculate the COVID-19 equation with the people's energy as key variable."	""	NA	NA
+"25712"	32304463	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"COVID-19 putting patients at risk of unplanned extubation and airway providers at increased risk of contamination."	""	NA	NA
+"25812"	32304435	2020	4	19	2020-04-19	"United Arab Emirates"	"AE"	0	0	0	0	0	0	0	1	"The Impact of the COVID-19 Pandemic on Cancer Patients."	""	NA	NA
+"25912"	32304435	2020	4	19	2020-04-19	"Jordan"	"JO"	0	0	0	0	0	0	0	1	"The Impact of the COVID-19 Pandemic on Cancer Patients."	""	NA	NA
+"26012"	32304402	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"The performance of chest CT in evaluating the clinical severity of COVID-19 pneumonia: identifying critical cases based on CT characteristics."	""	NA	NA
+"26112"	32304402	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"The performance of chest CT in evaluating the clinical severity of COVID-19 pneumonia: identifying critical cases based on CT characteristics."	""	NA	NA
+"26212"	32304401	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Orthopaedic Surgical Selection and Inpatient Paradigms During the Coronavirus COVID-19 Pandemic."	""	NA	NA
+"26412"	32304395	2020	4	19	2020-04-19	"Sweden"	"SE"	0	0	0	0	0	0	0	0	"COVID-19 Respiratory Failure: Targeting Inflammation on VV-ECMO Support."	""	NA	NA
+"26512"	32304394	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"First successful treatment of COVID-19 induced refractory cardiogenic plus vasoplegic shock by combination of pVAD and ECMO - a case report."	""	NA	NA
+"26912"	32304393	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Contributory Role of Positron Emission Tomography in a Left Ventricular Assist Device Recipient at the time of COVID-19 pandemic."	""	NA	NA
+"27012"	32304387	2020	4	19	2020-04-19	"Singapore"	"SG"	0	0	0	0	0	0	0	0	"Pandemics and Their Impact on Medical Training: Lessons From Singapore."	""	NA	NA
+"27112"	32304386	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Managing a Specialty Service During the COVID-19 Crisis: Lessons From a New York City Health System."	""	NA	NA
+"27212"	32304371	2020	4	19	2020-04-19	"Mexico"	"MX"	0	0	0	0	0	0	0	1	"[Public health literacy in the face of the Covid-19 pandemic emergency]."	"Instituto Nacional de Salud Publica"	18.9775519	-99.2462215
+"27412"	32304343	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Bilirubin levels in patients with mild and severe Covid-19: a pooled analysis."	""	NA	NA
+"27612"	32304334	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Taking the Longer View of COVID-19."	""	NA	NA
+"27712"	32304326	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Les droits humains des enfants en situation de handicap en cas d'urgence sanitaire: le défi du COVID-19."	""	NA	NA
+"27812"	32304276	2020	4	19	2020-04-19	"Poland"	"PL"	0	0	0	0	0	0	0	0	"The impact of coronavirus infectious disease 19 (COVID-19) on oral health."	""	NA	NA
+"28012"	32304265	2020	4	19	2020-04-19	"Australia"	"AU"	0	0	0	0	0	0	0	0	"Adapting to a global pandemic through live virtual delivery of a cancer collaborative trial group conference: the TROG 2020 experience."	""	NA	NA
+"28612"	32304251	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Susceptibility of Southwestern American Indian Tribes to Coronavirus Disease 2019 (COVID-19)."	""	NA	NA
+"28812"	32304213	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Letter: COVID-19 Infection Affects Surgical Outcome of Chronic Subdural Hematoma."	""	NA	NA
+"29012"	32304212	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Letter: Transmission of COVID-19 During Neurosurgical Procedures-Some Thoughts From the United Kingdom."	""	NA	NA
+"29112"	32304208	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Assessment of Specimen Pooling to Conserve SARS CoV-2 Testing Resources."	""	NA	NA
+"29412"	32304192	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"COVID-19 outbreak control, example of the ministry of health of Turkey."	""	NA	NA
+"29512"	32304191	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Novel Coronavirus disease (COVID-19) in children."	""	NA	NA
+"29612"	32304146	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Response to recent commentaries regarding the involvement of angiotensin-converting enzyme 2 (ACE2) and renin-angiotensin system blockers in SARS-CoV-2 infections."	""	NA	NA
+"29812"	32304139	2020	4	19	2020-04-19	"Taiwan"	"TW"	0	0	0	0	0	0	0	0	"Progress and Concept for COVID-19 Vaccine Development."	""	NA	NA
+"29912"	32304119	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Tracheostomy During the COV-SARS-CoV-2 pandemic: Recommendations from the New York Head and Neck Society."	""	NA	NA
+"30712"	32304118	2020	4	19	2020-04-19	"India"	"IN"	0	0	0	0	0	0	0	0	"Parkinson's disease and COVID-19: Perceptions and implications in patients and caregivers."	""	NA	NA
+"30912"	32304114	2020	4	19	2020-04-19	"Iran"	"IR"	0	0	0	0	0	0	0	0	"Preterm delivery in pregnant woman with critical COVID-19 pneumonia and vertical transmission."	""	NA	NA
+"31412"	32304110	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Dosing will be a key success factor in repurposing antivirals for COVID-19."	""	NA	NA
+"31512"	32304110	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Dosing will be a key success factor in repurposing antivirals for COVID-19."	""	NA	NA
+"31612"	32304108	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	1	"Crystal structure of Nsp15 endoribonuclease NendoU from SARS-CoV-2."	""	NA	NA
+"32012"	32304092	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"New-onset acute symptomatic seizure and risk factors in Corona Virus Disease 2019: A Retrospective Multicenter Study."	""	NA	NA
+"32412"	32304092	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"New-onset acute symptomatic seizure and risk factors in Corona Virus Disease 2019: A Retrospective Multicenter Study."	""	NA	NA
+"32512"	32304092	2020	4	19	2020-04-19	"Netherlands"	"NL"	0	0	0	0	0	0	0	0	"New-onset acute symptomatic seizure and risk factors in Corona Virus Disease 2019: A Retrospective Multicenter Study."	""	NA	NA
+"32712"	32303993	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Recapitulation of SARS-CoV-2 infection and cholangiocyte damage with human liver ductal organoids."	""	NA	NA
+"33512"	32303970	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Gastrointestinal symptoms associated with severity of coronavirus disease 2019 (COVID-19): a pooled analysis."	""	NA	NA
+"33612"	32303970	2020	4	19	2020-04-19	"Brazil"	"BR"	0	0	0	0	0	0	0	0	"Gastrointestinal symptoms associated with severity of coronavirus disease 2019 (COVID-19): a pooled analysis."	"Universidade Federal do Parana"	-25.4269032	-49.2639545
+"33812"	32303970	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Gastrointestinal symptoms associated with severity of coronavirus disease 2019 (COVID-19): a pooled analysis."	""	NA	NA
+"33912"	32303925	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"The Burden of COVID-19 in People Living with HIV: A Syndemic Perspective."	""	NA	NA
+"34612"	32303924	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Research in the Time of Coronavirus: Continuing Ongoing Studies in the Midst of the COVID-19 Pandemic."	""	NA	NA
+"34712"	32303923	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Symptoms, Stress, and HIV-Related Care Among Older People Living with HIV During the COVID-19 Pandemic, Miami, Florida."	""	NA	NA
+"35212"	32303920	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Coronavirus (COVID-19) in Haiti: A Call for Action."	""	NA	NA
+"35612"	32303915	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Should Patients Receiving ACE Inhibitors or Angiotensin Receptor Blockers be Switched to Other Antihypertensive Drugs to Prevent or Improve Prognosis of Novel Coronavirus Disease 2019 (COVID-19)?"	""	NA	NA
+"36112"	32303885	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Summary of 20 tracheal intubation by anesthesiologists for patients with severe COVID-19 pneumonia: retrospective case series."	""	NA	NA
+"36312"	32303881	2020	4	19	2020-04-19	"Switzerland"	"CH"	0	0	0	0	0	0	0	0	"Possible link between anosmia and COVID-19: sniffing out the truth."	""	NA	NA
+"36712"	32303856	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Digital triage for people with multiple sclerosis in the age of COVID-19 pandemic."	""	NA	NA
+"36912"	32303856	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Digital triage for people with multiple sclerosis in the age of COVID-19 pandemic."	""	NA	NA
+"37012"	32303841	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Lead the way or leave the way: leading a Department of Orthopedics through the COVID-19 pandemic."	""	NA	NA
+"37112"	32303841	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Lead the way or leave the way: leading a Department of Orthopedics through the COVID-19 pandemic."	""	NA	NA
+"37412"	32303838	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Letter to the editor by Dobran Mauro, Paracino Riccardo, and Iacoangeli Maurizio regarding &quot;Neurosurgery during the COVID-19 pandemic: update from Lombardy, northern Italy.&quot; Zoia C, Bongetta D, Veiceschi P, Cenzato M, Di Meco F, Locatelli D, Boeris D, Fontanella MM. Acta Neurochir (Wien). 2020 Mar 28. doi: 10.1007/s00701-020-04305-w."	""	NA	NA
+"37612"	32303837	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Multiple sclerosis and the risk of infection: considerations in the threat of the novel coronavirus, COVID-19/SARS-CoV-2."	""	NA	NA
+"38012"	32303821	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"[A cross sectional study on patients with inflammatory rheumatic diseases in terms of their compliance to their immunsuppressive medication during COVID-19 pandemic]."	""	NA	NA
+"39512"	32303807	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"Electronic cigarette and vaping should be discouraged during the new coronavirus SARS-CoV-2 pandemic."	""	NA	NA
+"39612"	32303798	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"39912"	32303798	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"40012"	32303798	2020	4	19	2020-04-19	"Ireland"	"IE"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"40112"	32303798	2020	4	19	2020-04-19	"Australia"	"AU"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"40212"	32303798	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"40412"	32303798	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"40512"	32303798	2020	4	19	2020-04-19	"Norway"	"NO"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"40612"	32303798	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"European Society of Trauma and Emergency Surgery (ESTES) recommendations for trauma and emergency surgery preparation during times of COVID-19 infection."	""	NA	NA
+"40712"	32303786	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"PET imaging of COVID-19: the target and the number."	""	NA	NA
+"41512"	32303756	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Impact of anti-tnfa antibodies on the risk of Covid-19 and its severity in patients with inflammatory Bowel Diseases."	""	NA	NA
+"41712"	32303741	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"Will COVID-19 infection be less severe in ulcerative colitis than in Crohn's patients due to a lower rate of smokers?"	""	NA	NA
+"41812"	32303741	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Will COVID-19 infection be less severe in ulcerative colitis than in Crohn's patients due to a lower rate of smokers?"	""	NA	NA
+"42012"	32303732	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Withholding funding from the World Health Organization is wrong and dangerous, and must be reversed."	""	NA	NA
+"42112"	32303730	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Coronavirus diaries: to be a scientist."	""	NA	NA
+"42212"	32303722	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Science in the time of COVID-19."	""	NA	NA
+"42312"	32303717	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Caring for our cancer patients in the wake of COVID-19."	""	NA	NA
+"42612"	32303711	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"COVID-19 Research in Brief: 11 April to 17 April, 2020."	""	NA	NA
+"42712"	32303704	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"The race against COVID-19."	""	NA	NA
+"42812"	32303698	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"A map of SARS-CoV-2 and host cell interactions."	""	NA	NA
+"42912"	32303697	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Will we see protection or reinfection in COVID-19?"	""	NA	NA
+"43012"	32303696	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Macrophages: a Trojan horse in COVID-19?"	""	NA	NA
+"43112"	32303672	2020	4	19	2020-04-19	"Italy"	"IT"	1	1	0	1	1	0	1	0	"COVID-19 tsunami: the first case of a spinal cord injury patient in Italy."	""	NA	NA
+"43312"	32303650	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"Miller Fisher Syndrome and polyneuritis cranialis in COVID-19."	""	NA	NA
+"43512"	32303650	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"Miller Fisher Syndrome and polyneuritis cranialis in COVID-19."	"Hospital Universitario 12 de Octubre"	40.3766795	-3.69886332684134
+"43912"	32303650	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"Miller Fisher Syndrome and polyneuritis cranialis in COVID-19."	"Universidad Complutense de Madrid"	40.4415049	-3.7319709
+"44012"	32303609	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"Covid-19 and immunomodulation in IBD."	""	NA	NA
+"44212"	32303607	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"British Society of Gastroenterology guidance for management of inflammatory bowel disease during the COVID-19 pandemic."	""	NA	NA
+"48112"	32303602	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Letter to the Editor: Who was the first doctor to report the Covid-19 outbreak in Wuhan, China?"	""	NA	NA
+"48312"	32303600	2020	4	19	2020-04-19	"Singapore"	"SG"	0	0	0	0	0	0	0	0	"Yttrium-90 Radioembolization: Telemedicine during COVID-19 outbreak, opportunity for prime time."	""	NA	NA
+"48512"	32303597	2020	4	19	2020-04-19	"Switzerland"	"CH"	0	0	0	0	0	0	0	0	"The role of Nuclear Medicine for COVID-19 - Time to act now."	""	NA	NA
+"48612"	32303597	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"The role of Nuclear Medicine for COVID-19 - Time to act now."	""	NA	NA
+"48712"	32303597	2020	4	19	2020-04-19	"Canada"	"CA"	0	0	0	0	0	0	0	0	"The role of Nuclear Medicine for COVID-19 - Time to act now."	""	NA	NA
+"48812"	32303597	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"The role of Nuclear Medicine for COVID-19 - Time to act now."	""	NA	NA
+"48912"	32303592	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Human leukocyte antigen susceptibility map for SARS-CoV-2."	""	NA	NA
+"49712"	32303591	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Cytokine release syndrome in severe COVID-19."	""	NA	NA
+"49812"	32303590	2020	4	19	2020-04-19	"Netherlands"	"NL"	0	0	0	0	0	0	0	0	"Comparative pathogenesis of COVID-19, MERS, and SARS in a nonhuman primate model."	""	NA	NA
+"50412"	32303590	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"Comparative pathogenesis of COVID-19, MERS, and SARS in a nonhuman primate model."	""	NA	NA
+"50612"	32303589	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Coping with COVID: How a Research Team Learned To Stay Engaged in This Time of Physical Distancing."	""	NA	NA
+"51012"	32303584	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"European Society of Minimally Invasive Neurological Therapy (ESMINT) recommendations for optimal interventional neurovascular management in the covid-19 era."	""	NA	NA
+"51112"	32303584	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"European Society of Minimally Invasive Neurological Therapy (ESMINT) recommendations for optimal interventional neurovascular management in the covid-19 era."	""	NA	NA
+"51312"	32303584	2020	4	19	2020-04-19	"Switzerland"	"CH"	0	0	0	0	0	0	0	0	"European Society of Minimally Invasive Neurological Therapy (ESMINT) recommendations for optimal interventional neurovascular management in the covid-19 era."	""	NA	NA
+"51412"	32303584	2020	4	19	2020-04-19	"Germany"	"DE"	0	0	0	0	0	0	0	0	"European Society of Minimally Invasive Neurological Therapy (ESMINT) recommendations for optimal interventional neurovascular management in the covid-19 era."	""	NA	NA
+"51512"	32303584	2020	4	19	2020-04-19	"Sweden"	"SE"	0	0	0	0	0	0	0	0	"European Society of Minimally Invasive Neurological Therapy (ESMINT) recommendations for optimal interventional neurovascular management in the covid-19 era."	""	NA	NA
+"51612"	32303584	2020	4	19	2020-04-19	"Netherlands"	"NL"	0	0	0	0	0	0	0	0	"European Society of Minimally Invasive Neurological Therapy (ESMINT) recommendations for optimal interventional neurovascular management in the covid-19 era."	""	NA	NA
+"51712"	32303575	2020	4	19	2020-04-19	"Switzerland"	"CH"	0	0	0	0	0	0	0	0	"Case series of coronavirus (SARS-CoV-2) in a military recruit school: clinical, sanitary and logistical implications."	""	NA	NA
+"52312"	32303574	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Mission command: applying principles of military leadership to the SARS-Cov-2 (covid-19) crisis."	""	NA	NA
+"52512"	32303565	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"The Detection of SARS-CoV-2 using the Cepheid Xpert Xpress SARS-CoV-2 and Roche cobas SARS-CoV-2 Assays."	""	NA	NA
+"52812"	32303564	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Comparison of Abbott ID Now, Diasorin Simplexa, and CDC FDA EUA methods for the detection of SARS-CoV-2 from nasopharyngeal and nasal swabs from individuals diagnosed with COVID-19."	""	NA	NA
+"53112"	32303522	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Athletes as community; athletes in community: covid-19, sporting mega-events and athlete health protection."	""	NA	NA
+"53312"	32303522	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Athletes as community; athletes in community: covid-19, sporting mega-events and athlete health protection."	""	NA	NA
+"53512"	32303518	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Covid-19: Government cannot say whether NHS will run out of protective gowns this weekend."	""	NA	NA
+"53612"	32303509	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Harnessing CAR T Cell Insights to Develop Treatments for Hyperinflammatory Responses in COVID-19 patients."	""	NA	NA
+"53812"	32303505	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Covid-19: ibuprofen can be used for symptoms, says UK agency, but reasons for change in advice are unclear."	""	NA	NA
+"53912"	32303504	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"PPE guidance for covid-19: be honest about resource shortages."	""	NA	NA
+"54012"	32303502	2020	4	19	2020-04-19	"Canada"	"CA"	0	0	0	0	0	0	0	0	"Covid-19: state governors assert control over US response as Trump struggles for a role."	""	NA	NA
+"54112"	32303501	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Covid-19 is shattering US cancer care."	""	NA	NA
+"54212"	32303498	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"The role of the future physician: building on shifting sands."	""	NA	NA
+"54512"	32303497	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Chloroquine and COVID-19 - a potential game changer?"	""	NA	NA
+"54712"	32303496	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"What's happening in covid-19 ICUs? An intensive care doctor answers some common questions."	""	NA	NA
+"54812"	32303496	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"What's happening in covid-19 ICUs? An intensive care doctor answers some common questions."	""	NA	NA
+"54912"	32303495	2020	4	19	2020-04-19	"Switzerland"	"CH"	0	0	0	0	0	0	0	0	"Clinical features of covid-19."	""	NA	NA
+"55712"	32303494	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Covid-19: Disproportionate impact on ethnic minority healthcare workers will be explored by government."	""	NA	NA
+"55812"	32303493	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Keep older healthcare workers off the covid-19 front line."	""	NA	NA
+"55912"	32303492	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"A European roadmap out of the covid-19 pandemic."	""	NA	NA
+"56012"	32303491	2020	4	19	2020-04-19	""	NA	0	0	0	0	0	0	0	0	"Covid-19: Cancer Research urges mass testing to enable care to continue during pandemic."	""	NA	NA
+"56112"	32303489	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"Covid-19: European officials warn that exiting lockdown will be &quot;very long&quot; and will require cooperation."	""	NA	NA
+"56212"	32303485	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"French consensus on management of head and neck cancer surgery during COVID-19 pandemic."	""	NA	NA
+"57112"	32303483	2020	4	19	2020-04-19	"Taiwan"	"TW"	0	0	0	0	0	0	0	0	"COVID-19 in long-term care facilities: An upcoming threat that cannot be ignored."	""	NA	NA
+"57712"	32303482	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Re-emergence of SARS-CoV2 in a discharged COVID-19 case."	""	NA	NA
+"58412"	32303481	2020	4	19	2020-04-19	"Taiwan"	"TW"	0	0	0	0	0	0	0	0	"SARS-CoV-2 and COVID-19."	""	NA	NA
+"58812"	32303480	2020	4	19	2020-04-19	"Taiwan"	"TW"	0	0	0	0	0	0	0	0	"Recommendations for protecting against and mitigating the COVID-19 pandemic in long-term care facilities."	""	NA	NA
+"58912"	32303480	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Recommendations for protecting against and mitigating the COVID-19 pandemic in long-term care facilities."	""	NA	NA
+"59312"	32303472	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Acute pulmonary embolism in a patient with COVID-19 pneumonia."	""	NA	NA
+"59512"	32303451	2020	4	19	2020-04-19	"Sweden"	"SE"	0	0	0	0	0	0	0	0	"The Need of Research Initiatives Amidst and After the Covid-19 Pandemic: A Message from the Editors of the European Journal of Vascular and Endovascular Surgery."	""	NA	NA
+"59612"	32303451	2020	4	19	2020-04-19	"United Kingdom"	"GB"	0	0	0	0	0	0	0	0	"The Need of Research Initiatives Amidst and After the Covid-19 Pandemic: A Message from the Editors of the European Journal of Vascular and Endovascular Surgery."	""	NA	NA
+"59712"	32303451	2020	4	19	2020-04-19	"Switzerland"	"CH"	0	0	0	0	0	0	0	0	"The Need of Research Initiatives Amidst and After the Covid-19 Pandemic: A Message from the Editors of the European Journal of Vascular and Endovascular Surgery."	""	NA	NA
+"59812"	32303440	2020	4	19	2020-04-19	"Thailand"	"TH"	0	0	0	0	0	0	0	0	"Radiology Management and COVID-19 in Resource Limited Setting."	""	NA	NA
+"59912"	32303440	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Radiology Management and COVID-19 in Resource Limited Setting."	""	NA	NA
+"60012"	32303430	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Asymptomatic case of Covid-19 in an infant with cystic fibrosis."	""	NA	NA
+"60412"	32303424	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Assessing ACE2 expression patterns in lung tissues in the pathogenesis of COVID-19."	""	NA	NA
+"60812"	32303424	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	0	"Assessing ACE2 expression patterns in lung tissues in the pathogenesis of COVID-19."	""	NA	NA
+"60912"	32303420	2020	4	19	2020-04-19	"Austria"	"AT"	0	0	0	0	0	0	0	0	"Approaches to the management of patients in oral and maxillofacial surgery during COVID-19 pandemic."	""	NA	NA
+"61112"	32303418	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"More clinical warning indicators should be explored for monitoring COVID-19 patients' condition."	""	NA	NA
+"61412"	32303403	2020	4	19	2020-04-19	"Iran"	"IR"	0	0	0	0	0	0	0	0	"Ways of Protecting Religious Older Adults from the Consequences of COVID-19."	""	NA	NA
+"61512"	32303395	2020	4	19	2020-04-19	"Singapore"	"SG"	0	0	0	0	0	0	0	0	"Response and Operating Room Preparation for the COVID-19 Outbreak: A Perspective From the National Heart Centre in Singapore."	""	NA	NA
+"61912"	32303384	2020	4	19	2020-04-19	"Italy"	"IT"	0	0	0	0	0	0	0	0	"Endourological Stone Management in the Era of the COVID-19."	""	NA	NA
+"62112"	32303376	2020	4	19	2020-04-19	"Australia"	"AU"	0	0	0	0	0	0	0	0	"Extubation of patients with COVID-19."	""	NA	NA
+"62612"	32303372	2020	4	19	2020-04-19	"Switzerland"	"CH"	0	0	0	0	0	0	0	0	"Will the status of infection prevention and control (IPC) professionals be improved in the context of COVID-19?"	""	NA	NA
+"62812"	32303372	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"Will the status of infection prevention and control (IPC) professionals be improved in the context of COVID-19?"	""	NA	NA
+"62912"	32303372	2020	4	19	2020-04-19	"Malaysia"	"MY"	0	0	0	0	0	0	0	0	"Will the status of infection prevention and control (IPC) professionals be improved in the context of COVID-19?"	""	NA	NA
+"63012"	32303365	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	1	"Two known therapies could be useful as adjuvant therapy in critical patients infected by COVID-19."	""	NA	NA
+"63112"	32303365	2020	4	19	2020-04-19	"United States"	"US"	0	0	0	0	0	0	0	1	"Two known therapies could be useful as adjuvant therapy in critical patients infected by COVID-19."	""	NA	NA
+"63212"	32303365	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	1	"Two known therapies could be useful as adjuvant therapy in critical patients infected by COVID-19."	"Hospital Clinic de Barcelona"	41.39088	2.153197
+"63712"	32303363	2020	4	19	2020-04-19	"Morocco"	"MA"	0	0	0	0	0	0	0	0	NA	""	NA	NA
+"63912"	32303336	2020	4	19	2020-04-19	"Spain"	"ES"	0	0	0	0	0	0	0	0	"Recommendations of the Spanish Society of Otolaryngology and Head and Neck Surgery for performing tracheotomies in patients infected by the coronavirus, Covid-19."	""	NA	NA
+"64412"	32303331	2020	4	19	2020-04-19	"France"	"FR"	0	0	0	0	0	0	0	0	"Covid-19, the pandemic war: Implication for neurologists."	""	NA	NA
+"64612"	32303245	2020	4	19	2020-04-19	"China"	"CN"	0	0	0	0	0	0	0	0	"The application of strong matrix management and PDCA cycle in the management of severe COVID-19 patients."	""	NA	NA
+"65012"	32303151	2020	4	19	2020-04-19	"Brazil"	"BR"	0	0	0	0	0	0	0	0	"Can the human coronavirus epidemic also spread through solid waste?"	""	NA	NA

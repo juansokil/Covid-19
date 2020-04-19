@@ -1,9 +1,12 @@
+library(readr)
 library(leaflet)
 library(xlsx)
 library(dplyr)
 library(shiny)
 library(shinyWidgets)
 library(data.table)
+library(DT)
+library(htmltools)
 
 
 rsconnect::setAccountInfo(name='observatorio-cts',
@@ -12,32 +15,53 @@ rsconnect::setAccountInfo(name='observatorio-cts',
 
 ##########Levanta datos#####
 
+pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data_reduce_inst.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", country="character", Inst="character", Date="Date"))
 
-bla <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/georef.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(V2="numeric",  V3="numeric",  cantidad="numeric"))
+pubmed_data$Date <- as.Date(with(pubmed_data, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
+pubmed_data$lat <- as.numeric(as.character(pubmed_data$lat))
+pubmed_data$long <- as.numeric(as.character(pubmed_data$long))
 
-#bla <- read.xlsx2("../Bases/georef.xlsx", sheetName = "Sheet1")
-#bla$V2 <- as.numeric(as.character(bla$V2))
-#bla$V3 <- as.numeric(as.character(bla$V3))
-#bla$cantidad <- as.numeric(as.character(bla$cantidad))
 
+cantidades <- pubmed_data %>%
+  group_by(Inst, lat, long)  %>%
+  summarize(cantidad=n_distinct(PMID)) %>%
+  arrange(desc(cantidad))
 
 
 ###################SERVER#####################
 server <- function(input, output, session) {
   
-  
   output$map <- renderLeaflet({ 
     leaflet() %>% addTiles()  %>%
-      addCircles(data = bla,lng = ~V3, lat = ~V2,  weight = ~as.numeric(cantidad)*3,  color='purple',  label=~paste0(V1,'\n',cantidad), opacity = 0.6)
-    #    addMarkers(data = bla,lng = ~V3, lat = ~V2,  label=~paste0(V1,'\n',cantidad)) 
+      addCircleMarkers(data = cantidades,lng = ~long, lat = ~lat,  weight = ~as.numeric(cantidad),  color='purple', layerId = ~unique(Inst), label=~paste0(Inst,': ',cantidad), opacity = 0.6, popup = ~htmlEscape(Inst))
   })
   
+
   
+  pubs <- reactive({
+    a <- pubmed_data  %>% filter(Inst %in% input$map_marker_click$id)
+    a <- data.frame(a)
+    a <- a %>%
+            select(Date, Title, PMID, iso)  %>%
+            #mutate(Link=paste0('https://pubmed.ncbi.nlm.nih.gov/',PMID,'/')) %>%
+      mutate(Link=paste0("<a href='https://pubmed.ncbi.nlm.nih.gov/",PMID,"/' target='_blank' >Ver Articulo</a>")) %>%
+              select(Date, Title, Link)   %>%
+            unique() %>%
+      arrange(desc(Date))
+    return(a)
+  })    
+  
+  
+  
+output$table1 <- renderDT(publicaciones <- pubs(), server = FALSE, escape = FALSE)
+  
+
   
 }
 
 ui <- fluidPage(mainPanel(
-  fluidRow(column(12, leafletOutput("map"))
+  fluidRow(column(12, leafletOutput("map", height = "600", width = "800")),
+           fluidRow(column(12, dataTableOutput("table1", width = "800")))
   )))
 
 

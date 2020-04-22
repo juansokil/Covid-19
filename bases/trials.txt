@@ -1,4 +1,4 @@
-"NCT Number"	"Locations"	"country"	"ISO2"	"latitude"	"longitude"
+"id"	"NCTNumber"	"Locations"	"country"	"ISO2"	"latitude"	"longitude"
 "1"	"NCT04333550"	"Regenerative Medicine Research Center, Kermanshah University of Medical Sciences, Kermanshah, Iran, Kermanshah, Iran, Islamic Republic of"	"Iran"	"IR"	32.427908	53.688046
 "2"	"NCT04336904"	"Asst Fatebenefratelli Sacco, Milano, Italy"	"Italy"	"IT"	41.87194	12.56738
 "3"	"NCT04345445"	"University Malaya Medical Centre, Kuala Lumpur, Malaysia"	"Malaysia"	"MY"	4.210484	101.975766

@@ -1,4 +1,4 @@
-"Title"	"Country"	"ISO2"	"Link"	"latitude"	"longitude"
+"Title"	"country"	"ISO2"	"Link"	"latitude"	"longitude"
 "An international randomized trial of additional treatments for COVID-19 in hospitalized patients who are all receiving the local standard of care"	"Argentina"	"AR"	"http://isrctn.com/ISRCTN83971151"	-38.416097	-63.616672
 "A Phase III Randomized Placebo-Controlled Study to Examine the Efficacy and Safety of DAS181 for the Treatment of Lower Respiratory Tract Parainfluenza Infection in Immunocompromised Subjects"	"Australia"	"AU"	"https://clinicaltrials.gov/show/NCT03808922"	-25.274398	133.775136
 "A Phase III Randomized Placebo-Controlled Study to Examine the Efficacy and Safety of DAS181 for the Treatment of Lower Respiratory Tract Parainfluenza Infection in Immunocompromised Subjects"	"Australia"	"AU"	"https://clinicaltrials.gov/show/NCT03808922"	-25.274398	133.775136

@@ -4,33 +4,32 @@
 
 #https://www.r-bloggers.com/pubmed-search-shiny-app-using-rismed/
 
+#options(java.parameters = "-Xmx8g")
+
 library(RISmed)
 library(dplyr)
 library(stringr)
 library(tidyr)
 library(ggplot2)
-#library(qdap)
 library(readr)
-#library(udpipe)
 library(tidyverse)
 library(xlsx)
-#library(readxl)
 library(data.table)
 library(countrycode)
 library(igraph)
-#install.packages("visNetwork")
-library(visNetwork)
-
 
 setwd('./github/covid-19/scripts')
 
 
 ####Busqueda en PubMed
-FechaFiltro = "2020-04-13"
+FechaFiltro = Sys.Date()
+FechaFiltro
+FechaFiltroInicio = "2020/04/26"
+FechaFiltroFin = "2020/04/26"
 
 search_topic <- 'COVID-19'
-#search_topic <- 'COVID-19|hydroxychloroquine+COVID-19|chloroquine+COVID-19'
-search_query <- EUtilsSummary(search_topic, retmax=5000, mindate=2020,maxdate=2021, db='pubmed')
+search_query <- EUtilsSummary(search_topic, retmax=10000, mindate=paste0(FechaFiltroInicio),maxdate=paste0(FechaFiltroFin), db='pubmed')
+
 
 summary(search_query)
 
@@ -76,8 +75,8 @@ dias = pubmed_data %>%
   select(PMID, Title, Abstract, Date) %>%
   group_by(Date)  %>%
   summarize(cantidad=n_distinct(PMID))
-View(dias)
 
+dias
 
 
 #######Trabajo con Afiliaciones########
@@ -162,6 +161,7 @@ afiliaciones$country <- str_replace(afiliaciones$country, "Michigan", "United St
 afiliaciones$country <- gsub(".*China.*", "China", afiliaciones$country)
 afiliaciones$country <- gsub(".*Beijing.*", "China", afiliaciones$country)
 afiliaciones$country <- gsub(".*Wuhan.*", "China", afiliaciones$country)
+afiliaciones$country <- gsub(".*Hong Kong*", "Hong Kong", afiliaciones$country)
 
 afiliaciones$country <- str_replace(afiliaciones$country, "UK", "United Kingdom")
 afiliaciones$country <- str_replace(afiliaciones$country, "England", "United Kingdom")
@@ -173,6 +173,8 @@ afiliaciones$country <- str_replace(afiliaciones$country, "Istanbul", "Turkey")
 afiliaciones$country <- str_replace(afiliaciones$country, "Republic of Singapore", "Singapore")
 
 afiliaciones$country <- gsub(".*Korea.*", "South Korea", afiliaciones$country)
+
+
 
 
 afiliaciones$country <- str_replace(afiliaciones$country, "Deutschland", "Germany")
@@ -208,6 +210,9 @@ afiliaciones$country <- gsub(".*Iran.*", "Iran", afiliaciones$country)
 
 ##################TRIM######################
 afiliaciones$country <- str_trim(afiliaciones$country)
+afiliaciones$Inst <- ''
+afiliaciones$lat <- ''
+afiliaciones$long <- ''
 
 
 
@@ -218,10 +223,13 @@ write.xlsx2(afiliaciones, '../clean/afiliaciones_clean.xlsx', sheetName="Sheet1"
             col.names=TRUE, row.names=FALSE, append=FALSE)
 
 
+
+
 ###ESTA ES LA BASE CLEANEADA#####
 afiliaciones_total <- read.xlsx2("../clean/afiliaciones_clean.xlsx", sheetName = "Sheet1")
 afiliaciones_total <- afiliaciones_total %>%
-  select(PMID, afil, country)
+  select(PMID, afil, country, Inst, lat, long)
+
 
 
 ####JUNTO A LA BASE DE PUBMED_DATA###
@@ -234,6 +242,8 @@ pubmed_data <- pubmed_data %>%
 pubmed_data <- pubmed_data %>%
   filter(Date >= FechaFiltro) 
 
+pubmed_data$lat <- as.numeric(as.character(pubmed_data$lat))
+pubmed_data$long <- as.numeric(as.character(pubmed_data$long))
 
 
 ####Agrego terminos importantes####
@@ -244,22 +254,26 @@ pubmed_data$ritonavir <- str_detect(pubmed_data$Abstract, "ritonavir")
 pubmed_data$lopinavir <- str_detect(pubmed_data$Abstract, "lopinavir")
 pubmed_data$favipiravir <- str_detect(pubmed_data$Abstract, "favipiravir")
 pubmed_data$vaccine <- str_detect(pubmed_data$Abstract, "vaccine")
+pubmed_data$interferon <- str_detect(pubmed_data$Abstract, "interferon")
+pubmed_data$azithromycin <- str_detect(pubmed_data$Abstract, "azithromycin")
+pubmed_data$tocilizumab <- str_detect(pubmed_data$Abstract, "tocilizumab")
 
 
 # Convert all to numeric
 cols <- sapply(pubmed_data, is.logical)
 pubmed_data[,cols] <- lapply(pubmed_data[,cols], as.numeric)
 
+
+
 ########################################
 ########################################
 ####VER ESTO ANTES DE EJECUTARLO#####
-pubmed_data$treatment <-   apply(X = pubmed_data[,11:16], MARGIN = 1, FUN = max, na.rm = TRUE)
+pubmed_data$treatment <-   apply(X = pubmed_data[,11:19], MARGIN = 1, FUN = max, na.rm = TRUE)
 ########################################
 ########################################
 
 
 pubmed_data$country <- str_replace(pubmed_data$country, "Hong Kong", "Hong Kong SAR China")
-
 
 
 iso <- countrycode(unique(pubmed_data$country), "country.name", "iso2c")
@@ -275,8 +289,7 @@ pubmed_data <- pubmed_data %>%
 
 ####Ordeno los datos####
 pubmed_data <- pubmed_data %>%
-  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, treatment, vaccine)
-
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, interferon, azithromycin, tocilizumab, treatment, vaccine, Inst, lat, long)
 
 
 
@@ -284,7 +297,7 @@ pubmed_data <- pubmed_data %>%
 #####################TENGO QUE LEVANTAR LA BASE ACUMULADA y HACER UN APPEND################
 
 
-###Levanto los datos viejos###
+###Levanto los datos viejos################REVISAR ESTO MAÑANA####
 pubmed_data_old <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
                               colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
 pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
@@ -292,15 +305,15 @@ pubmed_data_old$Date <- as.Date(with(pubmed_data_old, paste(YearPubmed, MonthPub
 
 ####Ordeno los datos####
 pubmed_data_old <- pubmed_data_old %>%
-  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, treatment, vaccine)
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, interferon, azithromycin, tocilizumab, treatment, vaccine, Inst, lat, long)
 
 
 ###Guardo un backup de la base
 write.table(pubmed_data_old, file = "../Bases/pubmed_data_old.csv", sep = "\t", qmethod = "double")
 
 ####Junto la guardada con la nueva
-pubmed_data2 <- rbind(pubmed_data_old, pubmed_data)
 
+pubmed_data2 <- rbind(pubmed_data_old, pubmed_data)
 
 
 ####Evolucion diaria### CHEQUEO#
@@ -316,11 +329,6 @@ pubmed_data2$country <- str_replace(pubmed_data2$country, "Côte d'Ivoire", "Ivor
 
 
 
-####Levanto los datos viejos##### SI QUIERO MODIFICAR ALGO SOBRE LA BASE TOTAL, SIN UPDATE############
-#pubmed_data2 <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,
-#                              colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
-
-
 ####Agrego terminos importantes####
 
 pubmed_data2$TitleAbstract <- paste(pubmed_data2$Title,pubmed_data2$Abstract,sep=" /t ")
@@ -332,18 +340,21 @@ pubmed_data2$remdesivir <- str_detect(pubmed_data2$TitleAbstract, "remdesivir")
 pubmed_data2$ritonavir <- str_detect(pubmed_data2$TitleAbstract, "ritonavir")
 pubmed_data2$lopinavir <- str_detect(pubmed_data2$TitleAbstract, "lopinavir")
 pubmed_data2$favipiravir <- str_detect(pubmed_data2$TitleAbstract, "favipiravir")
+pubmed_data2$interferon <- str_detect(pubmed_data2$TitleAbstract, "interferon")
+pubmed_data2$azithromycin <- str_detect(pubmed_data2$TitleAbstract, "azithromycin")
+pubmed_data2$tocilizumab <- str_detect(pubmed_data2$TitleAbstract, "tocilizumab")
 pubmed_data2$vaccine <- str_detect(pubmed_data2$TitleAbstract, "vaccine")
-
 
 # Convert all to numeric
 cols <- sapply(pubmed_data2, is.logical)
 pubmed_data2[,cols] <- lapply(pubmed_data2[,cols], as.numeric)
-pubmed_data2$treatment <-   apply(X = pubmed_data2[,11:16], MARGIN = 1, FUN = max, na.rm = TRUE)
+pubmed_data2$treatment <-   apply(X = pubmed_data2[,11:19], MARGIN = 1, FUN = max, na.rm = TRUE)
 
 
   
 pubmed_data2 <- pubmed_data2 %>%
-  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, treatment, vaccine)
+  select(PMID, Title, Abstract, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, afil, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir, interferon, azithromycin, tocilizumab, treatment, vaccine, Inst, lat, long)
+
 
 
 ###Guardo la base completa###
@@ -354,10 +365,15 @@ write.table(pubmed_data2, file = "../Bases/pubmed_data.csv", sep = "\t", qmethod
 
 ###########Guardo la basereduce
 pubmed_data_reduce <- pubmed_data2 %>%
-  select(PMID, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir,treatment, vaccine)
+  select(PMID, YearPubmed, MonthPubmed, DayPubmed, Date, country, iso, chloroquine, hydroxychloroquine, remdesivir,ritonavir, lopinavir, favipiravir,interferon, azithromycin, tocilizumab, treatment, vaccine, Title, Inst, lat, long) %>%
+  unique()
 write.table(pubmed_data_reduce, file = "../Bases/pubmed_data_reduce.csv", sep = "\t", qmethod = "double")
 
 
+####Guarda la base de inst####
+pubmed_data_reduce_inst <- pubmed_data_reduce %>%
+filter(lat!='') 
+write.table(pubmed_data_reduce_inst, file = "../Bases/pubmed_data_reduce_inst.csv", sep = "\t", qmethod = "double")
 
 ########################ARMA GRAFO##################
 
@@ -438,22 +454,11 @@ for (dia in listado_dias$Date){
 }
 
 
-write.table(edges_for_plot, file = "../Bases/edges_for_plot.csv", sep = "\t", qmethod = "double")
+edges_for_plot_ud <- edges_for_plot %>%
+  filter(dia == max(dia))
 
-
-
-
-
-#####################BASE IBERO##########################
-
-base_ibero <- pubmed_data2 %>%
-  filter(country %in% c('Argentina','Brazil','Colombia','Chile','Mexico','Spain','Portugal','Uruguay','Paraguay','Bolivia',
-                        'Peru','Ecuador','Venezuela','Panama','Costa Rica','Honduras','Puerto Rico'))
-
-
-#write.table(base_ibero, file = "../Bases/base_ibero.csv", sep = "\t", qmethod = "double")
-write.xlsx2(base_ibero, '../Bases/base_ibero.xlsx', sheetName="Sheet1",col.names=TRUE, row.names=FALSE, append=FALSE)
-base_ibero <- read.xlsx2("../Bases/base_ibero.xlsx", sheetName = "Sheet1")
+write.table(edges_for_plot, file = "../Bases/edges_for_plot_historico.csv", sep = "\t", qmethod = "double")
+write.table(edges_for_plot_ud, file = "../Bases/edges_for_plot.csv", sep = "\t", qmethod = "double")
 
 
 
@@ -509,6 +514,39 @@ bla = pubmed_data2 %>%
 View(bla)
 
 
+
+bla = pubmed_data2 %>%
+  filter (favipiravir == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+
+bla = pubmed_data2 %>%
+  filter (interferon == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+
+bla = pubmed_data2 %>%
+  filter (azithromycin == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+bla = pubmed_data2 %>%
+  filter (tocilizumab == 1) %>%
+  group_by(Date) %>%
+  summarize(dia=n_distinct(PMID))  %>% 
+  mutate(total = cumsum(dia))
+View(bla)
+
+
+
 bla = pubmed_data2 %>%
   filter (treatment == 1) %>%
   group_by(Date) %>%
@@ -518,3 +556,30 @@ View(bla)
 
 
 View(dias)
+
+
+
+
+
+
+#############################################################################
+#############################################################################
+###############PARA CORRECCIONES GENERALES EN LA BASE########################
+#############################################################################
+#############################################################################
+
+####Levanto los datos viejos##### SI QUIERO MODIFICAR ALGO SOBRE LA BASE TOTAL, SIN UPDATE############
+##pubmed_data2 <- read.table("../Bases/pubmed_data.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
+#write.xlsx2(pubmed_data2, '../clean/base_completa_clean.xlsx', sheetName="Sheet1",col.names=TRUE, row.names=FALSE, append=FALSE)
+#pubmed_data2 <- read.xlsx2("../clean/base_completa_clean.xlsx", sheetName = "Sheet1")
+#pubmed_data2$Date <- as.Date(with(pubmed_data2, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
+###Guardo la base completa###
+#write.table(pubmed_data2, file = "../Bases/pubmed_data_bck.csv", sep = "\t", qmethod = "double")
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+
+
+
+

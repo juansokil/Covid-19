@@ -189,6 +189,9 @@ afiliaciones$country <- str_replace(afiliaciones$country, "Wellington", "New Zea
 afiliaciones$country <- str_replace(afiliaciones$country, "Christchurch", "New Zealand")
 afiliaciones$country <- str_replace(afiliaciones$country, "Auckland", "New Zealand")
 
+afiliaciones$country <- str_replace(afiliaciones$country, "Florida", "United States")
+
+
 afiliaciones$country <- gsub(".*Spain.*", "Spain", afiliaciones$country)
 
 afiliaciones$country <- gsub(".*Brazil.*", "Brazil", afiliaciones$country)
@@ -475,10 +478,6 @@ for (dia in listado_dias$Date){
 }
 
 
-edges_for_plot %>% 
-  
-
-
 ####Create a dataframe with the final relations####
 edges_for_plot_ud <- edges_for_plot %>%
   filter(dia == max(dia))
@@ -568,15 +567,15 @@ nasa_title <- data_lemmatizada %>%
   filter(!word1 %in% my_stop_words$word) %>%
   filter(!word2 %in% stop_words$word) %>% 
   filter(!word2 %in% my_stop_words$word) %>%
-  #unite(word, word1, word2, sep = " ")
+  unite(word, word1, word2, sep = " ")
 
 
 # create bi-grams and clean them up.
-bigrams <- df %>%
-  select(`Review Text`) %>%
-  unnest_tokens(bigram, `Review Text`, token = "ngrams", n = 2) %>%
-  filter(bigram %in% ngram_list) %>%
-  separate(bigram, c("word1", "word2"), sep = " ")  
+#bigrams <- df %>%
+#  select(`Review Text`) %>%
+#  unnest_tokens(bigram, `Review Text`, token = "ngrams", n = 2) %>%
+#  filter(bigram %in% ngram_list) %>%
+#  separate(bigram, c("word1", "word2"), sep = " ")  
 
 
 
@@ -593,11 +592,11 @@ bigrams <- df %>%
 ###############################################################
 keyword_cors <- nasa_title %>% 
   group_by(word) %>%
-  filter(n() >= 5) %>%
-  #filter(n() >= 30) %>%
+  #filter(n() >= 5) %>%
+  filter(n() >= 30) %>%
   pairwise_cor(word, idfinal, sort = TRUE, upper = FALSE) %>%
   unique() %>%
-  filter(correlation > .02 & correlation <= 1)  %>%
+  filter(correlation > .05 & correlation <= 0.9)  %>%
   rename(weight=correlation)
 
 #### Quantity ####

@@ -279,7 +279,7 @@ server <- function(input, output, session) {
     xlab("Date") +
     geom_line(size=1, alpha=0.3) +
     geom_point_interactive(aes(x=Date, y=Day, size=2, alpha=0.6, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Count: ",Day))) +
-    geom_smooth(method = "loess", size=2, alpha=0.6, se = FALSE,   aes(fill = country))   +  
+    geom_smooth(method = "loess", size=2, alpha=0.6, se = FALSE,  aes(fill = country))   +  
     theme_minimal() + 
     #scale_color_manual(values = jColors) +
     theme(axis.title.x=element_blank(),
@@ -479,7 +479,7 @@ server <- function(input, output, session) {
     ylab("total de papers") +
     xlab("Date") +
     geom_line_interactive(size = 2, alpha=1)  +
-    geom_smooth(method = "loess", size=2, alpha=0.3)   +  
+    geom_smooth(method = "loess", size=2, se = FALSE,  alpha=0.3)   +  
     geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0(variable, "\n Date: ",Date,"\n Cumulative: ",total))) +
   theme_minimal() + 
     #scale_color_manual(values = jColors2) +

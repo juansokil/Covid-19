@@ -185,7 +185,7 @@ server <- function(input, output, session) {
       xlab("Date") +
     geom_line_interactive(size=2, alpha=1) +
       geom_smooth(method = "loess", size=2, alpha=0.3, color='black')   +  
-    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0("Date: ",Date,": \n Cumulative",total))) +
+    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0("Date: ",Date,"\n Cumulative: ",total))) +
       theme_minimal() + 
       theme(axis.title.x=element_blank(),
             axis.title.y=element_blank(), legend.position="none", plot.title = element_text(hjust = 0.5)) +
@@ -205,7 +205,7 @@ server <- function(input, output, session) {
       ylab("Papers per Day") +
       xlab("Date") +
       geom_line(size=1, alpha=0.3) +
-      geom_point_interactive(aes(x=Date, y=dia, size=2, alpha=0.6, tooltip = paste0("Date: ",Date,"\n Count:",dia))) +
+      geom_point_interactive(aes(x=Date, y=dia, size=2, alpha=0.6, tooltip = paste0("Date: ",Date,"\n Count: ",dia))) +
     geom_smooth(method = "loess", size=2, alpha=0.6, se=FALSE, color='black')   +    
       theme_minimal() + 
       theme(axis.title.x=element_blank(),
@@ -249,7 +249,7 @@ server <- function(input, output, session) {
     xlab("Date") +
     geom_line_interactive(size = 2, alpha=1)  +
     geom_smooth(aes(group=country), method = "loess", size=2, alpha=0.3)   +    
-    geom_point_interactive(aes(x=Date, y=Cumulative, size=1, alpha=0.2, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Cumulative:",Cumulative))) +
+    geom_point_interactive(aes(x=Date, y=Cumulative, size=1, alpha=0.2, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Cumulative: ",Cumulative))) +
     theme_minimal() + 
     #scale_color_manual(values = jColors) +
     theme(axis.title.x=element_blank(),
@@ -278,7 +278,7 @@ server <- function(input, output, session) {
     ylab("Comparar paises") +
     xlab("Date") +
     geom_line(size=1, alpha=0.3) +
-    geom_point_interactive(aes(x=Date, y=Day, size=2, alpha=0.6, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Count:",Day))) +
+    geom_point_interactive(aes(x=Date, y=Day, size=2, alpha=0.6, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Count: ",Day))) +
     geom_smooth(method = "loess", size=2, alpha=0.6, se = FALSE,   aes(fill = country))   +  
     theme_minimal() + 
     #scale_color_manual(values = jColors) +
@@ -379,8 +379,8 @@ server <- function(input, output, session) {
                                filter(!is.na(iso))  %>%
                                filter(iso!='')  %>%
                                group_by(country, iso) %>%
-                               summarize(count=n_distinct(PMID)) %>%
-                               arrange(desc(count)),extensions = 'Buttons',
+                               summarize(Count=n_distinct(PMID)) %>%
+                               arrange(desc(Count)),extensions = 'Buttons',
                              options = list(pageLength = 10,
                                             dom = 'Bfrtip',
                                             buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Download")),
@@ -395,8 +395,8 @@ server <- function(input, output, session) {
     edges_for_plot <- edges_for_plot_ud  %>% 
       left_join (listado_iso_country, by=c('source'='iso'))  %>% 
       left_join (listado_iso_country, by=c('target'='iso')) %>%
-      select(source=country.x, target=country.y, weight) %>% 
-                              arrange(desc(weight)) %>%
+      select(Source=country.x, Target=country.y, Weight=weight) %>% 
+                              arrange(desc(Weight)) %>%
       filter(!is.na(source) & !is.na(target)),
                             extensions = 'Buttons',
                             options = list(pageLength = 10,
@@ -448,9 +448,9 @@ server <- function(input, output, session) {
     xlab("Date") +
     geom_line_interactive(size = 2, alpha=1)  +
     geom_smooth(method = "loess", size=2, alpha=0.3)   +  
-    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0(variable, "\n Date: ",Date,"\n Cumulative:",total))) +
+    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0(variable, "\n Date: ",Date,"\n Cumulative: ",total))) +
     theme_minimal() + 
-        scale_color_manual(values = jColors2) +
+        #scale_color_manual(values = jColors2) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
     ggtitle("Terms comparison in PubMed") +
@@ -480,9 +480,9 @@ server <- function(input, output, session) {
     xlab("Date") +
     geom_line_interactive(size = 2, alpha=1)  +
     geom_smooth(method = "loess", size=2, alpha=0.3)   +  
-    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0(variable, "\n Date: ",Date,"\n Cumulative:",total))) +
+    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0(variable, "\n Date: ",Date,"\n Cumulative: ",total))) +
   theme_minimal() + 
-    scale_color_manual(values = jColors2) +
+    #scale_color_manual(values = jColors2) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
     ggtitle("Terms comparison in PubMed (LOG2)") +
@@ -505,9 +505,8 @@ server <- function(input, output, session) {
   
   output$table5a <- renderDT(seleccion() %>%
                                group_by(variable, Date)  %>% 
-                               summarize(dia=n_distinct(PMID)) %>% 
-                               mutate(total = cumsum(dia))  %>% 
-                              arrange(desc(total)), extensions = 'Buttons', options = list(pageLength = 10, dom = 'Bfrtip',
+                               summarize(Day=n_distinct(PMID)) %>% 
+                               mutate(Cumulative = cumsum(dia)) , extensions = 'Buttons', options = list(pageLength = 10, dom = 'Bfrtip',
                  buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar", filename= 'publicaciones')),
                  exportOptions = list(modifiers = list(page = "all")
                  )), server = FALSE)

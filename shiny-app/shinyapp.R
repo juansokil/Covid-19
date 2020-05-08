@@ -21,9 +21,6 @@ library(treemapify)
 
 
 
-rsconnect::setAccountInfo(name='observatorio-cts',
-                          token='EFB80756D7A13A771E3F6419EA165929',
-                          secret='DfBCakMJl3pZLkwvNS5aGELaMZ95GK5A72rGazAh')
 
 
 pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data_reduce.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", country="character",  Inst="character", Date="Date"))
@@ -80,7 +77,7 @@ listado_iso_country <- pubmed_data %>%
   
   
   variable_selector <- pubmed_data %>%
-    select(PMID, chloroquine, hydroxychloroquine, remdesivir, ritonavir, lopinavir, favipiravir,  azithromycin, tocilizumab, antivirals, interferon, antibodies, vaccine) %>%
+    select(PMID, azithromycin,  favipiravir, hydroxychloroquine, interferon, lopinavir, remdesivir, ritonavir,   tocilizumab,  vaccine) %>%
     gather(key = "variable", value = "valor", -c(PMID)) %>%
     select(variable)  %>%
     unique()
@@ -175,8 +172,8 @@ server <- function(input, output, session) {
   return(a)
   })    
   
-  
 
+  
     
   #################################PRIMER SOLAPA###########################
   output$plot1a <- renderGirafe({ggplot1a <- pubmed_data %>%
@@ -184,52 +181,52 @@ server <- function(input, output, session) {
       summarize(dia=n_distinct(PMID))  %>% 
       mutate(total = cumsum(dia))  %>% 
       ggplot(aes(x=Date, y=total)) + 
-      ylab("total de papers") +
+      ylab("Papers cumulative") +
       xlab("Date") +
-      geom_line(size=2, alpha=0.6) +
-      geom_smooth(method = "loess", size=2, alpha=0.3)   +  
-    geom_point_interactive(aes(x=Date, y=total, size=3, alpha=0.8, tooltip = paste0(Date,": ",total))) +
+    geom_line_interactive(size=2, alpha=1) +
+      geom_smooth(method = "loess", size=2, alpha=0.3, color='black')   +  
+    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0("Date: ",Date,": \n Cumulative",total))) +
       theme_minimal() + 
       theme(axis.title.x=element_blank(),
             axis.title.y=element_blank(), legend.position="none", plot.title = element_text(hjust = 0.5)) +
-      ggtitle("Publicaciones cientificas acumuladas en PubMed") 
+      ggtitle("Cumulative papers in PubMed") 
 
       girafe(ggobj = ggplot1a, 
              options = list(opts_selection(type = "single", only_shiny = FALSE)) )
   
   })
   
+  
+  
   output$plot1b <- renderGirafe({ggplot1b <-pubmed_data %>%
       group_by(Date)  %>%
       summarize(dia=n_distinct(PMID))  %>% 
       ggplot(aes(x=Date, y=dia)) + 
-      ylab("Papers x Dia") +
+      ylab("Papers per Day") +
       xlab("Date") +
-      geom_line(size=2, alpha=0.6) +
-      geom_smooth(method = "loess", size=2, alpha=0.3)   +  
-      geom_point_interactive(aes(x=Date, y=dia, size=3, alpha=0.8, tooltip = paste0("Dia: ",Date,"\n Cantidad:",dia))) +
-      #geom_point(size=3, alpha=0.8) +
+      geom_line(size=1, alpha=0.3) +
+      geom_point_interactive(aes(x=Date, y=dia, size=2, alpha=0.6, tooltip = paste0("Date: ",Date,"\n Count:",dia))) +
+    geom_smooth(method = "loess", size=2, alpha=0.6, se=FALSE, color='black')   +    
       theme_minimal() + 
       theme(axis.title.x=element_blank(),
             axis.title.y=element_blank(), legend.position="none", plot.title = element_text(hjust = 0.5)) +
-      ggtitle("Publicaciones cientificas por dia en PubMed")
+      ggtitle("Papers in PubMed per day")
   
   
   girafe(ggobj = ggplot1b, 
          options = list(opts_selection(type = "single", only_shiny = FALSE)) )
   
   
-  
   })
   
   output$table1 <- renderDT(pubmed_data %>%
                               group_by(Date)  %>%
-                              summarize(Dia=n_distinct(PMID)) %>% 
-                              mutate(Acumulado = cumsum(Dia)),
+                              summarize(Day=n_distinct(PMID)) %>% 
+                              mutate(Cumulative = cumsum(Day)),
                             extensions = 'Buttons',
                             options = list(pageLength = 10,
                                            dom = 'Bfrtip',
-                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar", filename= 'publicaciones')),
+                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Download", filename= 'papers')),
                                            exportOptions = list(modifiers = list(page = "all")
                                            )
                             ), server = FALSE)
@@ -238,178 +235,162 @@ server <- function(input, output, session) {
   
   ######################SEGUNDA SOLAPA###########################    
   
-  output$plot2a <- renderGirafe({
-    ggplot2a <- pubmed_data %>%
-      filter(!is.na(iso))  %>%
-      filter(iso!='')  %>%
-      group_by(country, iso) %>%
-      summarize(cantidad=n_distinct(PMID)) %>%
-      arrange(desc(cantidad)) %>%
-      head(15) %>%
-      ggplot(aes(reorder(country, +cantidad), cantidad, tooltip = paste0(country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-      theme_minimal() + 
-      theme(axis.title.x=element_blank(),
-            axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-      #scale_color_manual(name = paises ,values = jColors) +
-      ggtitle("Publicaciones cientificas acumuladas en PubMed por pais") +
-      geom_text(aes(label = cantidad, color='red', size=10)) 
-    
-    
-    girafe(ggobj = ggplot2a, 
-           options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  })
-  
-  output$plot2b <- renderGirafe({
-    ggplot2b <- 
-  pubmed_data %>%
-    filter(!is.na(iso))  %>%
-    filter(iso!='')  %>%
-    group_by(country, iso) %>%
-    summarize(cantidad=n_distinct(PMID)) %>%
-    arrange(desc(cantidad)) %>%
-    #head(15) %>%
-  ggplot(aes(area = cantidad, fill = country, label = country, tooltip = paste0(country,": ", cantidad ))) +
-    geom_treemap() + 
-    geom_treemap_text(place = "centre", reflow = TRUE, min.size = 2) +
-    theme_minimal() + 
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-      ggtitle("Publicaciones cientificas acumuladas en PubMed por pais") 
-  
-  
-    girafe(ggobj = ggplot2b, 
-           options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  })
-  
-  
-  
-  
-  
-  output$table2 <- renderDT(pubmed_data %>%
-                              filter(!is.na(iso))  %>%
-                              filter(iso!='')  %>%
-                              group_by(country, iso) %>%
-                              summarize(cantidad=n_distinct(PMID)) %>%
-                              arrange(desc(cantidad)),extensions = 'Buttons',
-                            options = list(pageLength = 10,
-                                           dom = 'Bfrtip',
-                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
-                                           exportOptions = list(modifiers = list(page = "all")
-                                           )
-                            ), server = FALSE)
-  
-  
-  
-  
-  
-  
-  ######################TERCERA SOLAPA###########################      
 
-  
-  
-  
-  output$plot3a <- renderGirafe({ggplot3a <- 
-    pais() %>%
-    filter(!is.na(iso))  %>%
-    filter(iso!='')  %>%
-      arrange(country, Date) %>%
-      group_by(country, Date) %>%
-      summarize(dia=n_distinct(PMID)) %>% 
-      mutate(total = cumsum(dia))  %>% 
-      ggplot(aes(x=Date, y=total, color=country)) + 
-      ylab("Comparar paises") +
-      xlab("Date") +
-      geom_line_interactive(size = 3, alpha=1)  +
-      geom_point_interactive(aes(x=Date, y=total, size=4, alpha=0.8, tooltip = paste0("Pais: ",country, "\n Dia: ",Date,"\n Cantidad:",total))) +
-    theme_minimal() + 
-      scale_color_manual(values = jColors) +
-      theme(axis.title.x=element_blank(),
-            axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-  ggtitle("Comparacion de Publicaciones cientificas  \n en PubMed entre paises") +
-    guides(size=FALSE, alpha=FALSE) 
-  
-  
-  girafe(ggobj = ggplot3a, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  
-  })
-  
-  
-  
-  output$plot3b <- renderGirafe({ggplot3b <- 
+  output$plot2a <- renderGirafe({ggplot2a <- 
     pais() %>%
     filter(!is.na(iso))  %>%
     filter(iso!='')  %>%
     arrange(country, Date) %>%
     group_by(country, Date) %>%
-    summarize(dia=n_distinct(PMID)) %>% 
-    mutate(total = cumsum(dia))  %>% 
-    ggplot(aes(x=Date, y=total, color=country)) + 
+    summarize(Day=n_distinct(PMID)) %>% 
+    mutate(Cumulative = cumsum(Day))  %>% 
+    ggplot(aes(x=Date, y=Cumulative, color=country)) + 
     ylab("Comparar paises") +
     xlab("Date") +
-    geom_line_interactive(size = 3, alpha=1)  +
-    geom_point_interactive(aes(x=Date, y=total, size=4, alpha=0.8, tooltip = paste0("Pais: ",country, "\n Dia: ",Date,"\n Cantidad:",total))) +
+    geom_line_interactive(size = 2, alpha=1)  +
+    geom_smooth(aes(group=country), method = "loess", size=2, alpha=0.3)   +    
+    geom_point_interactive(aes(x=Date, y=Cumulative, size=1, alpha=0.2, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Cumulative:",Cumulative))) +
     theme_minimal() + 
-    scale_color_manual(values = jColors) +
+    #scale_color_manual(values = jColors) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-    ggtitle("Comparacion de Publicaciones cientificas  \n en PubMed entre paises (LOG2)") +
-    guides(size=FALSE, alpha=FALSE)  + 
-    scale_y_continuous(trans='log2')
+    ggtitle("Cumulative papers in PubMed by country") +
+    guides(size=FALSE, alpha=FALSE) 
   
   
-  girafe(ggobj = ggplot3b, 
+  girafe(ggobj = ggplot2a, 
+         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  
+  })
+  
+  
+  
+  
+  output$plot2b <- renderGirafe({ggplot2b <- 
+    pais() %>%
+    filter(!is.na(iso))  %>%
+    filter(iso!='')  %>%
+    arrange(country, Date) %>%
+    group_by(country, Date) %>%
+    summarize(Day=n_distinct(PMID)) %>% 
+    mutate(total = cumsum(Day))  %>% 
+    ggplot(aes(x=Date, y=Day, color=country)) + 
+    ylab("Comparar paises") +
+    xlab("Date") +
+    geom_line(size=1, alpha=0.3) +
+    geom_point_interactive(aes(x=Date, y=Day, size=2, alpha=0.6, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Count:",Day))) +
+    geom_smooth(method = "loess", size=2, alpha=0.6, se = FALSE,   aes(fill = country))   +  
+    theme_minimal() + 
+    #scale_color_manual(values = jColors) +
+    theme(axis.title.x=element_blank(),
+          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
+    ggtitle("Papers in PubMed per day by country") +
+  guides(size=FALSE, alpha=FALSE) 
+  
+  
+    
+  
+  
+  girafe(ggobj = ggplot2b, 
          options = list(opts_selection(type = "single", only_shiny = FALSE)) )
   
   })
   
 
-  
-#  leaflet() %>% addTiles()  %>%
-  #    addMinicharts(countries_coord2$longitude, countries_coord2$latitude,chartdata = countries_coord2$total, labelText = countries_coord2$iso, showLabels = TRUE, width = 100, height = 100, layerId = countries_coord2$country, time = countries_coord2$Date) 
-  
-  
-  
-  
-  
-  output$table3 <- renderDT(pais() %>%
+  output$table2 <- renderDT(pais() %>%
                               filter(!is.na(iso))  %>%
                               filter(iso!='')  %>%
                               arrange(country, Date) %>%
                               group_by(country, Date) %>%
-                              summarize(dia=n_distinct(PMID)) %>% 
-                              mutate(total = cumsum(dia)) %>%
+                              summarize(Day=n_distinct(PMID)) %>% 
+                              mutate(Cumulative = cumsum(Day)) %>%
                               arrange(Date),extensions = 'Buttons',
                             options = list(pageLength = 10,
                                            dom = 'Bfrtip',
-                                           #buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
-                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
+                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Download")),
                                            exportOptions = list(modifiers = list(page = "all")
                                            )
                             ), server = FALSE)
   
   
 
-  ######################CUARTA SOLAPA###########################      
+  
+  
 
   
-  output$map4 <- renderLeaflet({ 
-    progress <- Progress$new(session, min=1, max=15)
+  ######################TERCERA SOLAPA###########################      
+
+
+  
+  output$map3 <- renderLeaflet({ 
+    progress <- Progress$new(session, min=1, max=10000)
     on.exit(progress$close())
     
-    progress$set(message = 'Espere por favor',
-                 detail = 'La carga Inicial de datos puede demorar algunos segundos')
+    progress$set(message = 'Loading Data')
 
     
+    
     leaflet() %>% addTiles()  %>%
-      addCircles(data = countries_coord,lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 40000, color='red',  label=~paste0(country,': ',count)) %>%
-      #      addMinicharts(countries_coord$longitude, countries_coord$latitude,chartdata = countries_coord$count, labelText = countries_coord$id, showLabels = TRUE, width = 100, height = 100, layerId = unique(countries_coord$country)) %>%
-      addFlows(lng0 = edges_for_plot_ud$x, lat0 = edges_for_plot_ud$y, lng1 = edges_for_plot_ud$xend, lat1 = edges_for_plot_ud$yend, time= edges_for_plot_ud$dia, dir = 0, color='purple', flow=edges_for_plot_ud$weight,  minThickness = 0.1, maxThickness = 15, opacity=0.7) 
-  })
+      addCircles(data = countries_coord,lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 24000, color='red',  label=~paste0(country,': ',count)) %>%
+    #  #      addMinicharts(countries_coord$longitude, countries_coord$latitude,chartdata = countries_coord$count, labelText = countries_coord$id, showLabels = TRUE, width = 100, height = 100, layerId = unique(countries_coord$country)) %>%
+      addFlows(lng0 = edges_for_plot_ud$x, lat0 = edges_for_plot_ud$y, lng1 = edges_for_plot_ud$xend, lat1 = edges_for_plot_ud$yend, time= edges_for_plot_ud$dia, dir = 0, color='purple', flow=edges_for_plot_ud$weight,  minThickness = 0.2, maxThickness = 20, opacity=0.6) 
+
+    # Use leaflet() here, and only include aspects of the map that
+    # won't need to change dynamically (at least, not unless the
+    # entire map is being torn down and recreated).    
+    
+    #leaflet() %>% addTiles()  
+    
+    #  })
+  
+  
+  # Incremental changes to the map (in this case, replacing the
+  # circles when a new color is chosen) should be performed in
+  # an observer. Each independent set of things that can change
+  # should be managed in its own observer.
+    #observe({
+
+    #leafletProxy("map3", data = countries_coord) %>%
+    #  clearShapes() %>%
+    #  addCircles(lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 24000, color='red',  label=~paste0(country,': ',count))
+    # 
+      })
   
   
   
-  output$table4 <- renderDT(
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  output$table3a <- renderDT(pubmed_data %>%
+                               filter(!is.na(iso))  %>%
+                               filter(iso!='')  %>%
+                               group_by(country, iso) %>%
+                               summarize(count=n_distinct(PMID)) %>%
+                               arrange(desc(count)),extensions = 'Buttons',
+                             options = list(pageLength = 10,
+                                            dom = 'Bfrtip',
+                                            buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Download")),
+                                            exportOptions = list(modifiers = list(page = "all")
+                                            )
+                             ), server = FALSE)
+  
+  
+  
+  output$table3b <- renderDT(
     
     edges_for_plot <- edges_for_plot_ud  %>% 
       left_join (listado_iso_country, by=c('source'='iso'))  %>% 
@@ -420,94 +401,16 @@ server <- function(input, output, session) {
                             extensions = 'Buttons',
                             options = list(pageLength = 10,
                                            dom = 'Bfrtip',
-                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar", filename= 'publicaciones')),
+                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Download")),
                                            exportOptions = list(modifiers = list(page = "all")
                                            )
                             ), server = FALSE)
   
   
   
+  ######################CUARTASOLAPA###################
   
-  
-  
-  ######################QUINTA SOLAPA###################
-  
-  output$plot5a <- renderGirafe({ggplot5a <- 
-    seleccion()  %>%
-    group_by(variable, Date)  %>% 
-    summarize(dia=n_distinct(PMID)) %>% 
-    mutate(total = cumsum(dia))  %>% 
-    ggplot(aes(x=Date, y=total, color=variable)) + 
-    ylab("total de papers") +
-    xlab("Date") +
-    geom_line_interactive(size = 3, alpha=1)  +
-    geom_point_interactive(aes(x=Date, y=total, size=4, alpha=0.8, tooltip = paste0(variable, "\n Dia: ",Date,"\n Cantidad:",total))) +
-    theme_minimal() + 
-        scale_color_manual(values = jColors2) +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-    ggtitle("Comparacion de Conceptos en PubMed") +
-    guides(size=FALSE, alpha=FALSE) 
-
-  
-  
-  
-  girafe(ggobj = ggplot5a, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  
-  
-  
-  })
-  
-  
-  output$plot5b <- renderGirafe({ggplot5b <- 
-    seleccion() %>%
-    group_by(variable, Date)  %>% 
-    summarize(dia=n_distinct(PMID)) %>% 
-    mutate(total = cumsum(dia))  %>% 
-    ggplot(aes(x=Date, y=total, color=variable)) + 
-    ylab("total de papers") +
-    xlab("Date") +
-    geom_line_interactive(size = 3, alpha=1)  +
-    geom_point_interactive(aes(x=Date, y=total, size=4, alpha=0.8, tooltip = paste0(variable, "\n Dia: ",Date,"\n Cantidad:",total))) +
-  theme_minimal() + 
-    scale_color_manual(values = jColors2) +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-    ggtitle("Comparacion de Conceptos en PubMed (LOG2)") +
-    guides(size=FALSE, alpha=FALSE)  + 
-    scale_y_continuous(trans='log2')
-  
-    
-  
-  
-  girafe(ggobj = ggplot5b, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  
-  
-  
-  })
-  
-  
-  
-  
-  
-  
-
-  
-  output$table5a <- renderDT(seleccion() %>%
-                               group_by(variable, Date)  %>% 
-                               summarize(dia=n_distinct(PMID)) %>% 
-                               mutate(total = cumsum(dia))  %>% 
-                              arrange(desc(total)), extensions = 'Buttons', options = list(pageLength = 10, dom = 'Bfrtip',
-                 buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar", filename= 'publicaciones')),
-                 exportOptions = list(modifiers = list(page = "all")
-                 )), server = FALSE)
-  
-  
-  
-  
-  output$network6a <- renderVisNetwork({
+  output$network4 <- renderVisNetwork({
     
     g <- keyword_cors %>%
       graph_from_data_frame(directed=FALSE, vertices=keyword_cant)  
@@ -528,9 +431,86 @@ server <- function(input, output, session) {
       visOptions(highlightNearest = list(enabled = T, degree = 3, hover = T),nodesIdSelection = T) %>%
       visLayout(randomSeed = 12) # to have always the same network  
     
+    
+  })
+  
+  
+
+  ######################QUINTA SOLAPA###################
+  
+  output$plot5a <- renderGirafe({ggplot5a <- 
+    seleccion()  %>%
+    group_by(variable, Date)  %>% 
+    summarize(dia=n_distinct(PMID)) %>% 
+    mutate(total = cumsum(dia))  %>% 
+    ggplot(aes(x=Date, y=total, color=variable)) + 
+    ylab("total de papers") +
+    xlab("Date") +
+    geom_line_interactive(size = 2, alpha=1)  +
+    geom_smooth(method = "loess", size=2, alpha=0.3)   +  
+    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0(variable, "\n Date: ",Date,"\n Cumulative:",total))) +
+    theme_minimal() + 
+        scale_color_manual(values = jColors2) +
+    theme(axis.title.x=element_blank(),
+          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
+    ggtitle("Terms comparison in PubMed") +
+    guides(size=FALSE, alpha=FALSE) 
+
+  
+  
+  
+  
+  girafe(ggobj = ggplot5a, 
+         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  
+  
   
   })
   
+  
+
+  
+  output$plot5b <- renderGirafe({ggplot5b <- 
+    seleccion() %>%
+    group_by(variable, Date)  %>% 
+    summarize(dia=n_distinct(PMID)) %>% 
+    mutate(total = cumsum(dia))  %>% 
+    ggplot(aes(x=Date, y=total, color=variable)) + 
+    ylab("total de papers") +
+    xlab("Date") +
+    geom_line_interactive(size = 2, alpha=1)  +
+    geom_smooth(method = "loess", size=2, alpha=0.3)   +  
+    geom_point_interactive(aes(x=Date, y=total, size=1, alpha=0.1, tooltip = paste0(variable, "\n Date: ",Date,"\n Cumulative:",total))) +
+  theme_minimal() + 
+    scale_color_manual(values = jColors2) +
+    theme(axis.title.x=element_blank(),
+          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
+    ggtitle("Terms comparison in PubMed (LOG2)") +
+    guides(size=FALSE, alpha=FALSE)  + 
+    scale_y_continuous(trans='log2')
+  
+  
+  
+  
+  girafe(ggobj = ggplot5b, 
+         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  
+  
+  
+  })
+  
+  
+
+
+  
+  output$table5a <- renderDT(seleccion() %>%
+                               group_by(variable, Date)  %>% 
+                               summarize(dia=n_distinct(PMID)) %>% 
+                               mutate(total = cumsum(dia))  %>% 
+                              arrange(desc(total)), extensions = 'Buttons', options = list(pageLength = 10, dom = 'Bfrtip',
+                 buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar", filename= 'publicaciones')),
+                 exportOptions = list(modifiers = list(page = "all")
+                 )), server = FALSE)
   
   
   
@@ -553,40 +533,40 @@ server <- function(input, output, session) {
 }
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(title = "Publicaciones Cientificas relacionadas con Covid-19",
-  titlePanel( fluidRow(column(width = 6, h2("Publicaciones Cientificas relacionadas con Covid-19")))),
+ui <- fluidPage(
+  titlePanel("Papers Related with Covid-19"),
   mainPanel(
     tabsetPanel(type = "tabs",
-                tabPanel("Publicaciones Total",
+                tabPanel("Papers Published",
                          fluidRow(column(6, girafeOutput("plot1a")),column(6, girafeOutput("plot1b"))),
                          fluidRow(column(12, dataTableOutput(outputId = "table1")))),
-                tabPanel("Comparativo paises",
-                         fluidRow(column(12, pickerInput(inputId = "country", label = "Seleccione los paises a comparar", 
-                                                        choices = listado_paises, selected = c("China","United States"), 
-                                                        options = list('actions-box' = TRUE, size = 8,
-                                                        'selected-text-format' = "count > 3",'deselect-all-text' = "Ninguno", 'select-all-text' = "Todos",'none-selected-text' = "Sin Seleccion",'count-selected-text' = "{0} seleccionados."), 
-                                                        multiple = TRUE))), 
-                         fluidRow(column(6, girafeOutput("plot3a")),column(6, girafeOutput("plot3b"))),
-                         #fluidRow(column(12, girafeOutput("plot3"))),
-                         fluidRow(column(12, dataTableOutput(outputId = "table3")))),
-                tabPanel("Grafo de Colaboracion", 
-                        #fluidRow(column(12,  sliderInput(inputId = "Date", "Evolucion Colaboracion:", min=first(listado_dias$Date), max=last(listado_dias$Date), value=max(listado_dias$Date), timeFormat="%Y-%m-%d", animate = TRUE))), 
-                        fluidRow(column(12, leafletOutput(outputId = "map4"))),
-                        fluidRow(column(6, dataTableOutput("table2")),column(6, dataTableOutput("table4"))),
-                        ),
-                tabPanel("Avances Cientificos", 
-                         fluidRow(column(12, pickerInput(inputId = "variable", label = "Seleccione los conceptos a comparar", 
-                                                        choices = variable_selector, selected = c("vaccine", "antivirals", "antibodies"), 
-                                                        options = list('actions-box' = TRUE, size = 8,
-                                                                       'selected-text-format' = "count > 3",'deselect-all-text' = "Ninguno", 'select-all-text' = "Todos",'none-selected-text' = "Sin Seleccion",'count-selected-text' = "{0} seleccionados."), 
-                                                        multiple = TRUE))), 
+                tabPanel("Countries Comparative",
+                         #fluidRow(column(12, pickerInput(inputId = "country", label = "Select countries", choices = listado_paises, selected = c("China","United States"), options = list('actions-box' = TRUE, size = 8,'selected-text-format' = "count > 3",'deselect-all-text' = "None", 'select-all-text' = "All",'none-selected-text' = "Not Selected",'count-selected-text' = "{0} selected."), multiple = TRUE))), 
+                         fluidRow(column(12, selectizeInput('country', label = "Select countries", choices = listado_paises, selected = c("China","United States"), multiple = TRUE))                ), 
+                         fluidRow(column(6, girafeOutput("plot2a")),column(6, girafeOutput("plot2b"))),
+                         fluidRow(column(12, dataTableOutput(outputId = "table2")))),
+                tabPanel("Collaboration graph", 
+                         fluidRow(column(12, leafletOutput(outputId = "map3"))),
+                         fluidRow(column(6, dataTableOutput("table3a")),column(6, dataTableOutput("table3b"))),
+                ),
+                tabPanel("Semantic Map", visNetworkOutput(outputId = "network4")),
+                
+                tabPanel("Scientific advances", 
+                         fluidRow(column(12, 
+                                         selectizeInput(
+                                           'variable', label = "Select concepts", choices = variable_selector, selected = c("vaccine","hydroxychloroquine","remdesivir"), multiple = TRUE)
+                         )                ), 
+                         
                          fluidRow(column(6, girafeOutput("plot5a")),column(6, girafeOutput("plot5b"))),
                          fluidRow(column(12, dataTableOutput("table5a")))
-                ),
-                tabPanel("Mapa Conceptual", visNetworkOutput(outputId = "network6a"))
-          )
-)
-)
+                )
+                
+          ),
+    h5('Data Extracted from https://pubmed.ncbi.nlm.nih.gov/'),
+    h6('Search Query: COVID-19"[All Fields] OR "severe acute respiratory syndrome coronavirus 2"[Supplementary Concept] OR "severe acute respiratory syndrome coronavirus 2"[All Fields] OR "2019-nCoV"[All Fields] OR "SARS-CoV-2"[All Fields] OR "2019nCoV"[All Fields] OR (("Wuhan"[All Fields] AND ("coronavirus"[MeSH Terms] OR "coronavirus"[All Fields])) AND 2019/12[PDAT] : 2030[PDAT])) AND 2020[EDAT] : 2021[EDAT]" '),
+))
+
+
 
 shinyApp(ui, server)
 

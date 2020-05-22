@@ -17,7 +17,6 @@ library(RColorBrewer)
 library(ggiraph)
 library(leaflet.minicharts)
 library(htmltools)
-library(treemapify)
 
 
 
@@ -77,7 +76,7 @@ listado_iso_country <- pubmed_data %>%
   
   
   variable_selector <- pubmed_data %>%
-    select(PMID, azithromycin,  favipiravir, hydroxychloroquine, interferon, lopinavir, remdesivir, ritonavir,   tocilizumab,  vaccine) %>%
+    select(PMID, azithromycin,  favipiravir, hydroxychloroquine, interferon, lopinavir, remdesivir, ritonavir,   tocilizumab,  vaccine, antibodies) %>%
     gather(key = "variable", value = "valor", -c(PMID)) %>%
     select(variable)  %>%
     unique()
@@ -397,7 +396,7 @@ server <- function(input, output, session) {
       left_join (listado_iso_country, by=c('target'='iso')) %>%
       select(Source=country.x, Target=country.y, Weight=weight) %>% 
                               arrange(desc(Weight)) %>%
-      filter(!is.na(source) & !is.na(target)),
+      filter(!is.na(Source) & !is.na(Target)),
                             extensions = 'Buttons',
                             options = list(pageLength = 10,
                                            dom = 'Bfrtip',
@@ -506,7 +505,7 @@ server <- function(input, output, session) {
   output$table5a <- renderDT(seleccion() %>%
                                group_by(variable, Date)  %>% 
                                summarize(Day=n_distinct(PMID)) %>% 
-                               mutate(Cumulative = cumsum(dia)) , extensions = 'Buttons', options = list(pageLength = 10, dom = 'Bfrtip',
+                               mutate(Cumulative = cumsum(Day)) , extensions = 'Buttons', options = list(pageLength = 10, dom = 'Bfrtip',
                  buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar", filename= 'publicaciones')),
                  exportOptions = list(modifiers = list(page = "all")
                  )), server = FALSE)
@@ -540,8 +539,8 @@ ui <- fluidPage(
                          fluidRow(column(6, girafeOutput("plot1a")),column(6, girafeOutput("plot1b"))),
                          fluidRow(column(12, dataTableOutput(outputId = "table1")))),
                 tabPanel("Countries Comparative",
-                         #fluidRow(column(12, pickerInput(inputId = "country", label = "Select countries", choices = listado_paises, selected = c("China","United States"), options = list('actions-box' = TRUE, size = 8,'selected-text-format' = "count > 3",'deselect-all-text' = "None", 'select-all-text' = "All",'none-selected-text' = "Not Selected",'count-selected-text' = "{0} selected."), multiple = TRUE))), 
-                         fluidRow(column(12, selectizeInput('country', label = "Select countries", choices = listado_paises, selected = c("China","United States"), multiple = TRUE))                ), 
+                         #fluidRow(column(12, pickerInput(inputId = "country", label = "Select countries", choices = listado_paises, selected = c("China","United States","Italy"), options = list('actions-box' = TRUE, size = 8,'selected-text-format' = "count > 3",'deselect-all-text' = "None", 'select-all-text' = "All",'none-selected-text' = "Not Selected",'count-selected-text' = "{0} selected."), multiple = TRUE))), 
+                         fluidRow(column(12, selectizeInput('country', label = "Select countries", choices = listado_paises, selected = c("China","United States","Italy"), multiple = TRUE))                ), 
                          fluidRow(column(6, girafeOutput("plot2a")),column(6, girafeOutput("plot2b"))),
                          fluidRow(column(12, dataTableOutput(outputId = "table2")))),
                 tabPanel("Collaboration graph", 
@@ -553,7 +552,7 @@ ui <- fluidPage(
                 tabPanel("Scientific advances", 
                          fluidRow(column(12, 
                                          selectizeInput(
-                                           'variable', label = "Select concepts", choices = variable_selector, selected = c("vaccine","hydroxychloroquine","remdesivir"), multiple = TRUE)
+                                           'variable', label = "Select concepts", choices = variable_selector, selected = c("vaccine","hydroxychloroquine","remdesivir","antibodies"), multiple = TRUE)
                          )                ), 
                          
                          fluidRow(column(6, girafeOutput("plot5a")),column(6, girafeOutput("plot5b"))),

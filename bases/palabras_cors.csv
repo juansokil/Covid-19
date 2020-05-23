@@ -1,193 +1,259 @@
 "item1"	"item2"	"weight"
-"1"	"reverse transcriptase"	"transcriptase polymerase"	0.874665414454714
-"2"	"reverse transcription"	"transcription polymerase"	0.78783576936656
-"3"	"person person"	"person transmission"	0.76646129125473
-"4"	"control prevention"	"disease control"	0.698430400275912
-"5"	"head neck"	"neck cancer"	0.66275171961535
-"6"	"chain reaction"	"reaction rt"	0.6596680910724
-"7"	"polymerase chain"	"reaction rt"	0.643431841931184
-"8"	"time reverse"	"reverse transcriptase"	0.617625358994955
-"9"	"center disease"	"disease control"	0.588835822658623
-"10"	"chain reaction"	"transcriptase polymerase"	0.582211417167322
-"11"	"polymerase chain"	"transcriptase polymerase"	0.5796387924128
-"12"	"time reverse"	"chain reaction"	0.571547747988886
-"13"	"time reverse"	"polymerase chain"	0.569002894864448
-"14"	"time reverse"	"transcriptase polymerase"	0.550981558360659
-"15"	"transcription polymerase"	"polymerase chain"	0.548975616394153
-"16"	"disease control"	"centr disease"	0.540672874411181
-"17"	"time reverse"	"reverse transcription"	0.540144087349469
-"18"	"care unit"	"unit icu"	0.535729878802504
-"19"	"transcription polymerase"	"chain reaction"	0.535436029464254
-"20"	"chain reaction"	"reverse transcriptase"	0.523194588173524
-"21"	"rt pcr"	"reaction rt"	0.52110474252485
-"22"	"control prevention"	"centr disease"	0.51451714802968
-"23"	"polymerase chain"	"reverse transcriptase"	0.506170781751991
-"24"	"reaction rt"	"transcriptase polymerase"	0.495513394244778
-"25"	"control prevention"	"center disease"	0.489493725776989
-"26"	"transcription polymerase"	"reaction rt"	0.475461716907199
-"27"	"transplant recipient"	"kidney transplant"	0.464633956371558
-"28"	"time reverse"	"transcription polymerase"	0.451502832237662
-"29"	"opacity consolidation"	"glass opacity"	0.445573753358527
-"30"	"reverse transcription"	"polymerase chain"	0.44361135750484
-"31"	"incubation period"	"period day"	0.437043943775478
-"32"	"reverse transcription"	"chain reaction"	0.432227809609577
-"33"	"time reverse"	"reaction rt"	0.430762914382599
-"34"	"ground glass"	"opacity consolidation"	0.423551950091842
-"35"	"reaction rt"	"reverse transcriptase"	0.416437989335941
-"36"	"reverse transcription"	"reaction rt"	0.396329377217668
-"37"	"fever cough"	"symptom fever"	0.387308417400518
-"38"	"rt pcr"	"time rt"	0.3843957557666
-"39"	"receptor blocker"	"ace inhibitor"	0.350409834127029
-"40"	"chest tomography"	"tomography ct"	0.349036962846258
-"41"	"rt pcr"	"chain reaction"	0.343909143203091
-"42"	"rt pcr"	"polymerase chain"	0.335083674865899
-"43"	"day symptom"	"symptom onset"	0.333534378979125
-"44"	"cancer patient"	"lung cancer"	0.315799341803534
-"45"	"care protein"	"level care"	0.301759221123411
-"46"	"mortality rate"	"rate patient"	0.286645322345071
-"47"	"fever cough"	"cough dyspnea"	0.286030564611219
-"48"	"onset symptom"	"day onset"	0.283609385743833
-"49"	"emergency surgery"	"patient emergency"	0.277804342522566
-"50"	"risk factor"	"factor disease"	0.266336316410183
-"51"	"prevention control"	"infection prevention"	0.262492130645663
-"52"	"rt pcr"	"transcriptase polymerase"	0.260428168543366
-"53"	"disease progression"	"factor disease"	0.260142316968466
-"54"	"rt pcr"	"transcription polymerase"	0.249979496919857
-"55"	"rt pcr"	"reverse transcription"	0.249367628008224
-"56"	"rt pcr"	"time reverse"	0.243321623371923
-"57"	"characteristic patient"	"study characteristic"	0.239913712383763
-"58"	"control measure"	"infection control"	0.238930310641509
-"59"	"care unit"	"patient care"	0.23766941343418
-"60"	"finding patient"	"ct finding"	0.237114462951023
-"61"	"shortness breath"	"symptom fever"	0.234422545513029
-"62"	"rt pcr"	"pcr test"	0.225355503159854
-"63"	"rt pcr"	"reverse transcriptase"	0.21752998400161
-"64"	"patient care"	"unit icu"	0.215995105480958
-"65"	"healthcare worker"	"worker risk"	0.213232605772417
-"66"	"prevention control"	"control measure"	0.201911519442479
-"67"	"ncov pneumonia"	"patient ncov"	0.195347684263385
-"68"	"chest ct"	"ct image"	0.189579147430798
-"69"	"feature patient"	"ct feature"	0.185844475223486
-"70"	"cohort study"	"study patient"	0.185356787021747
-"71"	"transcription polymerase"	"pcr test"	0.178865080241073
-"72"	"care protein"	"lymphocyte count"	0.175931174221868
-"73"	"chest ct"	"ct scan"	0.169047810492074
-"74"	"ncov pneumonia"	"pneumonia patient"	0.16662879608819
-"75"	"fever cough"	"patient fever"	0.166220408053337
-"76"	"patient healthcare"	"healthcare provider"	0.16543844782731
-"77"	"patient staff"	"risk patient"	0.162615963204117
-"78"	"chain reaction"	"pcr test"	0.162420470331437
-"79"	"polymerase chain"	"pcr test"	0.161659018646138
-"80"	"patient emergency"	"emergency department"	0.161170635548203
-"81"	"patient ncov"	"ncov infection"	0.160907196560655
-"82"	"chest ct"	"ct finding"	0.153894487710321
-"83"	"care protein"	"blood cell"	0.14838391731188
-"84"	"reverse transcription"	"pcr test"	0.14834307753161
-"85"	"reaction rt"	"pcr test"	0.14834307753161
-"86"	"hypertension diabete"	"heart disease"	0.145341901198417
-"87"	"day patient"	"patient day"	0.14242313033358
-"88"	"airway management"	"management patient"	0.142323774643921
-"89"	"factor disease"	"disease severity"	0.139512945694722
-"90"	"infection patient"	"cross infection"	0.139505806288073
-"91"	"healthcare worker"	"patient healthcare"	0.139190134771801
-"92"	"drug treatment"	"treatment option"	0.139135723251433
-"93"	"risk factor"	"regression analysis"	0.138116382728146
-"94"	"pneumonia patient"	"patient pneumonia"	0.135397997080255
-"95"	"ct finding"	"tomography ct"	0.13293852153448
-"96"	"staff patient"	"patient staff"	0.13266191549135
-"97"	"risk factor"	"disease risk"	0.131852094679964
-"98"	"cough dyspnea"	"symptom fever"	0.131326258938393
-"99"	"patient study"	"total patient"	0.130866501715089
-"100"	"ground glass"	"chest tomography"	0.129347674865352
-"101"	"disease prevention"	"prevention control"	0.128233364935597
-"102"	"patient laboratory"	"series patient"	0.127112947595523
-"103"	"care worker"	"worker risk"	0.1262988646901
-"104"	"symptom onset"	"igm igg"	0.125690370410211
-"105"	"chest ct"	"glass opacity"	0.124664812118665
-"106"	"lymphocyte count"	"blood cell"	0.123643534726642
-"107"	"hospital university"	"university hospital"	0.123132167047086
-"108"	"ct finding"	"chest tomography"	0.119384233946617
-"109"	"ct image"	"tomography ct"	0.119347428443046
-"110"	"fever symptom"	"patient fever"	0.1191392096084
-"111"	"outbreak pneumonia"	"ncov outbreak"	0.11850164715147
-"112"	"fatality rate"	"rate patient"	0.115849624052422
-"113"	"fever cough"	"shortness breath"	0.115251387667225
-"114"	"risk disease"	"disease transmission"	0.114641798512051
-"115"	"disease prevention"	"prevention treatment"	0.112952818689466
-"116"	"diagnosis treatment"	"treatment disease"	0.112885408633583
-"117"	"ground glass"	"chest ct"	0.112355803494302
-"118"	"patient laboratory"	"hospital patient"	0.110666086315856
-"119"	"hypertension diabete"	"disease risk"	0.11036126691407
-"120"	"adult patient"	"care facility"	0.109121156647893
-"121"	"day patient"	"day day"	0.108573690324334
-"122"	"test result"	"pcr test"	0.108386125122503
-"123"	"chest ct"	"opacity consolidation"	0.108243399005356
-"124"	"cancer patient"	"patient risk"	0.107478370477133
-"125"	"chest ct"	"ct feature"	0.106496187100406
-"126"	"hospital university"	"study characteristic"	0.101262431212407
-"127"	"infection patient"	"patient infection"	0.100350055891586
-"128"	"patient family"	"family cluster"	0.0984758244505926
-"129"	"confidence interval"	"meta analysis"	0.0979172972254678
-"130"	"patient symptom"	"symptom fever"	0.0969436170740095
-"131"	"spike protein"	"host cell"	0.0958982320517468
-"132"	"healthcare worker"	"equipment ppe"	0.0957602021504496
-"133"	"person person"	"droplet contact"	0.095633581457172
-"134"	"purpose study"	"study characteristic"	0.094694521122006
-"135"	"patient comorbidity"	"rate patient"	0.094206771201966
-"136"	"distancing measure"	"school closure"	0.093566909863103
-"137"	"study data"	"aim study"	0.0934087756748229
-"138"	"outbreak pneumonia"	"december outbreak"	0.0931616873232482
-"139"	"glass opacity"	"ct feature"	0.0925007528052653
-"140"	"patient disease"	"disease risk"	0.0920513806303884
-"141"	"host cell"	"host response"	0.0914278840402449
-"142"	"glass opacity"	"ct scan"	0.0906549197561598
-"143"	"control measure"	"infection prevention"	0.0899830612969176
-"144"	"data patient"	"patient laboratory"	0.0874432211979653
-"145"	"center disease"	"disease prevention"	0.0871204148955779
-"146"	"series patient"	"patient emergency"	0.0867842176569567
-"147"	"patient laboratory"	"ncov infection"	0.0866830706703894
-"148"	"finding patient"	"family cluster"	0.0863451632991182
-"149"	"infection control"	"radiology department"	0.0862032802535184
-"150"	"ground glass"	"ct finding"	0.0861277450823183
-"151"	"risk disease"	"patient risk"	0.0861272057799894
-"152"	"membrane oxygenation"	"patient ventilation"	0.0858384306320689
-"153"	"hospital university"	"patient hospital"	0.0845761645600618
-"154"	"male female"	"total patient"	0.0840973082636272
-"155"	"ground glass"	"ct feature"	0.0840071356279287
-"156"	"host response"	"cytokine storm"	0.0832065067123804
-"157"	"ground glass"	"ct scan"	0.0819077098213512
-"158"	"ground glass"	"ct image"	0.0816644817936869
-"159"	"disease patient"	"severity disease"	0.0816272768429026
-"160"	"care worker"	"school closure"	0.0810833241930491
-"161"	"disease progression"	"risk factor"	0.0807239778085634
-"162"	"day symptom"	"period day"	0.0805464264054202
-"163"	"patient risk"	"patient staff"	0.0800535378523128
-"164"	"infection risk"	"risk disease"	0.0800444559652459
-"165"	"chest tomography"	"acid test"	0.0798512888847179
-"166"	"mortality patient"	"factor disease"	0.0795120492402814
-"167"	"throat swab"	"rt pcr"	0.07937720301039
-"168"	"liver function"	"proportion patient"	0.0793365604797068
-"169"	"throat swab"	"chain reaction"	0.0778445361066813
-"170"	"glass opacity"	"ct image"	0.077682541228122
-"171"	"patient risk"	"risk infection"	0.0774907673136738
-"172"	"throat swab"	"polymerase chain"	0.0774235999475078
-"173"	"disease pandemic"	"pandemic march"	0.0772818430866375
-"174"	"infection risk"	"radiology department"	0.0771944376677239
-"175"	"risk infection"	"worker risk"	0.076712162616027
-"176"	"patient patient"	"patient comorbidity"	0.0763979984992283
-"177"	"glass opacity"	"ct finding"	0.075844900574093
-"178"	"hospital patient"	"university hospital"	0.0755803714889957
-"179"	"disease progression"	"unit icu"	0.0752814450454407
-"180"	"risk infection"	"disease risk"	0.0749928692843164
-"181"	"hand hygiene"	"equipment ppe"	0.0742746086631577
-"182"	"risk exposure"	"level care"	0.0740546636017023
-"183"	"risk exposure"	"worker risk"	0.0740546636017023
-"184"	"heart disease"	"heart failure"	0.0740546636017023
-"185"	"patient fever"	"symptom patient"	0.0735916106210406
-"186"	"glass opacity"	"chest tomography"	0.0731636371419027
-"187"	"contact patient"	"healthcare professional"	0.0726097463180475
-"188"	"cough dyspnea"	"pneumonia ncp"	0.0726093904918242
-"189"	"patient risk"	"heart failure"	0.071238010413291
-"190"	"patient family"	"cluster pneumonia"	0.0712375914689835
-"191"	"fever cough"	"symptom patient"	0.0701685306045607
-"192"	"age patient"	"patient age"	0.0700639040968428
+"1"	"ritonavir"	"lopinavir"	72.8256335837126
+"2"	"lopinavir"	"ritonavir"	72.8256335837125
+"3"	"recipient"	"transplant"	56.0427715232685
+"4"	"transplant"	"recipient"	56.0427715232685
+"5"	"breath"	"shortness"	47.2017995449989
+"6"	"shortness"	"breath"	47.2017995449989
+"7"	"oxygenation"	"membrane"	39.9782384360589
+"8"	"membrane"	"oxygenation"	39.9782384360589
+"9"	"storm"	"cytokine"	35.9183217490039
+"10"	"cytokine"	"storm"	35.9183217490039
+"11"	"sensitivity"	"specificity"	33.1025607198694
+"12"	"specificity"	"sensitivity"	33.1025607198693
+"13"	"body"	"temperature"	32.3669482594278
+"14"	"temperature"	"body"	32.3669482594278
+"15"	"ggo"	"consolidation"	32.1837391183367
+"16"	"consolidation"	"ggo"	32.1837391183367
+"17"	"reverse"	"transcriptase"	31.5788834322417
+"18"	"transcriptase"	"reverse"	31.5788834322417
+"19"	"reverse"	"transcription"	28.8875013215393
+"20"	"transcription"	"reverse"	28.8875013215393
+"21"	"questionnaire"	"survey"	28.0078788756024
+"22"	"survey"	"questionnaire"	28.0078788756024
+"23"	"injury"	"cardiac"	25.1537426473268
+"24"	"cardiac"	"injury"	25.1537426473268
+"25"	"interval"	"confidence"	24.4106755427548
+"26"	"confidence"	"interval"	24.4106755427548
+"27"	"domain"	"spike"	23.5816337318688
+"28"	"spike"	"domain"	23.5816337318688
+"29"	"transcriptase"	"reaction"	23.0307324895929
+"30"	"reaction"	"transcriptase"	23.0307324895929
+"31"	"hypertension"	"diabete"	22.9975685001198
+"32"	"diabete"	"hypertension"	22.9975685001198
+"33"	"chain"	"transcriptase"	22.3631750261264
+"34"	"transcriptase"	"chain"	22.3631750261264
+"35"	"enzyme"	"angiotensin"	21.7802589329066
+"36"	"angiotensin"	"enzyme"	21.7802589329066
+"37"	"polymerase"	"transcriptase"	21.6366012821175
+"38"	"transcriptase"	"polymerase"	21.6366012821175
+"39"	"lymphocyte"	"count"	21.5936471672636
+"40"	"count"	"lymphocyte"	21.5936471672636
+"41"	"female"	"male"	21.3217271658981
+"42"	"male"	"female"	21.3217271658981
+"43"	"reaction"	"chain"	21.0668715796276
+"44"	"chain"	"reaction"	21.0668715796276
+"45"	"chain"	"polymerase"	20.9329719721299
+"46"	"polymerase"	"chain"	20.9329719721299
+"47"	"reaction"	"polymerase"	20.1085704671445
+"48"	"polymerase"	"reaction"	20.1085704671445
+"49"	"ggo"	"opacity"	20.0086589240099
+"50"	"blocker"	"inhibitor"	20.0086589240099
+"51"	"inhibitor"	"blocker"	20.0086589240099
+"52"	"opacity"	"ggo"	20.0086589240099
+"53"	"glass"	"ground"	18.9642509032512
+"54"	"ground"	"glass"	18.9642509032512
+"55"	"ggo"	"glass"	18.7581177412593
+"56"	"glass"	"ggo"	18.7581177412593
+"57"	"consolidation"	"opacity"	18.5811543663418
+"58"	"opacity"	"consolidation"	18.5811543663418
+"59"	"opacity"	"glass"	18.5449573123814
+"60"	"glass"	"opacity"	18.5449573123814
+"61"	"ground"	"opacity"	18.2427848362796
+"62"	"opacity"	"ground"	18.2427848362796
+"63"	"ggo"	"ground"	18.1397182552837
+"64"	"ground"	"ggo"	18.1397182552837
+"65"	"reaction"	"reverse"	17.985395279082
+"66"	"reverse"	"reaction"	17.985395279082
+"67"	"reverse"	"chain"	17.703313439287
+"68"	"chain"	"reverse"	17.703313439287
+"69"	"pregnancy"	"woman"	17.703313439287
+"70"	"woman"	"pregnancy"	17.703313439287
+"71"	"reverse"	"polymerase"	17.478152060091
+"72"	"polymerase"	"reverse"	17.478152060091
+"73"	"lesion"	"consolidation"	17.194941262821
+"74"	"consolidation"	"lesion"	17.194941262821
+"75"	"consolidation"	"glass"	17.1654473670014
+"76"	"glass"	"consolidation"	17.1654473670014
+"77"	"dyspnea"	"fatigue"	17.0763554610085
+"78"	"fatigue"	"dyspnea"	17.0763554610085
+"79"	"ace"	"receptor"	16.8128314569806
+"80"	"receptor"	"ace"	16.8128314569806
+"81"	"polymerase"	"transcription"	16.6892076962675
+"82"	"transcription"	"polymerase"	16.6892076962675
+"83"	"consolidation"	"ground"	16.5995534977596
+"84"	"ground"	"consolidation"	16.5995534977596
+"85"	"domain"	"structure"	16.5071436123082
+"86"	"structure"	"domain"	16.5071436123082
+"87"	"blocker"	"receptor"	16.0486118452996
+"88"	"receptor"	"blocker"	16.0486118452996
+"89"	"quo"	"quot"	16.0263530216584
+"90"	"quot"	"quo"	16.0263530216584
+"91"	"pcr"	"rt"	15.9347119228504
+"92"	"rt"	"pcr"	15.9347119228504
+"93"	"reaction"	"transcription"	15.3984548622278
+"94"	"transcription"	"reaction"	15.3984548622278
+"95"	"ppe"	"equipment"	15.3487475693392
+"96"	"equipment"	"ppe"	15.3487475693392
+"97"	"transcription"	"chain"	15.3259259081666
+"98"	"chain"	"transcription"	15.3259259081666
+"99"	"ggo"	"ct"	14.5262863788312
+"100"	"ct"	"ggo"	14.5262863788312
+"101"	"angiotensin"	"receptor"	14.5201726219378
+"102"	"receptor"	"angiotensin"	14.5201726219377
+"103"	"swab"	"throat"	14.2592195838028
+"104"	"throat"	"swab"	14.2592195838028
+"105"	"mother"	"woman"	13.8578489584809
+"106"	"woman"	"mother"	13.8578489584809
+"107"	"similarity"	"sequence"	13.3391059493399
+"108"	"sequence"	"similarity"	13.3391059493399
+"109"	"icu"	"unit"	13.3281362898421
+"110"	"unit"	"icu"	13.3281362898421
+"111"	"receptor"	"enzyme"	12.9917333985759
+"112"	"enzyme"	"receptor"	12.9917333985759
+"113"	"pcr"	"transcriptase"	12.7442392780925
+"114"	"transcriptase"	"pcr"	12.7442392780925
+"115"	"sequence"	"genome"	12.5054118275062
+"116"	"genome"	"sequence"	12.5054118275062
+"117"	"distress"	"ard"	12.2974216100009
+"118"	"ard"	"distress"	12.2974216100009
+"119"	"transcription"	"rt"	12.2174582656886
+"120"	"rt"	"transcription"	12.2174582656886
+"121"	"blood"	"count"	12.1927765318185
+"122"	"count"	"blood"	12.1927765318185
+"123"	"reverse"	"rt"	12.1631584511744
+"124"	"rt"	"reverse"	12.1631584511744
+"125"	"lesion"	"opacity"	12.1146177078966
+"126"	"opacity"	"lesion"	12.1146177078966
+"127"	"transcription"	"pcr"	12.0525289225381
+"128"	"pcr"	"transcription"	12.0525289225381
+"129"	"pcr"	"reverse"	12.033244876262
+"130"	"reverse"	"pcr"	12.033244876262
+"131"	"lesion"	"glass"	11.9192206480918
+"132"	"glass"	"lesion"	11.9192206480918
+"133"	"lesion"	"ground"	11.7152347065374
+"134"	"ground"	"lesion"	11.7152347065374
+"135"	"receptor"	"spike"	11.5287987133581
+"136"	"spike"	"receptor"	11.5287987133581
+"137"	"protein"	"spike"	11.4335193851485
+"138"	"spike"	"protein"	11.4335193851485
+"139"	"reverse"	"assay"	11.3486612334619
+"140"	"assay"	"reverse"	11.3486612334619
+"141"	"expression"	"receptor"	11.2869358032876
+"142"	"receptor"	"expression"	11.2869358032876
+"143"	"resource"	"allocation"	11.2828446397301
+"144"	"allocation"	"resource"	11.2828446397301
+"145"	"consolidation"	"ct"	11.0878172188334
+"146"	"ct"	"consolidation"	11.0878172188334
+"147"	"reaction"	"rt"	11.0220519013841
+"148"	"rt"	"reaction"	11.0220519013841
+"149"	"comorbidity"	"hypertension"	10.7889827531426
+"150"	"hypertension"	"comorbidity"	10.7889827531426
+"151"	"enzyme"	"inhibitor"	10.7546541716553
+"152"	"inhibitor"	"enzyme"	10.7546541716553
+"153"	"rt"	"chain"	10.7025721361266
+"154"	"chain"	"rt"	10.7025721361266
+"155"	"domain"	"receptor"	10.603547112073
+"156"	"receptor"	"domain"	10.603547112073
+"157"	"comorbidity"	"diabete"	10.5815023155822
+"158"	"diabete"	"comorbidity"	10.5815023155822
+"159"	"fatigue"	"cough"	10.5509577728155
+"160"	"cough"	"fatigue"	10.5509577728155
+"161"	"reaction"	"pcr"	10.3615771035551
+"162"	"pcr"	"reaction"	10.3615771035551
+"163"	"liver"	"function"	10.2955157665124
+"164"	"function"	"liver"	10.2955157665124
+"165"	"abnormality"	"opacity"	10.2583456397512
+"166"	"opacity"	"abnormality"	10.2583456397512
+"167"	"polymerase"	"rt"	10.2211415556088
+"168"	"rt"	"polymerase"	10.2211415556088
+"169"	"dehydrogenase"	"protein"	10.004329462005
+"170"	"protein"	"dehydrogenase"	10.004329462005
+"171"	"scan"	"opacity"	9.965250050044
+"172"	"abnormality"	"glass"	9.965250050044
+"173"	"glass"	"abnormality"	9.965250050044
+"174"	"opacity"	"scan"	9.965250050044
+"175"	"chain"	"pcr"	9.94944996272131
+"176"	"pcr"	"chain"	9.94944996272131
+"177"	"entry"	"receptor"	9.93485495185215
+"178"	"receptor"	"entry"	9.93485495185215
+"179"	"incubation"	"period"	9.88786857428044
+"180"	"period"	"incubation"	9.88786857428044
+"181"	"expression"	"cell"	9.8876333112817
+"182"	"cell"	"expression"	9.8876333112817
+"183"	"scan"	"ground"	9.82568072161201
+"184"	"ground"	"scan"	9.82568072161201
+"185"	"delivery"	"woman"	9.81505836407514
+"186"	"woman"	"delivery"	9.81505836407514
+"187"	"protein"	"domain"	9.76985299023922
+"188"	"domain"	"protein"	9.76985299023922
+"189"	"lesion"	"ct"	9.76672663728234
+"190"	"ct"	"lesion"	9.76672663728234
+"191"	"ct"	"chest"	9.68046049128582
+"192"	"chest"	"ct"	9.68046049128581
+"193"	"polymerase"	"pcr"	9.64202313803048
+"194"	"pcr"	"polymerase"	9.64202313803048
+"195"	"abnormality"	"ground"	9.63672532311947
+"196"	"ground"	"abnormality"	9.63672532311947
+"197"	"consolidation"	"chest"	9.63400610568034
+"198"	"chest"	"consolidation"	9.63400610568034
+"199"	"image"	"ct"	9.61720540890998
+"200"	"ct"	"image"	9.61720540890998
+"201"	"scan"	"glass"	9.57445593043443
+"202"	"glass"	"scan"	9.57445593043443
+"203"	"ct"	"opacity"	9.52912381255972
+"204"	"opacity"	"ct"	9.52912381255972
+"205"	"ct"	"scan"	9.35404804697464
+"206"	"scan"	"ct"	9.35404804697463
+"207"	"scan"	"chest"	9.32606983746225
+"208"	"chest"	"scan"	9.32606983746225
+"209"	"blood"	"lymphocyte"	9.01552945703935
+"210"	"lymphocyte"	"blood"	9.01552945703935
+"211"	"bat"	"sequence"	9.00389651580447
+"212"	"sequence"	"bat"	9.00389651580446
+"213"	"inhibitor"	"receptor"	9.00389651580446
+"214"	"receptor"	"inhibitor"	9.00389651580446
+"215"	"swab"	"reverse"	8.94136945666693
+"216"	"reverse"	"swab"	8.94136945666693
+"217"	"chest"	"opacity"	8.90215757212306
+"218"	"opacity"	"chest"	8.90215757212306
+"219"	"ct"	"glass"	8.85383157387439
+"220"	"glass"	"ct"	8.85383157387439
+"221"	"ct"	"ground"	8.85218250857845
+"222"	"ground"	"ct"	8.85218250857845
+"223"	"operation"	"protection"	8.82734952529849
+"224"	"protection"	"operation"	8.82734952529849
+"225"	"tracing"	"contact"	8.68797032226746
+"226"	"contact"	"tracing"	8.68797032226746
+"227"	"glass"	"chest"	8.58422337311866
+"228"	"chest"	"glass"	8.58422337311866
+"229"	"prediction"	"model"	8.57913913752691
+"230"	"model"	"prediction"	8.57913913752691
+"231"	"chest"	"ground"	8.53181663701903
+"232"	"ground"	"chest"	8.53181663701903
+"233"	"reaction"	"assay"	8.46915017422528
+"234"	"assay"	"reaction"	8.46915017422528
+"235"	"tomography"	"scan"	8.45652848991198
+"236"	"scan"	"tomography"	8.45652848991198
+"237"	"adult"	"child"	8.45273206859215
+"238"	"child"	"adult"	8.45273206859215
+"239"	"shortness"	"fever"	8.4379076344765
+"240"	"fever"	"shortness"	8.4379076344765
+"241"	"image"	"ground"	8.28117572523822
+"242"	"ground"	"image"	8.28117572523822
+"243"	"tomography"	"chest"	8.25586510201576
+"244"	"chest"	"tomography"	8.25586510201576
+"245"	"pattern"	"opacity"	8.23527120347969
+"246"	"opacity"	"pattern"	8.23527120347969
+"247"	"breath"	"fever"	8.21433914159721
+"248"	"fever"	"breath"	8.21433914159721
+"249"	"human"	"animal"	8.21250925985482
+"250"	"animal"	"human"	8.21250925985482
+"251"	"reproduction"	"model"	8.21250925985482
+"252"	"model"	"reproduction"	8.21250925985482
+"253"	"meta"	"analysis"	8.21250925985481
+"254"	"analysis"	"meta"	8.21250925985481
+"255"	"image"	"glass"	8.15570336576491
+"256"	"glass"	"image"	8.15570336576491
+"257"	"shortness"	"cough"	8.00831709511616
+"258"	"cough"	"shortness"	8.00831709511616

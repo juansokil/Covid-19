@@ -6,8 +6,6 @@
 
 > shiny-apps / PubMed / Scientific Research
 
-
-[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) 
 [![eRum2020::CovidR](https://badgen.net/https/runkit.io/erum2020-covidr/badge/branches/master/sokil-papers-covid19?cache=300)](https://milano-r.github.io/erum2020-covidr-contest/sokil-papers-covid19.html)
 
 

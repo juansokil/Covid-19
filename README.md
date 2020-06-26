@@ -11,3 +11,5 @@
 
 
 https://milano-r.github.io/erum2020-covidr-contest/sokil-papers-covid19.html
+
+https://observatorio-cts.shinyapps.io/Covid-19/

@@ -63,7 +63,7 @@ listado_inst2 <- iberoamerica %>%
   filter(!is.na(Inst))
 
 listado_inst3 <- iberoamerica %>%
-  filter(Fuente == 'LaReferencia')  %>%
+  filter(Fuente == 'LA Referencia')  %>%
   group_by(country, Inst)  %>%
   summarize(cantidadLR=n_distinct(Link)) %>%
   arrange(desc(cantidadLR)) %>%
@@ -137,7 +137,7 @@ levels(cantidades2$country) <- ordenpais2
 
 
 cantidades3 <- iberoamerica %>%
-  filter(Fuente == 'LaReferencia')  %>%
+  filter(Fuente == 'LA Referencia')  %>%
   group_by(country, iso)  %>%
   #group_by(country, iso, latitude, longitude)  %>%
   summarize(cantidadLR=n_distinct(Link)) %>%
@@ -149,7 +149,6 @@ levels(cantidades3$country) <- ordenpais3
 
 
 cantidades <- cantidades %>% left_join(cantidades1)  %>% left_join(cantidades2)  %>% left_join(cantidades3)  
-
 
 
 
@@ -192,49 +191,28 @@ server <- function(input, output, session){
                                        unique()))  })
   
   
-  
-#  data <- reactive({
-  #    iberoamerica %>% 
-  #   # filter (country %in% input$country) %>% 
-  #    select(country, Inst, Link, Fuente)  %>%
-  #    group_by(Inst, Fuente)  %>%
-  #    summarize(cantidad=n_distinct(Link))   %>%
-  #    filter(!is.na(Inst))  %>%
-  #    filter(!Inst =='')  %>%
-  #    tidyr::spread(Fuente, cantidad)   %>%
-  #    select(Inst, PubMed, Noticias, LaReferencia)  %>%
-  #    #select_if(names(.) %in% c('Inst', 'PubMed', 'Noticias', 'LaReferencia'))   %>%
-  #    arrange(desc(PubMed))  %>% column_to_rownames(var = "Inst")
-  #})
-  
-  
-  
+
   data <- reactive({
     listado_inst %>% 
       filter (country %in% input$country) %>% 
       rename(Pais=country)  %>% 
-      select(Inst, PubMed=cantidadPM, Noticias=cantidadN, LaReferencia=cantidadLR)  %>%
+      select(Inst, PubMed=cantidadPM, 'Notas Periodisticas'=cantidadN, 'LA Referencia'=cantidadLR)  %>%
       filter(!is.na(Inst))  %>%
       filter(!Inst =='')  %>%
       arrange(desc(PubMed))  %>% column_to_rownames(var = "Inst")
   })
   
   
-  
-  
-  
   data2 <- reactive({
     iberoamerica %>%
-      #rownames_to_column(var = "Inst") %>% 
-      #column_to_rownames(var = "Inst") %>% 
       filter (country %in% input$country) %>% 
       filter(Inst %in% paste0(rownames(data())[input$inst_pais_rows_selected], collapse = ", "))  %>% 
       filter (Fuente == 'PubMed')   %>%
       select(Date, Title, Link)  %>%
-      #filter(Fuente %in% input$fuente)  %>%
       unique() %>%
       mutate(Link=paste0("<a href=",Link," target='_blank' >Ver</a>")) %>%
-      arrange(desc(Date))  
+      select(Fecha=Date, Titulo=Title, Vinculo=Link)  %>%
+      arrange(desc(Fecha))  
     
     
   })
@@ -243,35 +221,29 @@ server <- function(input, output, session){
   
   data3 <- reactive({
     iberoamerica %>%
-      #rownames_to_column(var = "Inst") %>% 
-      #column_to_rownames(var = "Inst") %>% 
       filter (country %in% input$country) %>% 
       filter(Inst %in% paste0(rownames(data())[input$inst_pais_rows_selected], collapse = ", "))  %>% 
       filter (Fuente == 'Noticias')   %>%
       select(Date, Title, Link)  %>%
-      #filter(Fuente %in% input$fuente)  %>%
       unique() %>%
       mutate(Link=paste0("<a href=",Link," target='_blank' >Ver</a>")) %>%
-      arrange(desc(Date))  
+      select(Fecha=Date, Titulo=Title, Vinculo=Link)  %>%
+      arrange(desc(Fecha))  
     
     
   })
   
   
-  
-  
   data4 <- reactive({
     iberoamerica %>%
-      #rownames_to_column(var = "Inst") %>% 
-      #column_to_rownames(var = "Inst") %>% 
       filter (country %in% input$country) %>% 
       filter(Inst %in% paste0(rownames(data())[input$inst_pais_rows_selected], collapse = ", "))  %>% 
-      filter (Fuente == 'LaReferencia')   %>%
+      filter (Fuente == 'LA Referencia')   %>%
       select(Date, Title, Link)  %>%
-      #filter(Fuente %in% input$fuente)  %>%
       unique() %>%
       mutate(Link=paste0("<a href=",Link," target='_blank' >Ver</a>")) %>%
-      arrange(desc(Date))  
+      select(Fecha=Date, Titulo=Title, Vinculo=Link)  %>%
+      arrange(desc(Fecha))  
     
     
   })
@@ -289,9 +261,7 @@ server <- function(input, output, session){
   })
   
   
-  
-  
-  
+
   output$inst_pais  <- DT::renderDataTable({datatable(data(),selection = "single")})
   output$inst_paper2 <- renderDT(data2(), server = FALSE, escape = FALSE, rownames= FALSE)
   output$inst_paper3 <- renderDT(data3(), server = FALSE, escape = FALSE, rownames= FALSE)
@@ -299,139 +269,90 @@ server <- function(input, output, session){
   
   
   
-
-  output$paises <- renderGirafe({ggplot1a <- cantidades %>%
-    ggplot(aes(reorder(country, +cantidad), cantidad, tooltip = paste0(country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
-  
-  
-  girafe(ggobj = ggplot1a, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  })
-  
-  output$paises2 <- renderGirafe({ggplot1b <- cantidades %>%
-    select(country, iso, latitude, longitude, cantidad=cantidadPM)  %>%
-    filter(!is.na(cantidad))  %>%
-    ggplot(aes(reorder(country, +cantidad), cantidad, tooltip = paste0(country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
-  
-  
-  girafe(ggobj = ggplot1b, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  })
-  
-  output$paises3 <- renderGirafe({ggplot1c <- cantidades %>%
-    select(country, iso, latitude, longitude, cantidad=cantidadN)  %>%
-    filter(!is.na(cantidad))  %>%
-    ggplot(aes(reorder(country, +cantidad), cantidad, tooltip = paste0(country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
-  
-  
-  girafe(ggobj = ggplot1c, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
-  })
-  
-  output$paises4 <- renderGirafe({ggplot1d <- cantidades %>%
-    select(country, iso, latitude, longitude, cantidad=cantidadLR)  %>%
-    filter(!is.na(cantidad))  %>%
-    ggplot(aes(reorder(country, +cantidad), cantidad, tooltip = paste0(country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
-  
-  
-  girafe(ggobj = ggplot1d, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  output$paises <- renderHighchart({ cantidades %>% 
+      arrange(desc(cantidad)) %>%
+      rename(Pais=country, Cantidad=cantidad)  %>%
+    hchart(
+      'bar', hcaes(x = Pais, y = Cantidad, color = Pais)
+    )
   })
   
   
+  output$paises2 <- renderHighchart({ cantidades %>%
+      select(country, iso, latitude, longitude, cantidad=cantidadPM)  %>%
+      filter(!is.na(cantidad))%>% 
+      arrange(desc(cantidad)) %>%
+      rename(Pais=country, Cantidad=cantidad)  %>%
+      hchart(
+        'bar', hcaes(x = Pais, y = Cantidad, color = Pais)
+      )
+  })
   
-
-  output$instituciones <- renderGirafe({ggplot2a <- listado_inst %>%
-    arrange(desc(cantidad)) %>%
-    head(20) %>%
-    ggplot(aes(reorder(Inst, +cantidad), cantidad, fill=country, tooltip = paste0(Inst,", ", country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
+  output$paises3 <- renderHighchart({ cantidades %>%
+      select(country, iso, latitude, longitude, cantidad=cantidadN)  %>%
+      filter(!is.na(cantidad))%>% 
+      arrange(desc(cantidad)) %>%
+      rename(Pais=country, Cantidad=cantidad)  %>%
+      hchart(
+        'bar', hcaes(x = Pais, y = Cantidad, color = Pais)
+      )
+  })
+  
+  output$paises4 <- renderHighchart({ cantidades %>%
+      select(country, iso, latitude, longitude, cantidad=cantidadLR)  %>%
+      filter(!is.na(cantidad))%>% 
+      arrange(desc(cantidad)) %>%
+      rename(Pais=country, Cantidad=cantidad)  %>%
+      hchart(
+        'bar', hcaes(x = Pais, y = Cantidad, color = Pais)
+      )
+  })
 
   
-  girafe(ggobj = ggplot2a, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+
+  
+  output$instituciones <- renderHighchart({ listado_inst %>%
+      arrange(desc(cantidad)) %>%
+      head(20) %>%
+      rename(Pais=country, Cantidad=cantidad, Institucion=Inst)  %>%
+      hchart(
+        'bar', hcaes(x = Institucion, y = Cantidad, color = Pais)
+      )
   })
   
   
-  output$instituciones2 <- renderGirafe({ggplot2b <- listado_inst %>%
-    select(country, Inst, cantidad=cantidadPM)  %>%
-    filter(!is.na(cantidad))  %>%
-    arrange(desc(cantidad)) %>%
-    head(20) %>%
-    ggplot(aes(reorder(Inst, +cantidad), cantidad, fill=country, tooltip = paste0(Inst,", ", country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
-  
-  
-  girafe(ggobj = ggplot2b, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  output$instituciones2 <- renderHighchart({ listado_inst %>%
+      select(country, Inst, cantidad=cantidadPM)  %>%
+      filter(!is.na(cantidad))  %>%
+      arrange(desc(cantidad)) %>%
+      head(20) %>%
+      rename(Pais=country, Cantidad=cantidad, Institucion=Inst)  %>%
+      hchart(
+        'bar', hcaes(x = Institucion, y = Cantidad, color = Pais)
+      )
   })
   
-  
-  output$instituciones3 <- renderGirafe({ggplot2c <- listado_inst %>%
-    select(country, Inst, cantidad=cantidadN)  %>%
-    filter(!is.na(cantidad))  %>%
-    arrange(desc(cantidad)) %>%
-    head(20) %>%
-    ggplot(aes(reorder(Inst, +cantidad), cantidad, fill=country, tooltip = paste0(Inst,", ", country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
-  
-  
-  girafe(ggobj = ggplot2c, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  output$instituciones3 <- renderHighchart({ listado_inst %>%
+      select(country, Inst, cantidad=cantidadN)  %>%
+      filter(!is.na(cantidad))  %>%
+      arrange(desc(cantidad)) %>%
+      head(20) %>%
+      rename(Pais=country, Cantidad=cantidad, Institucion=Inst)  %>%
+      hchart(
+        'bar', hcaes(x = Institucion, y = Cantidad, color = Pais)
+      )
   })
   
-  
-  output$instituciones4 <- renderGirafe({ggplot2d <- listado_inst %>%
-    select(country, Inst, cantidad=cantidadLR)  %>%
-    arrange(desc(cantidad)) %>%
-    filter(!is.na(cantidad))  %>%
-    head(20) %>%
-    ggplot(aes(reorder(Inst, +cantidad), cantidad, fill=country, tooltip = paste0(Inst,", ", country,": ", cantidad ))) + geom_bar_interactive(stat='identity') + coord_flip() +
-    theme_minimal() +
-    theme(axis.title.x=element_blank(),
-          axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-    #scale_color_manual(name = paises ,values = jColors) +
-    geom_text(aes(label = cantidad, color='black', size=24))
-  
-  
-  girafe(ggobj = ggplot2d, 
-         options = list(opts_selection(type = "single", only_shiny = FALSE)) )
+  output$instituciones4 <- renderHighchart({ listado_inst %>%
+      select(country, Inst, cantidad=cantidadLR)  %>%
+      filter(!is.na(cantidad))  %>%
+      arrange(desc(cantidad)) %>%
+      head(20) %>%
+      rename(Pais=country, Cantidad=cantidad, Institucion=Inst)  %>%
+      hchart(
+        'bar', hcaes(x = Institucion, y = Cantidad, color = Pais)
+      )
   })
-  
-  
-  
   
 
   output$value1 <- renderValueBox({
@@ -460,7 +381,7 @@ server <- function(input, output, session){
   
   output$value4 <- renderValueBox({
     valueBox(
-      formatC(iberoamerica %>% filter(Fuente == 'LaReferencia') %>% summarize(n_distinct(PMID)), format="d", big.mark=',')
+      formatC(iberoamerica %>% filter(Fuente == 'LA Referencia') %>% summarize(n_distinct(PMID)), format="d", big.mark=',')
       ,paste('')
       #,icon = icon("stats",lib='glyphicon')
       ,color = "purple")  
@@ -470,52 +391,64 @@ server <- function(input, output, session){
 
 
 
-
 ui <- dashboardPage(
   dashboardHeader(title = "Explorador de la investigacion sobre COVID-19"),
-  dashboardSidebar(
+  dashboardSidebar(size = "thin", color = "teal",
     sidebarMenu(
       menuItem(tabName = "resumen", "Resumen", icon = icon("dashboard")),
       menuItem(tabName = "explorador", "Explorador", icon = icon("table"))
     )
     ),
   dashboardBody(
+    tags$head(
+      tags$style(
+        "body{
+    max-height: 3000px;
+    height: auto;
+    max-width: 3000px;
+    margin: auto;
+        }"
+      )
+    ),
     tabItems(
       tabItem(tabName = "resumen",
-              #fluidRow(h1('Explorador de la investigación sobre COVID-19')),
-              fluidRow(h4('Esta pagina contiene el seguimiento de instituciones latinoamericanas activas en la investigacion del COVID-19. Los datos son obtenidos de tres fuentes complementarias: PubMed, noticias periodisticas y la red de repositorios LaReferencia.')),
-              fluidRow(h4('En esta pagina encontrara un resumen de cada fuente y en la columna izquierda podra acceder a un explorador mas detallado.')),
-              fluidRow(h2('Pub Med')),
-              fluidRow(h4("Los datos aqui presentados surgen del procesamiento de la base de datos de revistas cientificas ", a("PubMed", href = "https://pubmed.ncbi.nlm.nih.gov/?term=COVID-19", target="_blank"), "mantenida por el NIH de los Estados Unidos.")),
+
+              
+              fluidRow(h4('Este explorador ofrece un seguimiento actualizado de las instituciones cientificas y tecnologicas que realizan investigacion sobre COVID-19 en America Latina. Cuenta con un resumen estadistico de la produccion cientifica de cada una y acceso a sus articulos cientificos y noticias de prensa.')),
+              fluidRow(h4('Los datos fueron procesados por el Observatorio Iberoamericano de la Ciencia, la Tecnologia y la Sociedad (OCTS) a partir de tres fuentes complementarias: la base de datos de revistas cientificas PubMed, la Red Federada de Repositorios Institucionales de Publicaciones Cientificas (LA Referencia) y un conjunto de notas periodisticas relevadas por la Oficina de Ciencias para America Latina de la UNESCO.')),              
+              fluidRow(h4('Desde el menu de la barra izquierda es posible acceder a la informacion por dos caminos: un resumen grafico que surge del procesamiento realizado con cada fuente y un explorador mas detallado donde se puede desgranar los datos segun pais e institucion y acceder a los articulos cientificos y noticias en sus fuentes originales.')),              
+              fluidRow(h2('Articulos Cientificos en PubMed')),
+              fluidRow(h4("PubMed es una base de datos desarrollada por el NIH de Estados Unidos que permite acceder a referencias bibliograficas y resumenes de articulos de investigacion biomedica publicados en alrededor de 4800 revistas de mas de 70 paises del mundo.")), 
+                            fluidRow(h4("La informacion aqui presentada surge del procesamiento realizado por el", a("OCTS", href = "https://observatoriocts.oei.org.ar/", target="_blank"), "para la identificacion de instituciones firmantes de articulos indexados en ", a("PubMed", href = "https://pubmed.ncbi.nlm.nih.gov/?term=covid+19", target="_blank"))), 
               fluidRow(
-                box(width = 12,title = "Total",color = "green", title_side = "top right",column(width = 12,valueBoxOutput("value2")))),
+                box(width = 12,title = "Total de articulos de investigacion biomedica",color = "green", title_side = "top right",column(width = 12,valueBoxOutput("value2")))),
                          fluidRow(
-                           box(width = 8,title = "Distribucion Pais",color = "green", ribbon = TRUE, title_side = "top right",column(width = 8,girafeOutput("paises2"))),
-                           box(width = 8, title = "Principales Instituciones",color = "green", ribbon = TRUE, title_side = "top right",column(width = 8,girafeOutput("instituciones2")))
+                           box(width = 8,title = "Distribucion Pais",color = "green", ribbon = TRUE, title_side = "top right",column(width = 8,highchartOutput("paises2"))),
+                           box(width = 8, title = "Principales Instituciones",color = "green", ribbon = TRUE, title_side = "top right",column(width = 8, highchartOutput("instituciones2")))
                          ),
-fluidRow(h2('Noticias')),
+fluidRow(h2('Notas Periodisticas Seleccionadas')),
 fluidRow(
-  box(width = 12,title = "Total",color = "red", title_side = "top right",column(width = 12,valueBoxOutput("value3")))),
-fluidRow(h4(" Los datos aqui presentados provienen de un relevamiento de medios de comunicacion realizado por la Oficina de Ciencias para America Latina de", a("UNESCO", href = "https://es.unesco.org/fieldoffice/montevideo/cienciaresponde", target="_blank"))),
+  box(width = 12,title = "Total de notas periodisticas",color = "red", title_side = "top right",column(width = 12,valueBoxOutput("value3")))),
+fluidRow(h4(" Los datos aqui presentados provienen de un relevamiento de notas periodisticas en medios de comunicacion de toda la region, realizado por la ", a("Oficina Regional de Ciencias para America Latina y el Caribe de UNESCO", href = "https://es.unesco.org/fieldoffice/montevideo/cienciaresponde", target="_blank"))),
               fluidRow(
-                box(width = 8,title = "Distribucion Pais",color = "red", ribbon = TRUE, title_side = "top right",column(width = 8,girafeOutput("paises3"))),
-                box(width = 8, title = "Principales Instituciones",color = "red", ribbon = TRUE, title_side = "top right",column(width = 8,girafeOutput("instituciones3")))
+                box(width = 8,title = "Distribucion Pais",color = "red", ribbon = TRUE, title_side = "top right",column(width = 8,highchartOutput("paises3"))),
+                box(width = 8, title = "Principales Instituciones",color = "red", ribbon = TRUE, title_side = "top right",column(width = 8, highchartOutput("instituciones3")))
               ),
-fluidRow(h2('La Referencia')),
-fluidRow(h4("Los datos aqui presentados surgen del procesamiento de los datos disponibles en ", a("LaReferencia", href = "http://www.lareferencia.info/vufind/Search/Results?sort=year&lookfor=%22COVID19%22+OR++%22SARS-CoV%22+OR++%22HCoV-19%22+OR++%22mes:C000657245%22+OR++%22MERS-CoV%22+OR++%22mesh:COVID-19%22+OR++%22COVID2019%22+OR++%22COVID-19%22+OR++%22SARS-CoV-2%22+OR++%222019+novel+coronavirus%22+OR++%222019-nCoV%22+OR++%22mesh:D045169%22+OR++%22Orthocoronavirinae%22+OR++%22Coronaviridae%22+OR++%22mesh:D045169%22+OR++%22coronavirus%22+&type=AllFields", target="_blank"), "la red latinoamericana de repositorios institucionales de
-publicaciones cientificas.")),
+fluidRow(h2('Articulos en repositorios abiertos - LA Referencia')),
+fluidRow(h4("La Red Federada de Repositorios Institucionales de Publicaciones Cientificas (LA Referencia), es una red latinoamericana de repositorios de acceso abierto. Integra articulos cientificos, tesis doctorales y de maestria provenientes de mas de un centenar de universidades e instituciones de investigacion America Latina.")), 
+fluidRow(h4("La informacion aqui presentada surge del procesamiento de los datos realizado por el", a("OCTS", href = "https://observatoriocts.oei.org.ar/", target="_blank")," de la plataforma de ", a("LA Referencia", href = "http://www.lareferencia.info/vufind/Search/Results?sort=year&lookfor=%22COVID19%22+OR++%22SARS-CoV%22+OR++%22HCoV-19%22+OR++%22mes:C000657245%22+OR++%22MERS-CoV%22+OR++%22mesh:COVID-19%22+OR++%22COVID2019%22+OR++%22COVID-19%22+OR++%22SARS-CoV-2%22+OR++%222019+novel+coronavirus%22+OR++%222019-nCoV%22+OR++%22mesh:D045169%22+OR++%22Orthocoronavirinae%22+OR++%22Coronaviridae%22+OR++%22mesh:D045169%22+OR++%22coronavirus%22+&type=AllFields", target="_blank"))),
 fluidRow(
-  box(width = 12,title = "Total",color = "blue", title_side = "top right",column(width = 12,valueBoxOutput("value4")))),
+  box(width = 12,title = "Total de articulos cientificos",color = "blue", title_side = "top right",column(width = 12,valueBoxOutput("value4")))),
               fluidRow(
-                box(width = 8,title = "Distribucion Pais",color = "blue", ribbon = TRUE, title_side = "top right",column(width = 8,girafeOutput("paises4"))),
-                box(width = 8, title = "Principales Instituciones",color = "blue", ribbon = TRUE, title_side = "top right",column(width = 8,girafeOutput("instituciones4")))
+                box(width = 8,title = "Distribucion Pais",color = "blue", ribbon = TRUE, title_side = "top right",column(width = 8,highchartOutput("paises4"))),
+                box(width = 8, title = "Principales Instituciones",color = "blue", ribbon = TRUE, title_side = "top right",column(width = 8, highchartOutput("instituciones4")))
               )), 
-      tabItem(tabName = "explorador",fluidRow(column(12,leafletOutput("map"))),
+      tabItem(tabName = "explorador",fluidRow(column(15,leafletOutput("map"))),
                          fluidRow(column(6, selectInput("country", label = "Seleccione Pais", choices = unique(ordenpais)))),
                          fluidRow(column(6, tags$h4("Instituciones"))),
-                         fluidRow(column(12,DT::dataTableOutput("inst_pais"))),
-                        fluidRow(column(4, tags$h4("PubMed")),column(4, tags$h4("Noticias")),column(4, tags$h4("LaReferencia"))),
-                        fluidRow(column(4,DT::dataTableOutput("inst_paper2")),column(4,DT::dataTableOutput("inst_paper3")),column(4,DT::dataTableOutput("inst_paper4")))
+                         fluidRow(column(15,DT::dataTableOutput("inst_pais"))),
+                        fluidRow(column(5, tags$h4("PubMed")),column(5, tags$h4("Notas Periodisticas")),column(5, tags$h4("LA Referencia"))),
+                        fluidRow(column(5,DT::dataTableOutput("inst_paper2")),column(5,DT::dataTableOutput("inst_paper3")),column(5,DT::dataTableOutput("inst_paper4")))
               )
     )))
 
@@ -527,10 +460,6 @@ shinyApp(ui, server)
 
                 
                 
-
-
-
-
 
 
 

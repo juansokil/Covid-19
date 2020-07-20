@@ -13,4 +13,11 @@ https://shiny.ricyt.org/instituciones/
 > This Shiny web app provides georeferenced information on scientific papers related to the COVID-19 virus published by ibero-american institutions. The data is extracted from PubMed, a free search engine accessing primarily the MEDLINE database of references and abstracts on life sciences and medical topics and provides a link to each of the papers. 
 
 
+# Latin American research related to the COVID-19 Virus 
+http://octs-oei.org/reportes/explorador.html
+
+> This Shiny web app provides interactive and georeferenced information about the research in COVID-19, you are to surf through the countries and institutions of the region.
+
+
+
 

@@ -473,7 +473,7 @@ server <- function(input, output, session) {
       keyword_cors <- keyword_cors %>%
         group_by(weight) %>%
         summarize(item1=first(item1),item2=first(item2))  %>%
-        mutate(weight=round(weight, 3)) %>%
+        mutate(weight=round(weight, 2)) %>%
         select(word1=item1, word2=item2, pmi=weight) %>%
         arrange(desc(pmi)),
       extensions = 'Buttons',

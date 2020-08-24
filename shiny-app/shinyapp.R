@@ -448,26 +448,14 @@ server <- function(input, output, session) {
     
     g <- keyword_cors %>%
       graph_from_data_frame(directed=FALSE, vertices=keyword_cant)  
-    #g<- simplify(g, remove.multiple = TRUE, remove.loops = TRUE)
+    g<- simplify(g, remove.multiple = TRUE, remove.loops = TRUE)
     
     rw <- cluster_walktrap(g, weights = E(g)$weight, steps = 3,merges = TRUE, modularity = TRUE, membership = TRUE)
     cluster = rw$membership
     g <- set_vertex_attr(g, name="group", value = cluster)
     
-    E(g)$width <- E(g)$weight/1000
+    E(g)$width <- E(g)$pmi/1000
     V(g)$size <- sqrt(V(g)$size)*2
-    
-    
-    #visIgraph(g, type="full", layout = "layout_nicely", physics = TRUE)  %>%  
-    #  visLegend(enabled = FALSE) %>% 
-    #  visEdges(color = "black") %>% 
-    #  visNodes(shape = "dot", scaling = list(min = 1, max = 40), shadow = list(enabled = TRUE, size = 20))  %>% 
-    #  visOptions(highlightNearest = list(enabled = T, degree = 3, hover = T),nodesIdSelection = T) %>%
-    #  visLayout(randomSeed = 12) # to have always the same network  
-    
-    
-    
-    
     
     output$table4a <- renderDT(
       keyword_cors <- keyword_cors %>%
@@ -508,17 +496,13 @@ server <- function(input, output, session) {
     
     ## identify communities##
     lou <- cluster_louvain(g)
-    
-    ############5 comunidades mas grandes###########
     size <- as.data.frame(sizes(lou))
     
     importantes <- size %>%
       arrange(desc(Freq)) %>%
       head(5) %>%
       select(Community.sizes)
-    
     importantes <- as.vector(unlist(importantes))
-    
     g2 <- induced.subgraph(g, which(membership(lou) %in% importantes))
     
     
@@ -528,34 +512,15 @@ server <- function(input, output, session) {
     
     ####Graph visualization####
     visIgraph(min_spanning_tree, type="full", layout = "layout_nicely", physics = TRUE)  %>%  
-      #visIgraph(g, type="full", layout = "layout_nicely", physics = TRUE)  %>%  
       visLegend(enabled = FALSE) %>% 
       visEdges(color = "black") %>% 
       visNodes(shape = "dot", scaling = list(min = 1, max = 10), shadow = list(enabled = TRUE, size = 20))  %>% 
       visOptions(highlightNearest = list(enabled = T, degree = 3, hover = T),nodesIdSelection = T)  %>%
       visLayout(randomSeed = 12) # to have always the same network  
-    
-    
-    
-    
+
   })
   
-  
-  
-  
-  
-  
-  
-  output$logo <-
-    renderText({c('<img src="',"./oeiocts.jpg",'">')})
-  
-  
-  
-  
-  
-  
-  
-  
+
   
 }
 

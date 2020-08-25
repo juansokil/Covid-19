@@ -1,4 +1,3 @@
-
 library(data.table)
 library(DT)  
 library(dplyr)
@@ -517,10 +516,10 @@ server <- function(input, output, session) {
       visNodes(shape = "dot", scaling = list(min = 1, max = 10), shadow = list(enabled = TRUE, size = 20))  %>% 
       visOptions(highlightNearest = list(enabled = T, degree = 3, hover = T),nodesIdSelection = T)  %>%
       visLayout(randomSeed = 12) # to have always the same network  
-
+    
   })
   
-
+  
   
 }
 
@@ -550,7 +549,6 @@ ui <- fluidPage(
                 tabPanel("Navegador", 
                          h4('Acceda a las las publicaciones de cada pais'),
                          fluidRow(column(12, selectizeInput('pais', label = "Seleccione Paises", choices = listado_paises2, selected = c("Argentina","Uruguay","Chile","Colombia"), multiple = TRUE))), 
-                         fluidRow(column(12, leafletOutput(outputId = "map"))),
                          fluidRow(column(12,DT:: dataTableOutput("table6")))
                 ),
                 h5('Datos extraidos de https://pubmed.ncbi.nlm.nih.gov/'),
@@ -560,6 +558,3 @@ ui <- fluidPage(
 
 
 shinyApp(ui, server)
-
-
-

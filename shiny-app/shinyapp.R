@@ -16,40 +16,16 @@ library(RColorBrewer)
 library(ggiraph)
 library(leaflet.minicharts)
 library(htmltools)
-#install.packages("geojsonio")
-#library(geojsonio)
-
-
-
-
 
 
 pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data_reduce.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", country="character",  Inst="character", Date="Date"))
-
-
-
 pubmed_data$iso <- str_to_lower(pubmed_data$iso)
-
-listado_articulos <- pubmed_data %>%
-  select(PMID, Date, country, Title) %>%
-  unique()
-
-keyword_cors <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/palabras_cors.csv", header = TRUE, sep = "\t", row.names = 1)
-keyword_cant <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/palabras_cant.csv", header = TRUE, sep = "\t", row.names = 1)
-
-
-###Levanto los datos viejos################REVISAR ESTO MAÑANA####
-#pubmed_data <- read.table("../Bases/pubmed_data_bck.csv", header = TRUE, sep = "\t", row.names = 1,
-#                              colClasses=c(Title="character", Abstract="character", country="character", afil="character"))
-
-#pubmed_data <- pubmed_data_reduce
-
 pubmed_data$Date <- as.Date(with(pubmed_data, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 pubmed_data$lat <- as.numeric(as.character(pubmed_data$lat))
 pubmed_data$long <- as.numeric(as.character(pubmed_data$long))
 
-
-
+keyword_cors <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/palabras_cors.csv", header = TRUE, sep = "\t", row.names = 1)
+keyword_cant <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/palabras_cant.csv", header = TRUE, sep = "\t", row.names = 1)
 
 
 ####Calcula cantidades#####
@@ -98,31 +74,8 @@ listado_iso_country <- pubmed_data %>%
   filter(!is.na(iso))  %>%
   unique()
 
-
-#variable_selector <- pubmed_data %>%
-#  select(PMID, azithromycin,  favipiravir, hydroxychloroquine, interferon, lopinavir, remdesivir, ritonavir,   tocilizumab,  vaccine, antibodies) %>%
-#    gather(key = "variable", value = "valor", -c(PMID)) %>%
-#    select(variable)  %>%
-#    unique()
-
-
-color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
-vector_colores <- as.character(sample(color, nrow(listado_paises)))
-#vector_colores2 <- as.character(sample(color, nrow(variable_selector)))
-
-
-jColors <- vector_colores
-#jColors2 <- vector_colores2
-names(jColors) <- listado_paises$country
-#names(jColors2) <- variable_selector$variable
-
-
-
-
-
 ###Levanta Coordenadas###
 countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/countries.txt", "\t", escape_double = FALSE, col_types = cols(name = col_skip()), trim_ws = TRUE)
-
 countries$country <- str_to_lower(countries$country)
 
 countries_coord <- nodes %>%
@@ -135,19 +88,8 @@ merge_pais <- pubmed_data %>%
 countries_coord <- countries_coord %>%
   left_join(merge_pais, by=c('id'='iso'))
 
-
-casos <- pubmed_data %>%
-  filter(!is.na(iso))  %>%
-  filter(iso!='')  %>%
-  arrange(country, iso, Date) %>%
-  group_by(country, iso, Date) %>%
-  summarize(dia=n_distinct(PMID)) %>% 
-  mutate(total = cumsum(dia))
-
-
-countries_coord2 <- casos %>%
-  left_join(countries, by=c('iso'='country'))
-
+countries_coord <- countries_coord %>%
+  filter (! country %in% c('Curacao','Saint Maarten'))
 
 
 
@@ -336,80 +278,24 @@ server <- function(input, output, session) {
   
   ######################TERCERA SOLAPA###########################      
   
+
   
-  
-  output$map3 <- renderLeaflet({ 
-    progress <- Progress$new(session, min=1, max=10000)
+
+  output$map3 <- renderLeaflet({
+    progress <- Progress$new(session, min=1, max=100000)
     on.exit(progress$close())
-    
-    progress$set(message = 'Loading Data')
-    
-    
-    WorldCountry <-geojsonio::geojson_read("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json", what = "sp")
-    
-    
-    
-    
-    
-    #  bins <- c(0,1,2,3,4,5,6,7,8,9,10,Inf)
-    #  pal <- colorBin("YlOrRd", domain = countries_coord$count, bins = bins)
     leaflet() %>% addTiles()  %>%
-      #    leaflet(WorldCountry) %>% addTiles()  %>% addPolygons(fillColor = ~pal(countries_coord$count),
-      #                                                          weight = 2,
-      #                                                      opacity = 0.8,
-      #                                                      color = 'white',
-      #                                                      dashArray = '1',
-      #                                                      fillOpacity = 0.4,
-      #                                                      highlight = highlightOptions(
-      #                                                        weight = 2,
-      #                                                        color = "#666",
-      #                                                        dashArray = "",
-      #                                                        fillOpacity = 0.7,
-    #                                                        bringToFront = TRUE)
-    #                                                      , label = countries_coord$country,
-    #labelOptions = labelOptions(
-    #  style = list("font-weight" = "normal", padding = "3px 8px"),
-    #  textsize = "15px",
-    #  direction = "auto")) %>%
-    addCircles(data = countries_coord,lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 12000, color='blue',  label=~paste0(country,': ',count)) %>%
-      #     addMinicharts(countries_coord$longitude, countries_coord$latitude,chartdata = countries_coord$count, labelText = countries_coord$id, showLabels = TRUE, width = 100, height = 100, layerId = unique(countries_coord$country)) %>%
-      addFlows(lng0 = edges_for_plot_ud$x, lat0 = edges_for_plot_ud$y, lng1 = edges_for_plot_ud$xend, lat1 = edges_for_plot_ud$yend, time= edges_for_plot_ud$dia, dir = 0, color='purple', flow=edges_for_plot_ud$weight,  minThickness = 0.4, maxThickness = 4, opacity=0.3) 
-    
+      addCircles(data = countries_coord,lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 20000, color='red',  label=~paste0(country,'\n',count))  %>%
+      addFlows(lng0 = edges_for_plot_ud$x, lat0 = edges_for_plot_ud$y, lng1 = edges_for_plot_ud$xend, lat1 = edges_for_plot_ud$yend, time= edges_for_plot_ud$dia, dir = 0, color='purple', flow=edges_for_plot_ud$weight,  minThickness = 0.05, maxThickness = 10, opacity=0.6)
   })
   
   
   
   
-  output$table6 <- renderDT(pais2() %>%
-                              filter(!is.na(iso))  %>%
-                              filter(iso!='') %>%
-                              select(Date, Title, PMID, country)  %>%
-                              #mutate(Link=paste0('https://pubmed.ncbi.nlm.nih.gov/',PMID,'/')) %>%
-                              mutate(Link=paste0("<a href='https://pubmed.ncbi.nlm.nih.gov/",PMID,"/' target='_blank' >Ver Articulo</a>")) %>%
-                              select(Date, PMID,country, Title, Link)   %>%
-                              unique() %>%
-                              arrange(desc(Date))  ,extensions = 'Buttons',
-                            options = list(pageLength = 10,
-                                           dom = 'Bfrtip',
-                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
-                                           exportOptions = list(modifiers = list(page = "all")
-                                           )
-                            ), server = FALSE, escape = FALSE)
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  output$table3a <- renderDT(pubmed_data %>%
-                               filter(!is.na(iso))  %>%
+  output$tableblaa <- renderDT(pubmed_data  %>%
+                               filter (!country %in% c('Curacao','Saint Maarten')) %>%
+                                 filter(!is.na(iso))  %>%
                                filter(iso!='')  %>%
                                group_by(country, iso) %>%
                                summarize(Count=n_distinct(PMID)) %>%
@@ -420,6 +306,7 @@ server <- function(input, output, session) {
                                             exportOptions = list(modifiers = list(page = "all")
                                             )
                              ), server = FALSE)
+  
   
   
   
@@ -520,10 +407,35 @@ server <- function(input, output, session) {
   })
   
   
+  ###############SOLAPA 5###############################
+  
+  output$table6 <- renderDT(pais2() %>%
+                              filter(!is.na(iso))  %>%
+                              filter(iso!='') %>%
+                              select(Date, Title, PMID, country)  %>%
+                              mutate(Link=paste0("<a href='https://pubmed.ncbi.nlm.nih.gov/",PMID,"/' target='_blank' >Ver Articulo</a>")) %>%
+                              select(Date, PMID,country, Title, Link)   %>%
+                              unique() %>%
+                              arrange(desc(Date))  ,extensions = 'Buttons',
+                            options = list(pageLength = 10,
+                                           dom = 'Bfrtip',
+                                           buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
+                                           exportOptions = list(modifiers = list(page = "all")
+                                           )
+                            ), server = FALSE, escape = FALSE)
+  
+  
+  
   
 }
 
-# Define UI for application that draws a histogram
+############################################
+############################################
+############################################
+############################################
+############################################
+############################################
+
 ui <- fluidPage(
   titlePanel("Publicaciones sobre Covid-19"),
   mainPanel(
@@ -539,9 +451,9 @@ ui <- fluidPage(
                          fluidRow(column(12, dataTableOutput(outputId = "table2")))),
                 tabPanel("Mapa de Colaboracion", 
                          h4('Firma conjunta de publicaciones cientificas'),
-                         fluidRow(column(12, leafletOutput(outputId = "map3"))),
-                         fluidRow(column(6, dataTableOutput("table3a")),column(6, dataTableOutput("table3b")))
-                ),
+                         fluidRow(column(12, leafletOutput("map3"))),
+                         fluidRow(column(6, dataTableOutput("tableblaa")),column(6, dataTableOutput("table3b")))
+                         ),
                 tabPanel("Mapa Conceptual", 
                          h4('Principales conceptos extraidos de Titulo y Resumen de publicaciones'),
                          visNetworkOutput(outputId = "network4"),
@@ -554,6 +466,7 @@ ui <- fluidPage(
                 h5('Datos extraidos de https://pubmed.ncbi.nlm.nih.gov/'),
                 h6('Estrategia de Busqueda: COVID-19"[All Fields] OR "severe acute respiratory syndrome coronavirus 2"[Supplementary Concept] OR "severe acute respiratory syndrome coronavirus 2"[All Fields] OR "2019-nCoV"[All Fields] OR "SARS-CoV-2"[All Fields] OR "2019nCoV"[All Fields] OR (("Wuhan"[All Fields] AND ("coronavirus"[MeSH Terms] OR "coronavirus"[All Fields])) AND 2019/12[PDAT] : 2030[PDAT])) AND 2020[EDAT] : 2021[EDAT]" ')
     )))
+
 
 
 

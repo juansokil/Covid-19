@@ -1,195 +1,197 @@
 "id"	"label"	"value"	"count"	"latitude"	"longitude"	"country"
-"1"	"AD"	"AD"	2	2	NA	NA	NA
-"2"	"AE"	"AE"	247	247	NA	NA	NA
-"3"	"AF"	"AF"	17	17	NA	NA	NA
-"4"	"AG"	"AG"	2	2	NA	NA	NA
-"5"	"AL"	"AL"	11	11	NA	NA	NA
-"6"	"AM"	"AM"	10	10	NA	NA	NA
-"7"	"AN"	"AN"	2	2	NA	NA	NA
-"8"	"AR"	"AR"	294	294	NA	NA	NA
-"9"	"AT"	"AT"	527	527	NA	NA	NA
-"10"	"AU"	"AU"	2289	2289	NA	NA	NA
-"11"	"AW"	"AW"	6	6	NA	NA	NA
-"12"	"AZ"	"AZ"	15	15	NA	NA	NA
-"13"	"BA"	"BA"	31	31	NA	NA	NA
-"14"	"BB"	"BB"	20	20	NA	NA	NA
-"15"	"BD"	"BD"	317	317	NA	NA	NA
-"16"	"BE"	"BE"	867	867	NA	NA	NA
-"17"	"BF"	"BF"	16	16	NA	NA	NA
-"18"	"BG"	"BG"	41	41	NA	NA	NA
-"19"	"BH"	"BH"	28	28	NA	NA	NA
-"20"	"BI"	"BI"	2	2	NA	NA	NA
-"21"	"BJ"	"BJ"	14	14	NA	NA	NA
-"22"	"BM"	"BM"	1	1	NA	NA	NA
-"23"	"BN"	"BN"	25	25	NA	NA	NA
-"24"	"BO"	"BO"	29	29	NA	NA	NA
-"25"	"BR"	"BR"	1908	1908	NA	NA	NA
-"26"	"BS"	"BS"	2	2	NA	NA	NA
-"27"	"BT"	"BT"	4	4	NA	NA	NA
-"28"	"BW"	"BW"	12	12	NA	NA	NA
-"29"	"BY"	"BY"	14	14	NA	NA	NA
-"30"	"BZ"	"BZ"	1	1	NA	NA	NA
-"31"	"CA"	"CA"	2722	2722	NA	NA	NA
-"32"	"CD"	"CD"	36	36	NA	NA	NA
-"33"	"CF"	"CF"	4	4	NA	NA	NA
-"34"	"CG"	"CG"	14	14	NA	NA	NA
-"35"	"CH"	"CH"	1295	1295	NA	NA	NA
-"36"	"CI"	"CI"	10	10	NA	NA	NA
-"37"	"CL"	"CL"	249	249	NA	NA	NA
-"38"	"CM"	"CM"	59	59	NA	NA	NA
-"39"	"CN"	"CN"	7747	7747	NA	NA	NA
-"40"	"CO"	"CO"	315	315	NA	NA	NA
-"41"	"CR"	"CR"	23	23	NA	NA	NA
-"42"	"CU"	"CU"	18	18	NA	NA	NA
-"43"	"CW"	"CW"	7	7	NA	NA	NA
-"44"	"CY"	"CY"	81	81	NA	NA	NA
-"45"	"CZ"	"CZ"	139	139	NA	NA	NA
-"46"	"DE"	"DE"	2431	2431	NA	NA	NA
-"47"	"DK"	"DK"	431	431	NA	NA	NA
-"48"	"DM"	"DM"	3	3	NA	NA	NA
-"49"	"DO"	"DO"	13	13	NA	NA	NA
-"50"	"DZ"	"DZ"	41	41	NA	NA	NA
-"51"	"EC"	"EC"	83	83	NA	NA	NA
-"52"	"EE"	"EE"	33	33	NA	NA	NA
-"53"	"EG"	"EG"	477	477	NA	NA	NA
-"54"	"ER"	"ER"	1	1	NA	NA	NA
-"55"	"ES"	"ES"	2889	2889	NA	NA	NA
-"56"	"ET"	"ET"	123	123	NA	NA	NA
-"57"	"FI"	"FI"	192	192	NA	NA	NA
-"58"	"FJ"	"FJ"	5	5	NA	NA	NA
-"59"	"FO"	"FO"	1	1	NA	NA	NA
-"60"	"FR"	"FR"	2725	2725	NA	NA	NA
-"61"	"GA"	"GA"	13	13	NA	NA	NA
-"62"	"GB"	"GB"	7142	7142	NA	NA	NA
-"63"	"GD"	"GD"	11	11	NA	NA	NA
-"64"	"GE"	"GE"	19	19	NA	NA	NA
-"65"	"GF"	"GF"	9	9	NA	NA	NA
-"66"	"GH"	"GH"	88	88	NA	NA	NA
-"67"	"GM"	"GM"	17	17	NA	NA	NA
-"68"	"GN"	"GN"	11	11	NA	NA	NA
-"69"	"GP"	"GP"	4	4	NA	NA	NA
-"70"	"GQ"	"GQ"	1	1	NA	NA	NA
-"71"	"GR"	"GR"	621	621	NA	NA	NA
-"72"	"GT"	"GT"	16	16	NA	NA	NA
-"73"	"GW"	"GW"	4	4	NA	NA	NA
-"74"	"GY"	"GY"	1	1	NA	NA	NA
-"75"	"HK"	"HK"	927	927	NA	NA	NA
-"76"	"HN"	"HN"	19	19	NA	NA	NA
-"77"	"HR"	"HR"	132	132	NA	NA	NA
-"78"	"HT"	"HT"	6	6	NA	NA	NA
-"79"	"HU"	"HU"	121	121	NA	NA	NA
-"80"	"ID"	"ID"	220	220	NA	NA	NA
-"81"	"IE"	"IE"	565	565	NA	NA	NA
-"82"	"IL"	"IL"	576	576	NA	NA	NA
-"83"	"IN"	"IN"	3932	3932	NA	NA	NA
-"84"	"IQ"	"IQ"	87	87	NA	NA	NA
-"85"	"IR"	"IR"	1460	1460	NA	NA	NA
-"86"	"IS"	"IS"	20	20	NA	NA	NA
-"87"	"IT"	"IT"	6825	6825	NA	NA	NA
-"88"	"JM"	"JM"	18	18	NA	NA	NA
-"89"	"JO"	"JO"	155	155	NA	NA	NA
-"90"	"JP"	"JP"	1149	1149	NA	NA	NA
-"91"	"KE"	"KE"	122	122	NA	NA	NA
-"92"	"KG"	"KG"	5	5	NA	NA	NA
-"93"	"KH"	"KH"	12	12	NA	NA	NA
-"94"	"KN"	"KN"	2	2	NA	NA	NA
-"95"	"KR"	"KR"	821	821	NA	NA	NA
-"96"	"KW"	"KW"	71	71	NA	NA	NA
-"97"	"KZ"	"KZ"	16	16	NA	NA	NA
-"98"	"LA"	"LA"	6	6	NA	NA	NA
-"99"	"LB"	"LB"	159	159	NA	NA	NA
-"100"	"LC"	"LC"	3	3	NA	NA	NA
-"101"	"LI"	"LI"	6	6	NA	NA	NA
-"102"	"LK"	"LK"	60	60	NA	NA	NA
-"103"	"LR"	"LR"	5	5	NA	NA	NA
-"104"	"LS"	"LS"	2	2	NA	NA	NA
-"105"	"LT"	"LT"	42	42	NA	NA	NA
-"106"	"LU"	"LU"	47	47	NA	NA	NA
-"107"	"LV"	"LV"	10	10	NA	NA	NA
-"108"	"LY"	"LY"	24	24	NA	NA	NA
-"109"	"MA"	"MA"	154	154	NA	NA	NA
-"110"	"MC"	"MC"	6	6	NA	NA	NA
-"111"	"MD"	"MD"	2	2	NA	NA	NA
-"112"	"ME"	"ME"	8	8	NA	NA	NA
-"113"	"MF"	"MF"	3	3	NA	NA	NA
-"114"	"MG"	"MG"	6	6	NA	NA	NA
-"115"	"MK"	"MK"	15	15	NA	NA	NA
-"116"	"ML"	"ML"	23	23	NA	NA	NA
-"117"	"MM"	"MM"	14	14	NA	NA	NA
-"118"	"MN"	"MN"	7	7	NA	NA	NA
-"119"	"MO"	"MO"	44	44	NA	NA	NA
-"120"	"MQ"	"MQ"	7	7	NA	NA	NA
-"121"	"MR"	"MR"	3	3	NA	NA	NA
-"122"	"MT"	"MT"	46	46	NA	NA	NA
-"123"	"MU"	"MU"	17	17	NA	NA	NA
-"124"	"MV"	"MV"	5	5	NA	NA	NA
-"125"	"MW"	"MW"	23	23	NA	NA	NA
-"126"	"MX"	"MX"	505	505	NA	NA	NA
-"127"	"MY"	"MY"	389	389	NA	NA	NA
-"128"	"MZ"	"MZ"	33	33	NA	NA	NA
-"129"	"NAM"	"NAM"	4	4	NA	NA	NA
-"130"	"NC"	"NC"	5	5	NA	NA	NA
-"131"	"NE"	"NE"	2	2	NA	NA	NA
-"132"	"NG"	"NG"	295	295	NA	NA	NA
-"133"	"NI"	"NI"	4	4	NA	NA	NA
-"134"	"NL"	"NL"	1188	1188	NA	NA	NA
-"135"	"NO"	"NO"	281	281	NA	NA	NA
-"136"	"NP"	"NP"	178	178	NA	NA	NA
-"137"	"NZ"	"NZ"	299	299	NA	NA	NA
-"138"	"OM"	"OM"	74	74	NA	NA	NA
-"139"	"PA"	"PA"	23	23	NA	NA	NA
-"140"	"PE"	"PE"	200	200	NA	NA	NA
-"141"	"PF"	"PF"	4	4	NA	NA	NA
-"142"	"PG"	"PG"	6	6	NA	NA	NA
-"143"	"PH"	"PH"	125	125	NA	NA	NA
-"144"	"PK"	"PK"	646	646	NA	NA	NA
-"145"	"PL"	"PL"	489	489	NA	NA	NA
-"146"	"PR"	"PR"	15	15	NA	NA	NA
-"147"	"PS"	"PS"	27	27	NA	NA	NA
-"148"	"PT"	"PT"	477	477	NA	NA	NA
-"149"	"PY"	"PY"	21	21	NA	NA	NA
-"150"	"QA"	"QA"	172	172	NA	NA	NA
-"151"	"RO"	"RO"	172	172	NA	NA	NA
-"152"	"RS"	"RS"	72	72	NA	NA	NA
-"153"	"RU"	"RU"	324	324	NA	NA	NA
-"154"	"RW"	"RW"	29	29	NA	NA	NA
-"155"	"SA"	"SA"	795	795	NA	NA	NA
-"156"	"SB"	"SB"	2	2	NA	NA	NA
-"157"	"SD"	"SD"	55	55	NA	NA	NA
-"158"	"SE"	"SE"	642	642	NA	NA	NA
-"159"	"SG"	"SG"	996	996	NA	NA	NA
-"160"	"SI"	"SI"	76	76	NA	NA	NA
-"161"	"SK"	"SK"	30	30	NA	NA	NA
-"162"	"SL"	"SL"	13	13	NA	NA	NA
-"163"	"SM"	"SM"	2	2	NA	NA	NA
-"164"	"SN"	"SN"	38	38	NA	NA	NA
-"165"	"SO"	"SO"	6	6	NA	NA	NA
-"166"	"SR"	"SR"	1	1	NA	NA	NA
-"167"	"SV"	"SV"	4	4	NA	NA	NA
-"168"	"SY"	"SY"	12	12	NA	NA	NA
-"169"	"SZ"	"SZ"	4	4	NA	NA	NA
-"170"	"TD"	"TD"	1	1	NA	NA	NA
-"171"	"TG"	"TG"	4	4	NA	NA	NA
-"172"	"TH"	"TH"	316	316	NA	NA	NA
-"173"	"TJ"	"TJ"	1	1	NA	NA	NA
-"174"	"TL"	"TL"	1	1	NA	NA	NA
-"175"	"TN"	"TN"	72	72	NA	NA	NA
-"176"	"TR"	"TR"	1119	1119	NA	NA	NA
-"177"	"TT"	"TT"	10	10	NA	NA	NA
-"178"	"TW"	"TW"	574	574	NA	NA	NA
-"179"	"TZ"	"TZ"	44	44	NA	NA	NA
-"180"	"UA"	"UA"	39	39	NA	NA	NA
-"181"	"UG"	"UG"	77	77	NA	NA	NA
-"182"	"US"	"US"	18573	18573	NA	NA	NA
-"183"	"UY"	"UY"	41	41	NA	NA	NA
-"184"	"UZ"	"UZ"	1	1	NA	NA	NA
-"185"	"VC"	"VC"	2	2	NA	NA	NA
-"186"	"VE"	"VE"	38	38	NA	NA	NA
-"187"	"VN"	"VN"	177	177	NA	NA	NA
-"188"	"VU"	"VU"	1	1	NA	NA	NA
-"189"	"WS"	"WS"	3	3	NA	NA	NA
-"190"	"XK"	"XK"	14	14	NA	NA	NA
-"191"	"YE"	"YE"	22	22	NA	NA	NA
-"192"	"ZA"	"ZA"	524	524	NA	NA	NA
-"193"	"ZM"	"ZM"	21	21	NA	NA	NA
-"194"	"ZW"	"ZW"	36	36	NA	NA	NA
+"1"	"af"	"af"	17	17	33.93911	67.709953	"Afghanistan"
+"2"	"al"	"al"	11	11	41.153332	20.168331	"Albania"
+"3"	"dz"	"dz"	41	41	28.033886	1.659626	"Algeria"
+"4"	"ad"	"ad"	2	2	42.546245	1.601554	"Andorra"
+"5"	"ag"	"ag"	2	2	17.060816	-61.796428	"Antigua and Barbuda"
+"6"	"ar"	"ar"	294	294	-38.416097	-63.616672	"Argentina"
+"7"	"am"	"am"	10	10	40.069099	45.038189	"Armenia"
+"8"	"aw"	"aw"	6	6	12.52111	-69.968338	"Aruba"
+"9"	"au"	"au"	2292	2292	-25.274398	133.775136	"Australia"
+"10"	"at"	"at"	530	530	47.516231	14.550072	"Austria"
+"11"	"az"	"az"	15	15	40.143105	47.576927	"Azerbaijan"
+"12"	"bs"	"bs"	2	2	25.03428	-77.39628	"Bahamas"
+"13"	"bh"	"bh"	28	28	25.930414	50.637772	"Bahrain"
+"14"	"bd"	"bd"	317	317	23.684994	90.356331	"Bangladesh"
+"15"	"bb"	"bb"	20	20	13.193887	-59.543198	"Barbados"
+"16"	"by"	"by"	14	14	53.709807	27.953389	"Belarus"
+"17"	"be"	"be"	869	869	50.503887	4.469936	"Belgium"
+"18"	"bz"	"bz"	1	1	17.189877	-88.49765	"Belize"
+"19"	"bj"	"bj"	14	14	9.30769	2.315834	"Benin"
+"20"	"bm"	"bm"	1	1	32.321384	-64.75737	"Bermuda"
+"21"	"bt"	"bt"	4	4	27.514162	90.433601	"Bhutan"
+"22"	"bo"	"bo"	29	29	-16.290154	-63.588653	"Bolivia"
+"23"	"ba"	"ba"	31	31	43.915886	17.679076	"Bosnia and Herzegovina"
+"24"	"bw"	"bw"	13	13	-22.328474	24.684866	"Botswana"
+"25"	"br"	"br"	1915	1915	-14.235004	-51.92528	"Brazil"
+"26"	"bn"	"bn"	25	25	4.535277	114.727669	"Brunei"
+"27"	"bg"	"bg"	41	41	42.733883	25.48583	"Bulgaria"
+"28"	"bf"	"bf"	16	16	12.238333	-1.561593	"Burkina Faso"
+"29"	"bi"	"bi"	2	2	-3.373056	29.918886	"Burundi"
+"30"	"kh"	"kh"	12	12	12.565679	104.990963	"Cambodia"
+"31"	"cm"	"cm"	60	60	7.369722	12.354722	"Cameroon"
+"32"	"ca"	"ca"	2733	2733	56.130366	-106.346771	"Canada"
+"33"	"cf"	"cf"	4	4	6.611111	20.939444	"Central African Republic"
+"34"	"td"	"td"	1	1	15.454166	18.732207	"Chad"
+"35"	"cl"	"cl"	249	249	-35.675147	-71.542969	"Chile"
+"36"	"cn"	"cn"	7767	7767	35.86166	104.195397	"China"
+"37"	"co"	"co"	315	315	4.570868	-74.297333	"Colombia"
+"38"	"co"	"co"	315	315	4.570868	-74.297333	""
+"39"	"cg"	"cg"	14	14	-0.228021	15.827659	"Congo - Brazzaville"
+"40"	"cr"	"cr"	23	23	9.748917	-83.753428	"Costa Rica"
+"41"	"hr"	"hr"	133	133	45.1	15.2	"Croatia"
+"42"	"cu"	"cu"	18	18	21.521757	-77.781167	"Cuba"
+"43"	"cy"	"cy"	81	81	35.126413	33.429859	"Cyprus"
+"44"	"cz"	"cz"	139	139	49.817492	15.472962	"Czechia"
+"45"	"cd"	"cd"	36	36	-4.038333	21.758664	"Democratic Republic of Congo"
+"46"	"dk"	"dk"	435	435	56.26392	9.501785	"Denmark"
+"47"	"dm"	"dm"	3	3	15.414999	-61.370976	"Dominica"
+"48"	"do"	"do"	13	13	18.735693	-70.162651	"Dominican Republic"
+"49"	"ec"	"ec"	83	83	-1.831239	-78.183406	"Ecuador"
+"50"	"eg"	"eg"	482	482	26.820553	30.802498	"Egypt"
+"51"	"sv"	"sv"	4	4	13.794185	-88.89653	"El Salvador"
+"52"	"gq"	"gq"	1	1	1.650801	10.267895	"Equatorial Guinea"
+"53"	"er"	"er"	1	1	15.179384	39.782334	"Eritrea"
+"54"	"ee"	"ee"	33	33	58.595272	25.013607	"Estonia"
+"55"	"sz"	"sz"	4	4	-26.522503	31.465866	"Eswatini"
+"56"	"et"	"et"	123	123	9.145	40.489673	"Ethiopia"
+"57"	"fo"	"fo"	1	1	61.892635	-6.911806	"Faroe Islands"
+"58"	"fj"	"fj"	5	5	-16.578193	179.414413	"Fiji"
+"59"	"fi"	"fi"	195	195	61.92411	25.748151	"Finland"
+"60"	"fr"	"fr"	2734	2734	46.227638	2.213749	"France"
+"61"	"gf"	"gf"	9	9	3.933889	-53.125782	"French Guiana"
+"62"	"pf"	"pf"	4	4	-17.679742	-149.406843	"French Polynesia"
+"63"	"ga"	"ga"	13	13	-0.803689	11.609444	"Gabon"
+"64"	"gm"	"gm"	17	17	13.443182	-15.310139	"Gambia"
+"65"	"ge"	"ge"	19	19	42.315407	43.356892	"Georgia"
+"66"	"de"	"de"	2442	2442	51.165691	10.451526	"Germany"
+"67"	"gh"	"gh"	88	88	7.946527	-1.023194	"Ghana"
+"68"	"gr"	"gr"	623	623	39.074208	21.824312	"Greece"
+"69"	"gd"	"gd"	9	9	12.262776	-61.604171	"Granada"
+"70"	"gd"	"gd"	9	9	12.262776	-61.604171	"Grenada"
+"71"	"gp"	"gp"	4	4	16.995971	-62.067641	"Guadeloupe"
+"72"	"gt"	"gt"	16	16	15.783471	-90.230759	"Guatemala"
+"73"	"gn"	"gn"	11	11	9.945587	-9.696645	"Guinea"
+"74"	"gw"	"gw"	4	4	11.803749	-15.180413	"Guinea-Bissau"
+"75"	"gy"	"gy"	1	1	4.860416	-58.93018	"Guyana"
+"76"	"ht"	"ht"	6	6	18.971187	-72.285215	"Haiti"
+"77"	"hn"	"hn"	19	19	15.199999	-86.241905	"Honduras"
+"78"	"hk"	"hk"	929	929	22.396428	114.109497	"Hong Kong SAR China"
+"79"	"hu"	"hu"	121	121	47.162494	19.503304	"Hungary"
+"80"	"is"	"is"	20	20	64.963051	-19.020835	"Iceland"
+"81"	"in"	"in"	3942	3942	20.593684	78.96288	"India"
+"82"	"id"	"id"	221	221	-0.789275	113.921327	"Indonesia"
+"83"	"ir"	"ir"	1466	1466	32.427908	53.688046	"Iran"
+"84"	"iq"	"iq"	87	87	33.223191	43.679291	"Iraq"
+"85"	"ie"	"ie"	572	572	53.41291	-8.24389	"Ireland"
+"86"	"il"	"il"	578	578	31.046051	34.851612	"Israel"
+"87"	"it"	"it"	6847	6847	41.87194	12.56738	"Italy"
+"88"	"ci"	"ci"	10	10	7.539989	-5.54708	"Ivory Coast"
+"89"	"jm"	"jm"	18	18	18.109581	-77.297508	"Jamaica"
+"90"	"jp"	"jp"	1153	1153	36.204824	138.252924	"Japan"
+"91"	"jo"	"jo"	155	155	30.585164	36.238414	"Jordan"
+"92"	"kz"	"kz"	17	17	48.019573	66.923684	"Kazakhstan"
+"93"	"ke"	"ke"	125	125	-0.023559	37.906193	"Kenya"
+"94"	"xk"	"xk"	14	14	42.602636	20.902977	"Kosovo"
+"95"	"kw"	"kw"	71	71	29.31166	47.481766	"Kuwait"
+"96"	"kg"	"kg"	5	5	41.20438	74.766098	"Kyrgyzstan"
+"97"	"la"	"la"	6	6	19.85627	102.495496	"Lao PDR"
+"98"	"lv"	"lv"	10	10	56.879635	24.603189	"Latvia"
+"99"	"lb"	"lb"	159	159	33.854721	35.862285	"Lebanon"
+"100"	"ls"	"ls"	2	2	-29.609988	28.233608	"Lesotho"
+"101"	"lr"	"lr"	5	5	6.428055	-9.429499	"Liberia"
+"102"	"ly"	"ly"	24	24	26.3351	17.228331	"Libya"
+"103"	"li"	"li"	6	6	47.166	9.555373	"Liechtenstein"
+"104"	"lt"	"lt"	42	42	55.169438	23.881275	"Lithuania"
+"105"	"lu"	"lu"	47	47	49.815273	6.129583	"Luxembourg"
+"106"	"mo"	"mo"	44	44	22.198745	113.543873	"Macao SAR China"
+"107"	"mg"	"mg"	7	7	-18.766947	46.869107	"Madagascar"
+"108"	"mw"	"mw"	23	23	-13.254308	34.301525	"Malawi"
+"109"	"my"	"my"	390	390	4.210484	101.975766	"Malaysia"
+"110"	"mv"	"mv"	5	5	3.202778	73.22068	"Maldives"
+"111"	"ml"	"ml"	23	23	17.570692	-3.996166	"Mali"
+"112"	"mt"	"mt"	46	46	35.937496	14.375416	"Malta"
+"113"	"mq"	"mq"	7	7	14.641528	-61.024174	"Martinique"
+"114"	"mr"	"mr"	3	3	21.00789	-10.940835	"Mauritania"
+"115"	"mu"	"mu"	17	17	-20.348404	57.552152	"Mauritius"
+"116"	"mx"	"mx"	506	506	23.634501	-102.552784	"Mexico"
+"117"	"md"	"md"	2	2	47.411631	28.369885	"Moldova"
+"118"	"mc"	"mc"	6	6	43.750298	7.412841	"Monaco"
+"119"	"mn"	"mn"	7	7	46.862496	103.846656	"Mongolia"
+"120"	"me"	"me"	8	8	42.708678	19.37439	"Montenegro"
+"121"	"ma"	"ma"	154	154	31.791702	-7.09262	"Morocco"
+"122"	"mz"	"mz"	34	34	-18.665695	35.529562	"Mozambique"
+"123"	"mm"	"mm"	14	14	21.913965	95.956223	"Myanmar"
+"124"	"nam"	"nam"	4	4	-22.95764	18.49041	"Namibia"
+"125"	"np"	"np"	179	179	28.394857	84.124008	"Nepal"
+"126"	"nl"	"nl"	1195	1195	52.132633	5.291266	"Netherlands"
+"127"	"an"	"an"	2	2	12.226079	-69.060087	"Netherlands Antilles"
+"128"	"nc"	"nc"	5	5	-20.904305	165.618042	"New Caledonia"
+"129"	"nz"	"nz"	299	299	-40.900557	174.885971	"New Zealand"
+"130"	"ni"	"ni"	4	4	12.865416	-85.207229	"Nicaragua"
+"131"	"ne"	"ne"	2	2	17.607789	8.081666	"Niger"
+"132"	"ng"	"ng"	295	295	9.081999	8.675277	"Nigeria"
+"133"	"mk"	"mk"	15	15	41.608635	21.745275	"North Macedonia"
+"134"	"no"	"no"	282	282	60.472024	8.468946	"Norway"
+"135"	"om"	"om"	74	74	21.512583	55.923255	"Oman"
+"136"	"pk"	"pk"	647	647	30.375321	69.345116	"Pakistan"
+"137"	"ps"	"ps"	27	27	31.952162	35.233154	"Palestinian Territories"
+"138"	"pa"	"pa"	23	23	8.537981	-80.782127	"Panama"
+"139"	"pg"	"pg"	6	6	-6.314993	143.95555	"Papua New Guinea"
+"140"	"py"	"py"	21	21	-23.442503	-58.443832	"Paraguay"
+"141"	"pe"	"pe"	202	202	-9.189967	-75.015152	"Peru"
+"142"	"ph"	"ph"	125	125	12.879721	121.774017	"Philippines"
+"143"	"pl"	"pl"	491	491	51.919438	19.145136	"Poland"
+"144"	"pt"	"pt"	478	478	39.399872	-8.224454	"Portugal"
+"145"	"pr"	"pr"	15	15	18.220833	-66.590149	"Puerto Rico"
+"146"	"qa"	"qa"	173	173	25.354826	51.183884	"Qatar"
+"147"	"ro"	"ro"	172	172	45.943161	24.96676	"Romania"
+"148"	"ru"	"ru"	327	327	61.52401	105.318756	"Russia"
+"149"	"rw"	"rw"	29	29	-1.940278	29.873888	"Rwanda"
+"150"	"kn"	"kn"	2	2	17.357822	-62.782998	"Saint Kitts and Nevis"
+"151"	"lc"	"lc"	3	3	13.909444	-60.978893	"Saint Lucia"
+"152"	"ws"	"ws"	3	3	-13.759029	-172.104629	"Samoa"
+"153"	"sm"	"sm"	2	2	43.94236	12.457777	"San Marino"
+"154"	"sa"	"sa"	800	800	23.885942	45.079162	"Saudi Arabia"
+"155"	"sn"	"sn"	39	39	14.497401	-14.452362	"Senegal"
+"156"	"rs"	"rs"	73	73	44.016521	21.005859	"Serbia"
+"157"	"sl"	"sl"	13	13	8.460555	-11.779889	"Sierra Leone"
+"158"	"sg"	"sg"	997	997	1.352083	103.819836	"Singapore"
+"159"	"sk"	"sk"	31	31	48.669026	19.699024	"Slovakia"
+"160"	"si"	"si"	77	77	46.151241	14.995463	"Slovenia"
+"161"	"sb"	"sb"	2	2	-9.64571	160.156194	"Solomon Islands"
+"162"	"so"	"so"	6	6	5.152149	46.199616	"Somalia"
+"163"	""	""	1	1	NA	NA	""
+"164"	""	""	1	1	NA	NA	"Somaliland"
+"165"	"za"	"za"	530	530	-30.559482	22.937506	"South Africa"
+"166"	"kr"	"kr"	824	824	35.907757	127.766922	"South Korea"
+"167"	"es"	"es"	2905	2905	40.463667	-3.74922	"Spain"
+"168"	"lk"	"lk"	60	60	7.873054	80.771797	"Sri Lanka"
+"169"	"vc"	"vc"	2	2	12.984305	-61.287228	"St Vincent and the Grenadines"
+"170"	"sd"	"sd"	55	55	12.862807	30.217636	"Sudan"
+"171"	"sr"	"sr"	1	1	3.919305	-56.027783	"Suriname"
+"172"	"se"	"se"	644	644	60.128161	18.643501	"Sweden"
+"173"	"ch"	"ch"	1301	1301	46.818188	8.227512	"Switzerland"
+"174"	"sy"	"sy"	12	12	34.802075	38.996815	"Syria"
+"175"	"tw"	"tw"	575	575	23.69781	120.960515	"Taiwan"
+"176"	"tj"	"tj"	1	1	38.861034	71.276093	"Tajikistan"
+"177"	"tz"	"tz"	44	44	-6.369028	34.888822	"Tanzania"
+"178"	"th"	"th"	318	318	15.870032	100.992541	"Thailand"
+"179"	"tl"	"tl"	1	1	-8.874217	125.727539	"Timor-Leste"
+"180"	"tg"	"tg"	4	4	8.619543	0.824782	"Togo"
+"181"	"tt"	"tt"	10	10	10.691803	-61.222503	"Trinidad and Tobago"
+"182"	"tn"	"tn"	72	72	33.886917	9.537499	"Tunisia"
+"183"	"tr"	"tr"	1121	1121	38.963745	35.243322	"Turkey"
+"184"	"ug"	"ug"	78	78	1.373333	32.290275	"Uganda"
+"185"	"ua"	"ua"	39	39	48.379433	31.16558	"Ukraine"
+"186"	"ae"	"ae"	247	247	23.424076	53.847818	"United Arab Emirates"
+"187"	"gb"	"gb"	7179	7179	55.378051	-3.435973	"United Kingdom"
+"188"	"us"	"us"	18645	18645	37.09024	-95.712891	"United States"
+"189"	"uy"	"uy"	41	41	-32.522779	-55.765835	"Uruguay"
+"190"	"uz"	"uz"	1	1	41.377491	64.585262	"Uzbekistan"
+"191"	"vu"	"vu"	1	1	-15.376706	166.959158	"Vanuatu"
+"192"	"ve"	"ve"	38	38	6.42375	-66.58973	"Venezuela"
+"193"	"vn"	"vn"	177	177	14.058324	108.277199	"Vietnam"
+"194"	"ye"	"ye"	22	22	15.552727	48.516388	"Yemen"
+"195"	"zm"	"zm"	23	23	-13.133897	27.849332	"Zambia"
+"196"	"zw"	"zw"	36	36	-19.015438	29.154857	"Zimbabwe"

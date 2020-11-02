@@ -1,3 +1,5 @@
+#############CARGA##################
+
 library(data.table)
 library(DT)  
 library(dplyr)
@@ -16,27 +18,43 @@ library(RColorBrewer)
 library(ggiraph)
 library(leaflet.minicharts)
 library(htmltools)
+library(shinycustomloader)
 
 
+###############################################
+###############################################
+###############################################
+###############################################
+###############################################
+####################GLOBAL#####################
+###############################################
+###############################################
+###############################################
+###############################################
+###############################################
+
+
+#############CARGA BASES##################
+
+####Base completa####
 pubmed_data <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/pubmed_data_reduce.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(Title="character", country="character",  Inst="character", Date="Date"))
 pubmed_data$iso <- str_to_lower(pubmed_data$iso)
 pubmed_data$Date <- as.Date(with(pubmed_data, paste(YearPubmed, MonthPubmed, DayPubmed,sep="-")), "%Y-%m-%d")
 pubmed_data$lat <- as.numeric(as.character(pubmed_data$lat))
 pubmed_data$long <- as.numeric(as.character(pubmed_data$long))
 
+####Base conceptos####
 keyword_cors <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/palabras_cors.csv", header = TRUE, sep = "\t", row.names = 1)
 keyword_cant <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/palabras_cant.csv", header = TRUE, sep = "\t", row.names = 1)
 
-
-####Calcula cantidades#####
+####Base grafo####
 edges_for_plot <- read.table("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/edges_for_plot.csv", header = TRUE, sep = "\t", row.names = 1,colClasses=c(dia="Date"))
 edges_for_plot$source <- str_to_lower(edges_for_plot$source)
 edges_for_plot$target <- str_to_lower(edges_for_plot$target)
-
 edges_for_plot_ud <- edges_for_plot %>%
   filter(dia == max(dia))
 
-#######################ARMA NODOS CANTIDADES #######################
+###construye los nodos georeferenciados###
 nodos <- pubmed_data %>%
   select(iso, PMID) %>%
   unique()  %>%
@@ -46,8 +64,24 @@ nodos <- pubmed_data %>%
   summarize(totales=n_distinct(PMID))
 nodes <- data.frame(id = unique(nodos$iso),label = paste(unique(nodos$iso)), value = nodos$totales, count=nodos$totales)     # size 
 
+countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/countries.txt", "\t", escape_double = FALSE, col_types = cols(name = col_skip()), trim_ws = TRUE)
+countries$country <- str_to_lower(countries$country)
 
-######################Listado PAISES###############
+countries_coord <- nodes %>%
+  left_join(countries, by=c('id'='country'))
+
+merge_pais <- pubmed_data %>%
+  select(iso, country) %>%
+  unique()
+
+countries_coord <- countries_coord %>%
+  left_join(merge_pais, by=c('id'='iso'))
+
+countries_coord <- countries_coord %>%
+  filter (! country %in% c('Curacao','Saint Maarten','Granada'))  
+
+####Arma listas para selectores####
+
 listado_paises <- pubmed_data %>%
   filter(!is.na(iso))  %>%
   filter(iso!='')  %>%
@@ -66,30 +100,12 @@ listado_paises2 <- pubmed_data %>%
   ungroup() %>%
   select(pais)
 
-
-
-
 listado_iso_country <- pubmed_data %>%
   select(iso, country) %>%
   filter(!is.na(iso))  %>%
   unique()
 
-###Levanta Coordenadas###
-countries <- read_delim("https://raw.githubusercontent.com/juansokil/Covid-19/master/bases/countries.txt", "\t", escape_double = FALSE, col_types = cols(name = col_skip()), trim_ws = TRUE)
-countries$country <- str_to_lower(countries$country)
 
-countries_coord <- nodes %>%
-  left_join(countries, by=c('id'='country'))
-
-merge_pais <- pubmed_data %>%
-  select(iso, country) %>%
-  unique()
-
-countries_coord <- countries_coord %>%
-  left_join(merge_pais, by=c('id'='iso'))
-
-countries_coord <- countries_coord %>%
-  filter (! country %in% c('Curacao','Saint Maarten'))
 
 
 
@@ -108,13 +124,12 @@ countries_coord <- countries_coord %>%
 
 server <- function(input, output, session) {
   
-  
+  ####Arma reactives####
   pais <- reactive({
     a <- pubmed_data %>% filter(country %in% input$country)
     a <- data.frame(a)
     return(a)
   })    
-  
   
   pais2 <- reactive({
     a <- pubmed_data %>% 
@@ -133,7 +148,7 @@ server <- function(input, output, session) {
   
   
   
-  #################################PRIMER SOLAPA###########################
+#################################PRIMER SOLAPA###########################
   output$plot1a <- renderGirafe({ggplot1a <- pubmed_data %>%
     group_by(Date)  %>%
     summarize(dia=n_distinct(PMID))  %>% 
@@ -168,7 +183,8 @@ server <- function(input, output, session) {
     theme_minimal() + 
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank(), legend.position="none", plot.title = element_text(hjust = 0.5)) +
-    ggtitle("Publicaciones en PubMed por dia")
+    ggtitle("Publicaciones en PubMed por dia - Escala Log10") +
+    scale_y_log10()
   
   
   girafe(ggobj = ggplot1b, 
@@ -179,8 +195,8 @@ server <- function(input, output, session) {
   
   output$table1 <- renderDT(pubmed_data %>%
                               group_by(Date)  %>%
-                              summarize(Day=n_distinct(PMID)) %>% 
-                              mutate(Cumulative = cumsum(Day)),
+                              summarize(Dia=n_distinct(PMID)) %>% 
+                              mutate(Acumulado = cumsum(Dia)),
                             extensions = 'Buttons',
                             options = list(pageLength = 10,
                                            dom = 'Bfrtip',
@@ -191,7 +207,7 @@ server <- function(input, output, session) {
   
   
   
-  ######################SEGUNDA SOLAPA###########################    
+######################SEGUNDA SOLAPA###########################    
   
   
   output$plot2a <- renderGirafe({ggplot2a <- 
@@ -212,7 +228,7 @@ server <- function(input, output, session) {
     #scale_color_manual(values = jColors) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-    ggtitle("Cumulative papers in PubMed by country") +
+    ggtitle("Publicaciones en PubMed por dia por pais ") +
     guides(size=FALSE, alpha=FALSE) 
   
   
@@ -226,27 +242,24 @@ server <- function(input, output, session) {
   
   output$plot2b <- renderGirafe({ggplot2b <- 
     pais() %>%
+    group_by(country, iso) %>%
+    summarize(total=n_distinct(PMID)) %>%
     filter(!is.na(iso))  %>%
     filter(iso!='')  %>%
-    arrange(country, Date) %>%
-    group_by(country, Date) %>%
-    summarize(Day=n_distinct(PMID)) %>% 
-    mutate(total = cumsum(Day))  %>% 
-    ggplot(aes(x=Date, y=Day, color=country)) + 
+    arrange(desc(total)) %>%
+    ggplot(aes(x=total, y=reorder(country, +total), tooltip = paste0(country,": ", total ), color=country, fill=country)) + 
     ylab("Comparar paises") +
     xlab("Date") +
-    geom_line(size=1, alpha=0.3) +
-    geom_point_interactive(aes(x=Date, y=Day, size=2, alpha=0.6, tooltip = paste0("Country: ",country, "\n Date: ",Date,"\n Count: ",Day))) +
-    geom_smooth(method = "loess", size=2, alpha=0.6, se = FALSE,  aes(fill = country))   +  
+    geom_bar(stat='identity') +
+    geom_bar_interactive(stat='identity') +
     theme_minimal() + 
     #scale_color_manual(values = jColors) +
     theme(axis.title.x=element_blank(),
           axis.title.y=element_blank(), plot.title = element_text(hjust = 0.5), legend.position="bottom", legend.title = element_blank()) +
-    ggtitle("Papers in PubMed per day by country") +
-    guides(size=FALSE, alpha=FALSE) 
-  
-  
-  
+    ggtitle("Publicaciones Acumuladas en PubMed por pais") +
+    guides(size=FALSE, alpha=FALSE)
+    
+
   
   
   girafe(ggobj = ggplot2b, 
@@ -260,8 +273,8 @@ server <- function(input, output, session) {
                               filter(iso!='')  %>%
                               arrange(country, Date) %>%
                               group_by(country, Date) %>%
-                              summarize(Day=n_distinct(PMID)) %>% 
-                              mutate(Cumulative = cumsum(Day)) %>%
+                              summarize(Dia=n_distinct(PMID)) %>% 
+                              mutate(Acumulado = cumsum(Dia)) %>%
                               arrange(Date),extensions = 'Buttons',
                             options = list(pageLength = 10,
                                            dom = 'Bfrtip',
@@ -276,30 +289,31 @@ server <- function(input, output, session) {
   
   
   
-  ######################TERCERA SOLAPA###########################      
+######################TERCERA SOLAPA###########################      
   
 
+  ###Tengo que revisar este error####
+  countries_coord <- countries_coord %>% filter (!id %in% c('sx'))
   
-
+  edges_for_plot_ud %>% filter(!target == 'sx')
+  
   output$map3 <- renderLeaflet({
     progress <- Progress$new(session, min=1, max=100000)
     on.exit(progress$close())
     leaflet() %>% addTiles()  %>%
-      addCircles(data = countries_coord,lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 20000, color='red',  label=~paste0(country,'\n',count))  %>%
+      addCircles(data = countries_coord,lng = ~longitude, lat = ~latitude,  weight = 1, radius = ~sqrt(count) * 10000, color='red',  label=~paste0(country,'\n',count))  %>%
       addFlows(lng0 = edges_for_plot_ud$x, lat0 = edges_for_plot_ud$y, lng1 = edges_for_plot_ud$xend, lat1 = edges_for_plot_ud$yend, time= edges_for_plot_ud$dia, dir = 0, color='purple', flow=edges_for_plot_ud$weight,  minThickness = 0.05, maxThickness = 10, opacity=0.6)
   })
   
-  
-  
-  
+
   
   output$tableblaa <- renderDT(pubmed_data  %>%
                                filter (!country %in% c('Curacao','Saint Maarten')) %>%
                                  filter(!is.na(iso))  %>%
                                filter(iso!='')  %>%
                                group_by(country, iso) %>%
-                               summarize(Count=n_distinct(PMID)) %>%
-                               arrange(desc(Count)),extensions = 'Buttons',
+                               summarize(Total=n_distinct(PMID)) %>%
+                               arrange(desc(Total)) ,extensions = 'Buttons',
                              options = list(pageLength = 10,
                                             dom = 'Bfrtip',
                                             buttons = list("copy", list(extend = "collection", buttons = c("csv", "excel"), text = "Descargar")),
@@ -328,7 +342,7 @@ server <- function(input, output, session) {
   
   
   
-  ######################CUARTASOLAPA###################
+######################CUARTASOLAPA###################
   
   output$network4 <- renderVisNetwork({
     
@@ -341,14 +355,14 @@ server <- function(input, output, session) {
     g <- set_vertex_attr(g, name="group", value = cluster)
     
     E(g)$width <- E(g)$pmi/1000
-    V(g)$size <- sqrt(V(g)$size)*2
+    V(g)$size <- sqrt(V(g)$size)*1.5
     
     output$table4a <- renderDT(
       keyword_cors <- keyword_cors %>%
         group_by(weight) %>%
         summarize(item1=first(item1),item2=first(item2))  %>%
         mutate(weight=round(weight, 2)) %>%
-        select(word1=item1, word2=item2, pmi=weight) %>%
+        select(palabra1=item1, palabra2=item2, pmi=weight) %>%
         arrange(desc(pmi)),
       extensions = 'Buttons',
       options = list(pageLength = 10,
@@ -362,8 +376,8 @@ server <- function(input, output, session) {
     
     output$table4b <- renderDT(
       keyword_cant <- keyword_cant %>%
-        select(word=palabra, count=size) %>%
-        arrange(desc(count)),
+        select(palabra=palabra, Total=size) %>%
+        arrange(desc(Total)),
       extensions = 'Buttons',
       options = list(pageLength = 10,
                      dom = 'Bfrtip',
@@ -372,21 +386,19 @@ server <- function(input, output, session) {
                      )
       ), server = FALSE)
     
-    
-    
-    
+  
     ##############################################################
     ##########################GRAPH PRUNE#########################
     ##############################################################
     
-    
+  
     ## identify communities##
     lou <- cluster_louvain(g)
     size <- as.data.frame(sizes(lou))
     
     importantes <- size %>%
       arrange(desc(Freq)) %>%
-      head(5) %>%
+      head(7) %>%
       select(Community.sizes)
     importantes <- as.vector(unlist(importantes))
     g2 <- induced.subgraph(g, which(membership(lou) %in% importantes))
@@ -407,14 +419,13 @@ server <- function(input, output, session) {
   })
   
   
-  ###############SOLAPA 5###############################
+######################QUINTASOLAPA###################
   
   output$table6 <- renderDT(pais2() %>%
                               filter(!is.na(iso))  %>%
                               filter(iso!='') %>%
                               select(Date, Title, PMID, country)  %>%
                               mutate(Link=paste0("<a href='https://pubmed.ncbi.nlm.nih.gov/",PMID,"/' target='_blank' >Ver Articulo</a>")) %>%
-                              select(Date, PMID,country, Title, Link)   %>%
                               unique() %>%
                               arrange(desc(Date))  ,extensions = 'Buttons',
                             options = list(pageLength = 10,
@@ -425,47 +436,58 @@ server <- function(input, output, session) {
                             ), server = FALSE, escape = FALSE)
   
   
-  
-  
 }
 
-############################################
-############################################
-############################################
-############################################
-############################################
-############################################
+
+
+###############################################
+###############################################
+###############################################
+###############################################
+###############################################
+######################UI#######################
+###############################################
+###############################################
+###############################################
+###############################################
+###############################################
 
 ui <- fluidPage(
   titlePanel("Publicaciones sobre Covid-19"),
   mainPanel(
     tabsetPanel(type = "tabs",
                 tabPanel("Publicaciones",
-                         h4('Evolucion Acumulada y diaria de Publicaciones'),
-                         fluidRow(column(6, girafeOutput("plot1a")),column(6, girafeOutput("plot1b"))),
+                         h4('Evolucion Acumulada y diaria de Publicaciones Cientificas sobre Covid-19'),
+                         fluidRow(column(6, withLoader(girafeOutput("plot1a"),type="html", loader="loader5")),column(6, withLoader(girafeOutput("plot1b"),type="html", loader="loader5"))),
                          fluidRow(column(12, dataTableOutput(outputId = "table1")))),
                 tabPanel("Comparacion entre paises",
-                         h4('Evolucion Acumulada y diaria de Publicaciones a nivel pais'),
+                         h4('Evolucion Acumulada y diaria de Publicaciones Cientificas sobre Covid-19 a nivel pais'),
                          fluidRow(column(12, selectizeInput('country', label = "Seleccione paises a comparar", choices = listado_paises, selected = c("United States","China","Italy"), multiple = TRUE))                ), 
-                         fluidRow(column(6, girafeOutput("plot2a")),column(6, girafeOutput("plot2b"))),
+                         fluidRow(column(6, withLoader(girafeOutput("plot2a")),type="html", loader="loader5"),column(6, withLoader(girafeOutput("plot2b")),type="html", loader="loader5")),
                          fluidRow(column(12, dataTableOutput(outputId = "table2")))),
                 tabPanel("Mapa de Colaboracion", 
-                         h4('Firma conjunta de publicaciones cientificas'),
-                         fluidRow(column(12, leafletOutput("map3"))),
+                         h4('Firma conjunta de instituciones en Publicaciones Cientificas sobre Covid-19'),
+                         fluidRow(column(12, withLoader(leafletOutput("map3"),type="html", loader="loader5"))),
                          fluidRow(column(6, dataTableOutput("tableblaa")),column(6, dataTableOutput("table3b")))
                          ),
                 tabPanel("Mapa Conceptual", 
-                         h4('Principales conceptos extraidos de Titulo y Resumen de publicaciones'),
-                         visNetworkOutput(outputId = "network4"),
+                         h4('Principales conceptos extraidos del Resumen de Publicaciones Cientificas sobre Covid-19'),
+                         withLoader(visNetworkOutput(outputId = "network4"),type="html", loader="loader5"),
                          fluidRow(column(6, dataTableOutput("table4a")),column(6, dataTableOutput("table4b")))),
                 tabPanel("Navegador", 
-                         h4('Acceda a las las publicaciones de cada pais'),
+                         h4('Acceda a las Publicaciones Cientificas sobre Covid-19 cada pais'),
                          fluidRow(column(12, selectizeInput('pais', label = "Seleccione Paises", choices = listado_paises2, selected = c("Argentina","Uruguay","Chile","Colombia"), multiple = TRUE))), 
-                         fluidRow(column(12,DT:: dataTableOutput("table6")))
+                         fluidRow(column(12,withLoader(DT:: dataTableOutput("table6"),type="html", loader="loader5")))
                 ),
-                h5('Datos extraidos de https://pubmed.ncbi.nlm.nih.gov/'),
-                h6('Estrategia de Busqueda: COVID-19"[All Fields] OR "severe acute respiratory syndrome coronavirus 2"[Supplementary Concept] OR "severe acute respiratory syndrome coronavirus 2"[All Fields] OR "2019-nCoV"[All Fields] OR "SARS-CoV-2"[All Fields] OR "2019nCoV"[All Fields] OR (("Wuhan"[All Fields] AND ("coronavirus"[MeSH Terms] OR "coronavirus"[All Fields])) AND 2019/12[PDAT] : 2030[PDAT])) AND 2020[EDAT] : 2021[EDAT]" ')
+                h6('Datos extraidos de PubMed: ', tags$a(href="https://pubmed.ncbi.nlm.nih.gov/", target="_blank" , "https://pubmed.ncbi.nlm.nih.gov/")),
+                h6('Estrategia de Busqueda: COVID-19"[All Fields] OR "severe acute respiratory syndrome coronavirus 2"[Supplementary Concept] OR "severe acute respiratory syndrome coronavirus 2"[All Fields] OR "2019-nCoV"[All Fields] OR "SARS-CoV-2"[All Fields] OR "2019nCoV"[All Fields] OR (("Wuhan"[All Fields] AND ("coronavirus"[MeSH Terms] OR "coronavirus"[All Fields])) AND 2019/12[PDAT] : 2030[PDAT])) AND 2020[EDAT] : 2021[EDAT]" '),
+                h6('Base de datos y Codigo disponible en: ', tags$a(href="https://github.com/juansokil/Covid-19", target="_blank", "https://github.com/juansokil/Covid-19")),
+                h6('Mas informacion en: ', tags$a(href="https://observatoriocts.oei.org.ar/", target="_blank", "Observatorio CTS"))
+                
+                
+                
     )))
+
 
 
 

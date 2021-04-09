@@ -1,4 +1,4 @@
-"country"	"iso"	"Date"	"Dia"	"total"
+"id"	"country"	"iso"	"Date"	"Dia"	"total"
 "1"	"Afghanistan"	"af"	2020-03-28	1	1
 "2"	"Afghanistan"	"af"	2020-03-29	1	2
 "3"	"Afghanistan"	"af"	2020-04-06	1	3

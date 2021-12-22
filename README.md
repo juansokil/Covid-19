@@ -16,7 +16,7 @@ https://shiny.ricyt.org/instituciones/
 
 
 # Latin American research related to the COVID-19 Virus 
-http://octs-oei.org/reportes/explorador.html
+http://octs.ricyt.org/reportes/explorador.html
 
 > This Shiny web app provides interactive and georeferenced information about the research in COVID-19 from three differents sources: Medline, La Referencia (a network of open-source repositories of LatinAmerica) and Unesco Montevideo Office, it is possible to surf through the countries and institutions of the region.
 

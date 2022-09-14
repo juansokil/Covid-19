@@ -18,11 +18,6 @@ library(tibble)
 library(lubridate)
 
 
-rsconnect::setAccountInfo(name='ricyt-octs',
-                          token='6F4F1154C5C9DCF6C98CDF8500F74964',
-                          secret='PA8pqYEQcIv03YMtIW4gUXXGesVeI3QkRSAEuaL2')
-
-
 
 
 ##########Levanta datos#####
